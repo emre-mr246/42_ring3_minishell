@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/06/23 22:28:01 by emgul            ###   ########.fr       */
+/*   Updated: 2024/06/23 23:26:36 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ char *handle_double_quote(char *str)
 	i = 0;
 	while(str[i])
 	{
-		if (str[i] == '$')
-			handle_dollar_sign();
-		if (str[i] == '`')
-			handle_backtick();
-		if (str[i] == '\\')
-			handle_backslash();	
+		// if (str[i] == '$')
+		// 	handle_dollar_sign();
+		// if (str[i] == '`')
+		// 	handle_backtick();
+		// if (str[i] == '\\')
+		// 	handle_backslash();	
 		if (str[i] == '\"')
 		{
 			res = ft_substr(str, 0, i);
@@ -76,10 +76,23 @@ char *handle_double_quote(char *str)
 	
 	
 // }
-
+t_env	*env_lstlast_kek(t_env *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
 int main(int ac, char **av, char **env)
 {
-	handle_single_quote("hello world' test");
+	t_env *environment;
+	environment = get_env(env);
+	// printf("Bkey: %s\n", environment->key);
+	// printf("Bvalue: %s\n", environment->value);
+	// printf("key: %s\n", env_lstlast_kek(environment)->key);
+	// printf("value: %s\n", env_lstlast_kek(environment)->value);
+	// handle_single_quote("hello world' test");
 
 	return (0);
 }

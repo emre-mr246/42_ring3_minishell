@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/06/23 21:11:25 by emgul            ###   ########.fr       */
+/*   Updated: 2024/06/23 22:57:56 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-void get_env(char **env);
+t_env *get_env(char **env);
 
 #endif

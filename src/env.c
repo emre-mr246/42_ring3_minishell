@@ -6,12 +6,40 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:35:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/06/22 20:36:58 by emgul            ###   ########.fr       */
+/*   Updated: 2024/06/23 23:32:15 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 #include "../lib/libft/libft.h"
+
+
+t_env	*env_lstlast(t_env *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+void	env_lstadd_back(t_env **lst, t_env *new)
+{
+	t_env	*tmp;
+
+	if (!new)
+		return ;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	tmp = *lst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	return ;
+}
 
 t_env *init_env(void)
 {
@@ -35,28 +63,40 @@ void get_key(char *str, t_env *vars)
 	if (!key)
 		return ;
 	ft_strlcpy(key, str, i + 1);
+	printf("key: %s\n", key);
 	vars->key = key;
 }
 
 void get_value(char *str, t_env *vars)
 {
-	char *value;
-
 	str = ft_strchr(str, '=') + 1;
-	if (!value)
+	if (!str)
 		return ;
-	value = ft_strdup(str);
+	printf("str: %s\n", str);
+	vars->value = ft_strdup(str);
 }
 
-void get_env(char **env)
+
+t_env *get_env(char **env)
 {
 	t_env *vars;
+	t_env *tmp;
 
+	if (!env || !*env)
+		return (NULL);
 	vars = init_env();
+	get_key(*env, vars);
+	get_value(*env, vars);
+	env++;
+	tmp = vars;
 	while (*env)
 	{
-		get_key(*env, vars);
-		get_value(*env, vars);
+		tmp = init_env();
+		printf("KEK: %s\n", *env);
+		get_key(*env, tmp);
+		get_value(*env, tmp);
+		env_lstadd_back(&vars, tmp);
 		env++;
 	}
+	return (vars);
 }
