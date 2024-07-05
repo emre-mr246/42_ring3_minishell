@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:35:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/06/23 23:32:15 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/05 12:16:38 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void get_key(char *str, t_env *vars)
 	if (!key)
 		return ;
 	ft_strlcpy(key, str, i + 1);
-	printf("key: %s\n", key);
 	vars->key = key;
 }
 
@@ -72,7 +71,6 @@ void get_value(char *str, t_env *vars)
 	str = ft_strchr(str, '=') + 1;
 	if (!str)
 		return ;
-	printf("str: %s\n", str);
 	vars->value = ft_strdup(str);
 }
 
@@ -92,7 +90,6 @@ t_env *get_env(char **env)
 	while (*env)
 	{
 		tmp = init_env();
-		printf("KEK: %s\n", *env);
 		get_key(*env, tmp);
 		get_value(*env, tmp);
 		env_lstadd_back(&vars, tmp);
