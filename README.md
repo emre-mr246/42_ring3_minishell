@@ -8,7 +8,7 @@
     <a href="https://42istanbul.com.tr/"><img src="https://img.shields.io/badge/42-ISTANBUL-white?style=for-the-badge"/></a>
    
 <h4>
-    <a href="https://github.com/emre-mr246/42_ring3_minishell/issues">❔ Ask A Question</a>
+    <a href="https://github.com/emre-mr246/42_ring3_minishell/issues">❔ Ask a Question</a>
   <span> · </span>
     <a href="https://github.com/emre-mr246/42_ring3_minishell/issues">🪲 Report Bug</a>
   <span> · </span>
