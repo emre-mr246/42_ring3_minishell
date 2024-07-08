@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/05 14:21:35 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/08 13:29:26 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,28 @@ char *handle_double_quote(char *str, t_env *env)
 	return (NULL);
 }
 
+char *handle_space(char *str, t_env *env)
+{
+	int 	i;
+	char	*res;
+
+	i = 0;
+	while(str[i] == ' ')
+		i++;
+	while(str[i])
+	{
+		// if (str[i] == '$')
+		// 	handle_dollar_sign();
+		if (str[i] == ' ')
+		{
+			res = ft_substr(str, 0, i);
+			return (res);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 t_tokens	*new_token(char *token)
 {
 	t_tokens	*tokens;
@@ -75,7 +97,7 @@ t_tokens	*new_token(char *token)
 	return (tokens);
 }
 
-void	ft_lstadd_back_token(t_tokens **lst, t_tokens *new)
+void	lstadd_back_token(t_tokens **lst, t_tokens *new)
 {
 	t_tokens	*tmp;
 
@@ -93,38 +115,61 @@ void	ft_lstadd_back_token(t_tokens **lst, t_tokens *new)
 	return ;
 }
 
-char **tokenizer(char *input, t_env *env)
+int skip_spaces(char *input, int *i)
+{
+	while (*input == ' ')
+	{
+		*i++;
+		input++;
+	}
+}
+
+t_tokens *tokenizer(char *input, t_env *env)
 {
 	int i;
 	char *res;
 	t_tokens *tokens;
 
 	i = 0;
-	tokens = new_token("maymun");
 	while (input[i])
 	{
+		res = NULL;
+		skip_spaces((input + i), &i);
 		if (input[i] == '\'')
+		{
 			res = handle_single_quote(&input[i + 1]);
-		if (input[i] == '\"')
+			i += 2;
+		}
+		skip_spaces((input + i), &i);
+		if (!res && input[i] == '\"')
+		{
 			res = handle_double_quote(&input[i + 1], env);
+			i += 2;
+		}
+		if (!res && (input[i] == ' ' || i == 0))
+			res = handle_space(&input[i], env);
 		if (res)
-			i += ft_strlen(res) + 2;
+		{
+			i += ft_strlen(res);
+			lstadd_back_token(&tokens, new_token(res));
+		}
 		else
 			i++;
-		printf("SONUC: %s ve İ: %i\n", res, i);
 	}
+	printf("SONUC: %s ve İ: %i\n", tokens->token, i);
 }
 
 
 int main(int ac, char **av, char **env)
 {
+	av[0] = "./minishell";
+	av[1] = "mısra kahve 'içiyor' 've' !@=2emre       'yeşil çay' içiyor!!";
+	av[2] = NULL;
 	t_env *environment;
 	// environment = get_env(env);
 	// tokenizer("ls \"$KEK\" && cat 'test.txt'", environment);
 	t_tokens *tokens;
-	tokens = new_token("kek");
-	ft_lstadd_backs(tokens, new_token("borek"));
-	ft_lstadd_backs(tokens, new_token("elma"));
-	int elma = 5;
+	*av++;
+	tokens = tokenizer(*av, environment);
 	return (0);
 }
