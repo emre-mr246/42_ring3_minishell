@@ -6,12 +6,15 @@
 #    By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/06/22 20:38:14 by emgul            ###   ########.fr        #
+#    Updated: 2024/07/10 22:28:05 by emgul            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FILES			=	main \
-				env
+					env	\
+					init \
+					tokenizer \
+					utils \
 
 NAME			=	minishell
 
