@@ -13,7 +13,6 @@
 #include "../inc/minishell.h"
 #include "../lib/libft/libft.h"
 
-
 t_env	*env_lstlast(t_env *lst)
 {
 	if (!lst)

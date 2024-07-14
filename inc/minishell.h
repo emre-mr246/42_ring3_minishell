@@ -28,12 +28,19 @@ typedef struct s_tokens
 	struct s_tokens		*next;
 }						t_tokens;
 
+typedef struct t_cmd
+{
+	char				*cmd;
+	struct t_cmd		*next;
+}						t_cmd;
+
 typedef struct s_shell
 {
 	char				*line;
 	int					std_input;
 	t_tokens			*tokens;
 	t_env				*env;
+	char				**envp;
 	struct sigaction	sigint;
 	struct sigaction	sigquit;
 }						t_shell;

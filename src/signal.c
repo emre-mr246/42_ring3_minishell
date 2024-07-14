@@ -10,16 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <unistd.h>
+// #include <signal.h>
+// #include <unistd.h>
+// #include "../lib/libft/libft.h"
 
-void	handle_sigint(int signo)
-{
-	if (signo == SIGINT)
-	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
+// void	handle_sigint(int signo)
+// {
+// 	if (signo == SIGINT)
+// 	{
+// 		ft_putchar_fd('\n', STDOUT_FILENO);
+// 		rl_on_new_line();
+// 		rl_replace_line("", 0);
+// 		rl_redisplay();
+// 	}
+// }

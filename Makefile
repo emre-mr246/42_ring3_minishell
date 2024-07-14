@@ -39,7 +39,7 @@ VALGRIND_PARAMS	=	--leak-check=full --show-leak-kinds=all --track-origins=yes
 	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@gcc $(OBJS) -o $(NAME) $(LIBFT) -lXext -lX11 -lm -lbsd
+	@gcc $(OBJS) -o $(NAME) $(LIBFT)
 	@echo "$(GREEN)-== $(NAME) created! ==-$(DEFAULT)"
 	@make --no-print-directory clean
 

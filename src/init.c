@@ -24,6 +24,7 @@ t_shell	*init_shell(char **env)
 	shell->line = NULL;
 	shell->std_input = dup(0);
 	shell->env = get_env(env);
+	shell->envp = env;
 	shell->tokens = NULL;
 	return (shell);
 }
