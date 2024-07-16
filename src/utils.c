@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/10 22:28:13 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/16 13:52:08 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,3 +46,28 @@ void	lstadd_back_token(t_tokens **lst, t_tokens *new)
 	tmp->next = new;
 	return ;
 }
+
+int	ft_strchrs_ind(char *haystack, char *needles)
+{
+	int	i;
+	int	j;
+	int k;
+	int	tmp;
+
+	i = 0;
+	j = 0;
+	while (haystack[i])
+	{
+		while (haystack[i] == needles[j])
+		{
+			tmp = i;
+			if (j == ft_strlen(needles))
+				return (i);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+// merhaba dünya ben && mısra

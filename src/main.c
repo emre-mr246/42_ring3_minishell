@@ -6,7 +6,7 @@
 /*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/15 23:42:01 by kali             ###   ########.fr       */
+/*   Updated: 2024/07/16 13:38:15 by kali             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_cmd *parser(t_tokens token)
 	i = 0;
 	while (1)
 	{
-		// if (!ft_strchrs(token.token, && ,ft_strlen(token.token)))
+		if (ft_strchrs(token.token, "&&"))
 		commands[i] = token.token;
 		if (token.next)
 			token = *token.next;
