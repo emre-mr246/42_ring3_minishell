@@ -101,12 +101,42 @@ char	*handle_space(char **str, t_env *env)
 	return (NULL);
 }
 
+
+#include <limits.h>
+int get_indexes(char *input)
+{
+	int *indexes;
+	int min_i;
+	int i;
+
+	min_i = INT_MAX;
+	indexes = (int *)malloc(sizeof(int) * 7);
+	if (!indexes)
+		return (-1);
+	indexes[0] = ft_find_index(input, "&&");
+	indexes[1] = ft_find_index(input, "||");
+	indexes[2] = ft_find_index(input, "<<");
+	indexes[3] = ft_find_index(input, ">>");
+	indexes[4] = ft_find_index(input, "<");
+	indexes[5] = ft_find_index(input, ">");
+	indexes[6] = ft_find_index(input, "|");
+	i = 0;
+	while (i < 7)
+	{
+		if (indexes[i] < min_i && !(indexes[i] == -1))
+			min_i = indexes[i];
+		i++;
+	}
+	return (min_i);
+}
+
 char *handle_ampersand(char **input)
 {
 	int i;
 	char *res;
+	char *tmp;
 
-	i = ft_find_index(*input, "&&");
+	i = get_indexes(*input);
 	if (i == -1)
 		return (NULL);
 	if (i == 0)
@@ -117,7 +147,8 @@ char *handle_ampersand(char **input)
 	else
 	{
 		res = ft_substr(*input, 0, i);
-		if (ft_strchr(res, ' '))
+		tmp = ft_strdup(ft_strtrim(res, " "));
+		if (ft_strchr(tmp, ' '))
 			return (NULL);
 		*input += i;
 		return (res);
@@ -132,7 +163,7 @@ t_tokens	*tokenizer(char *input, t_env *env)
 	tokens = NULL;
 	if (!env)
 		return (NULL);
-	while (*input)
+	while (input && *input)
 	{
 		res = NULL;
 		if (*input == '\'')
@@ -143,13 +174,15 @@ t_tokens	*tokenizer(char *input, t_env *env)
 			res = handle_ampersand(&input);
 		if (!res)
 			res = handle_space(&input, env);
-		if (res)
+		if (res && ft_strtrim(res, " ") != NULL)
 		{
 			lstadd_back_token(&tokens, new_token(ft_strtrim(res, "\n\t ")));
 			free(res);
 		}
 		if (!res)
 			input++;
+		if (!input || !*input)
+			break ;
 	}
 	return (tokens);
 }

@@ -1,0 +1,30 @@
+toplam 100
+drwxr-xr-x 8 mr246 mr246  4096 Tem 16 22:19 .
+drwxr-xr-x 3 mr246 mr246  4096 Tem 16 21:04 ..
+-rwxr-xr-x 1 mr246 mr246 16064 Tem 16 21:27 a.out
+drwxr-xr-x 8 mr246 mr246  4096 Tem 16 22:12 .git
+-rw-r--r-- 1 mr246 mr246     7 Tem 16 21:04 .gitignore
+drwxr-xr-x 2 mr246 mr246  4096 Tem 16 21:04 img
+drwxr-xr-x 2 mr246 mr246  4096 Tem 16 21:04 inc
+drwxr-xr-x 3 mr246 mr246  4096 Tem 16 21:04 lib
+-rw-r--r-- 1 mr246 mr246  2372 Tem 16 21:04 Makefile
+-rwxr-xr-x 1 mr246 mr246 39128 Tem 16 22:08 minishell
+-rw-r--r-- 1 mr246 mr246  2152 Tem 16 21:04 README.md
+drwxr-xr-x 2 mr246 mr246  4096 Tem 16 22:12 src
+-rw-r--r-- 1 mr246 mr246     0 Tem 16 22:19 test
+drwxr-xr-x 2 mr246 mr246  4096 Tem 16 21:07 .vscode
+toplam 104
+drwxr-xr-x 8 mr246 mr246  4096 Tem 16 22:19 .
+drwxr-xr-x 3 mr246 mr246  4096 Tem 16 21:04 ..
+-rwxr-xr-x 1 mr246 mr246 16064 Tem 16 21:27 a.out
+drwxr-xr-x 8 mr246 mr246  4096 Tem 16 22:12 .git
+-rw-r--r-- 1 mr246 mr246     7 Tem 16 21:04 .gitignore
+drwxr-xr-x 2 mr246 mr246  4096 Tem 16 21:04 img
+drwxr-xr-x 2 mr246 mr246  4096 Tem 16 21:04 inc
+drwxr-xr-x 3 mr246 mr246  4096 Tem 16 21:04 lib
+-rw-r--r-- 1 mr246 mr246  2372 Tem 16 21:04 Makefile
+-rwxr-xr-x 1 mr246 mr246 39128 Tem 16 22:08 minishell
+-rw-r--r-- 1 mr246 mr246  2152 Tem 16 21:04 README.md
+drwxr-xr-x 2 mr246 mr246  4096 Tem 16 22:12 src
+-rw-r--r-- 1 mr246 mr246   712 Tem 16 22:19 test
+drwxr-xr-x 2 mr246 mr246  4096 Tem 16 21:07 .vscode
