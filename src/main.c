@@ -83,25 +83,27 @@ char	*find_valid_path(char *cmd, t_env *envp)
 // 	waitpid(-1, NULL, 0);
 // }
 
-t_cmd *parser(t_tokens token)
-{
-	t_cmd *cmd;
-	char **commands;
-	int i;
 
-	i = 0;
-	while (1)
-	{
-		if (ft_strchrs(token.token, "&&"))
-		commands[i] = token.token;
-		if (token.next)
-			token = *token.next;
-		else
-			break ;
-		i++;
-	}
-	return (cmd);
-}
+
+// t_cmd *parser(t_tokens token)
+// {
+// 	t_cmd *cmd;
+// 	char **commands;
+// 	int i;
+
+// 	i = 0;
+// 	while (1)
+// 	{
+// 		handle_ampersand()
+// 		commands[i] = token.token;
+// 		if (token.next)
+// 			token = *token.next;
+// 		else
+// 			break ;
+// 		i++;
+// 	}
+// 	return (cmd);
+// }
 
 int	main(int ac, char **av, char **env)
 {
@@ -116,7 +118,12 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("\033[1;31mRaRe\033[0m$ ", 1);
 		shell->line = get_next_line(shell->std_input);
 		shell->tokens = tokenizer(shell->line, shell->env);
-		cmd = parser(*(shell->tokens));
+		while (shell->tokens->token)
+		{
+			printf("token: %s\n", shell->tokens->token);
+			shell->tokens = shell->tokens->next;
+		}
+		// cmd = parser(*(shell->tokens));
 		// execute_cmd(shell, tokens);
 		free(shell->line);
 	}

@@ -13,6 +13,7 @@
 #include "../inc/minishell.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include "../lib/libft/libft.h"
 
 t_tokens	*new_token(char *token)
 {
@@ -47,27 +48,29 @@ void	lstadd_back_token(t_tokens **lst, t_tokens *new)
 	return ;
 }
 
-int	ft_strchrs_ind(char *haystack, char *needles)
+int	ft_find_index(char *haystack, char *needle)
 {
 	int	i;
 	int	j;
-	int k;
 	int	tmp;
+	int needle_len;
 
+	needle_len = ft_strlen(needle);
 	i = 0;
-	j = 0;
 	while (haystack[i])
 	{
-		while (haystack[i] == needles[j])
+    	tmp = i;
+        j = 0;
+		while (haystack[tmp] == needle[j])
 		{
-			tmp = i;
-			if (j == ft_strlen(needles))
+			if (j + 1 == needle_len)
 				return (i);
+            tmp++;
 			j++;
 		}
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 // merhaba dünya ben && mısra

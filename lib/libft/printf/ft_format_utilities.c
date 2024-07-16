@@ -69,7 +69,7 @@ int	ft_strchrs(char *haystack, char *needles)
 	int	i;
 	int	j;
 
-	i = 0;
+	i = -1;
 	while (haystack[++i])
 	{
 		j = -1;

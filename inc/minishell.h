@@ -52,6 +52,7 @@ t_tokens				*tokenizer(char *input, t_env *env);
 // UTILS
 t_tokens				*new_token(char *token);
 void					lstadd_back_token(t_tokens **lst, t_tokens *new);
+int	ft_find_index(char *haystack, char *needle);
 
 // SIGNAL
 void					handle_sigint(int signo);

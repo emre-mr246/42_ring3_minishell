@@ -101,6 +101,29 @@ char	*handle_space(char **str, t_env *env)
 	return (NULL);
 }
 
+char *handle_ampersand(char **input)
+{
+	int i;
+	char *res;
+
+	i = ft_find_index(*input, "&&");
+	if (i == -1)
+		return (NULL);
+	if (i == 0)
+	{
+		*input += 2;
+		return (ft_strdup("&&"));
+	}
+	else
+	{
+		res = ft_substr(*input, 0, i);
+		if (ft_strchr(res, ' '))
+			return (NULL);
+		*input += i;
+		return (res);
+	}
+}
+
 t_tokens	*tokenizer(char *input, t_env *env)
 {
 	char		*res;
@@ -116,6 +139,8 @@ t_tokens	*tokenizer(char *input, t_env *env)
 			res = handle_single_quote(&input);
 		if (!res && *input == '\"')
 			res = handle_double_quote(&input, env);
+		if (!res)
+			res = handle_ampersand(&input);
 		if (!res)
 			res = handle_space(&input, env);
 		if (res)
