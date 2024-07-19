@@ -96,5 +96,4 @@ t_cmd	*parser(t_tokens token)
 	return (cmd_tmp);
 }
 
-
 // ls -la && grep kek > sonuc.txt

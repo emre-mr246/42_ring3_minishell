@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+         #
+#    By: emgul <emgul@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/07/10 22:28:05 by emgul            ###   ########.fr        #
+#    Updated: 2024/07/19 18:11:50 by emgul            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ FILES			=	main \
 					init \
 					tokenizer \
 					utils \
-					parser
+					parser \
+					exec
 
 NAME			=	minishell
 

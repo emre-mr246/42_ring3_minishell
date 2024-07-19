@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/10 23:09:41 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/19 18:11:42 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <signal.h>
 
-#define ARG_MAX 401
+#define ARG_MAX 42
 
 enum					e_special_char
 {
@@ -53,6 +53,7 @@ typedef struct s_shell
 {
 	char				*line;
 	int					std_input;
+	t_cmd				*cmd;
 	t_tokens			*tokens;
 	t_env				*env;
 	char				**envp;
@@ -77,5 +78,7 @@ void					handle_sigint(int signo);
 char					*get_special_char(char *input);
 
 t_cmd	*parser(t_tokens token);
+
+void execute_cmd(t_shell *shell);
 
 #endif
