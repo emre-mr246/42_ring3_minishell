@@ -48,6 +48,40 @@ void	lstadd_back_token(t_tokens **lst, t_tokens *new)
 	return ;
 }
 
+t_cmd	*new_cmd(char **cmd)
+{
+	t_cmd	*cmds;
+
+	cmds = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!cmds)
+		return (NULL);
+	cmds->next = NULL;
+	if (!cmd)
+		cmds->cmd = (char **)malloc(ARG_MAX);
+	else
+		cmds->cmd = cmd;
+	cmds->special_char = NONE;
+	return (cmds);
+}
+
+void	lstadd_back_cmd(t_cmd **lst, t_cmd *new)
+{
+	t_cmd	*tmp;
+
+	if (!new)
+		return ;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	tmp = *lst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	return ;
+}
+
 int	ft_find_index(char *haystack, char *needle)
 {
 	int	i;

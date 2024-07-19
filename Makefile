@@ -15,6 +15,7 @@ FILES			=	main \
 					init \
 					tokenizer \
 					utils \
+					parser
 
 NAME			=	minishell
 

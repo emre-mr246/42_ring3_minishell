@@ -13,6 +13,7 @@
 #include "../inc/minishell.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <limits.h>
 #include "../lib/libft/libft.h"
 
 char	*handle_comment(char *str)
@@ -72,18 +73,13 @@ char	*handle_space(char **str, t_env *env)
 	char	*res;
 
 	i = 0;
-	while ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
-		|| ((*str)[i] == '\\'))
+	while ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13) || ((*str)[i] == '\\'))
 		i++;
 	while ((*str)[i])
 	{
-		if (((*str)[i] == '\'' || (*str)[i] == '\"') && ((*str)[i - 1] == ' '
-				|| (*str)[i - 1] == '\n' || (*str)[i - 1] == '\t'))
+		if (((*str)[i] == '\'' || (*str)[i] == '\"') && ((*str)[i - 1] >= 8 && (*str)[i - 1] <= 13))
 			return (NULL);
-		// if (str[i] == '$')
-		// 	handle_dollar_sign();
-		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
-			|| ((*str)[i] == '\\'))
+		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13) || ((*str)[i] == '\\'))
 		{
 			res = ft_substr(*str, 0, i);
 			*str += i;
@@ -127,7 +123,7 @@ char *get_special_char(char *input)
 	return (NULL);
 }
 
-#include <limits.h>
+
 int get_indexes(char *input)
 {
 	int *indexes;

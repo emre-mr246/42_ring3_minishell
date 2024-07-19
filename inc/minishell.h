@@ -15,6 +15,20 @@
 
 # include <signal.h>
 
+#define ARG_MAX 401
+
+enum					e_special_char
+{
+	NONE,
+	AND,
+	OR,
+	PIPE,
+	REDIRECT_INPUT,
+	HERE_DOC,
+	REDIRECT_OUTPUT,
+	APPEND_OUTPUT
+};
+
 typedef struct s_env
 {
 	char				*key;
@@ -30,7 +44,8 @@ typedef struct s_tokens
 
 typedef struct t_cmd
 {
-	char				*cmd;
+	char				**cmd;
+	int					special_char;
 	struct t_cmd		*next;
 }						t_cmd;
 
@@ -52,9 +67,15 @@ t_tokens				*tokenizer(char *input, t_env *env);
 // UTILS
 t_tokens				*new_token(char *token);
 void					lstadd_back_token(t_tokens **lst, t_tokens *new);
-int	ft_find_index(char *haystack, char *needle);
+int						ft_find_index(char *haystack, char *needle);
+t_cmd					*new_cmd(char **cmd);
+void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 
 // SIGNAL
 void					handle_sigint(int signo);
+
+char					*get_special_char(char *input);
+
+t_cmd	*parser(t_tokens token);
 
 #endif

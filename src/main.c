@@ -85,30 +85,15 @@ char	*find_valid_path(char *cmd, t_env *envp)
 
 
 
-// t_cmd *parser(t_tokens token)
-// {
-// 	t_cmd *cmd;
-// 	char **commands;
-// 	int i;
 
-// 	i = 0;
-// 	while (1)
-// 	{
-// 		handle_ampersand()
-// 		commands[i] = token.token;
-// 		if (token.next)
-// 			token = *token.next;
-// 		else
-// 			break ;
-// 		i++;
-// 	}
-// 	return (cmd);
-// }
 
 int	main(int ac, char **av, char **env)
 {
 	t_shell		*shell;
 	t_cmd 		*cmd;
+	int i; 
+
+	i = 0;
 
 	shell = init_shell(env);
 	if (!shell)
@@ -118,12 +103,17 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("\033[1;31mRaRe\033[0m$ ", 1);
 		shell->line = get_next_line(shell->std_input);
 		shell->tokens = tokenizer(shell->line, shell->env);
-		while (shell->tokens->token)
+		cmd = parser(*(shell->tokens));
+		while (cmd)
 		{
-			printf("token: %s\n", shell->tokens->token);
-			shell->tokens = shell->tokens->next;
+			i = 0;
+			printf("\nYENi\n");
+			while (cmd->cmd[i])
+			{
+				printf("%s ", cmd->cmd[i++]);
+			}	
+			cmd = cmd->next;
 		}
-		// cmd = parser(*(shell->tokens));
 		// execute_cmd(shell, tokens);
 		free(shell->line);
 	}
