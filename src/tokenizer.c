@@ -101,6 +101,31 @@ char	*handle_space(char **str, t_env *env)
 	return (NULL);
 }
 
+char *get_special_char(char *input)
+{
+	int i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (*input == '&' && *(input + 1) == '&')
+			return (ft_strdup("&&"));
+		else if (*input == '|' && *(input + 1) == '|')
+			return (ft_strdup("||"));		
+		else if (*input == '<' && *(input + 1) == '<')
+			return (ft_strdup("<<"));
+		else if (*input == '>' && *(input + 1) == '>')
+			return (ft_strdup(">>"));
+		else if (*input == '>')
+			return (ft_strdup(">"));
+		else if (*input == '<')
+			return (ft_strdup("<"));
+		else if (*input == '|')
+			return (ft_strdup("|"));
+		i++;
+	}
+	return (NULL);
+}
 
 #include <limits.h>
 int get_indexes(char *input)
@@ -130,7 +155,7 @@ int get_indexes(char *input)
 	return (min_i);
 }
 
-char *handle_ampersand(char **input)
+char *handle_special_char(char **input)
 {
 	int i;
 	char *res;
@@ -139,11 +164,14 @@ char *handle_ampersand(char **input)
 	i = get_indexes(*input);
 	if (i == -1)
 		return (NULL);
-	if (i == 0)
+	else if (i == 0)
 	{
+		res = get_special_char(*input);
 		*input += 2;
-		return (ft_strdup("&&"));
+		return (res);
 	}
+	else if (i == INT_MAX)
+		return (NULL);
 	else
 	{
 		res = ft_substr(*input, 0, i);
@@ -166,23 +194,21 @@ t_tokens	*tokenizer(char *input, t_env *env)
 	while (input && *input)
 	{
 		res = NULL;
-		if (*input == '\'')
+		if (*input == '\'' && input)
 			res = handle_single_quote(&input);
-		if (!res && *input == '\"')
+		if (input && !res && *input == '\"')
 			res = handle_double_quote(&input, env);
-		if (!res)
-			res = handle_ampersand(&input);
-		if (!res)
+		if (input && !res)
+			res = handle_special_char(&input);
+		if (input && !res)
 			res = handle_space(&input, env);
-		if (res && ft_strtrim(res, " ") != NULL)
+		if (input && res && ft_strtrim(res, " ") != NULL)
 		{
 			lstadd_back_token(&tokens, new_token(ft_strtrim(res, "\n\t ")));
 			free(res);
 		}
-		if (!res)
+		if (input && !res)
 			input++;
-		if (!input || !*input)
-			break ;
 	}
 	return (tokens);
 }
