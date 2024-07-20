@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/19 18:12:09 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/19 18:14:13 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void child_process(t_shell *shell)
 	path = find_valid_path(shell->tokens->token, shell->env);
 	result = execve(path, shell->cmd->cmd, shell->envp);
 	if (result == -1)
-		printf("HATA");
+		ft_printf("HATA\n");
 	ft_putendl_fd(path, 1);
 	exit(0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:35:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/05 12:16:38 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/20 22:12:12 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_env *init_env(void)
 	return (tmp);
 }
 
-void get_key(char *str, t_env *vars)
+static void get_key(char *str, t_env *vars)
 {
 	int i;
 	char *key;

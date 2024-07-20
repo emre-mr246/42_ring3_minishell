@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kali <kali@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/16 13:38:15 by kali             ###   ########.fr       */
+/*   Updated: 2024/07/20 21:16:04 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int get_special_char_enum(char *input)
 	return (NONE);
 }
 
-t_cmd	*parser(t_tokens token)
+t_cmd	*create_cmd(t_tokens token)
 {
 	t_cmd	*cmd;
     t_cmd *cmd_tmp;

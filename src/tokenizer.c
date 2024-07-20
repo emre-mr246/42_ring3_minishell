@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/10 22:28:59 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/20 21:19:05 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ char	*handle_double_quote(char **str, t_env *env)
 	(*str)++;
 	while ((*str)[i])
 	{
-		// if (str[i] == '$')
-		// 	handle_dollar_sign();
 		if ((*str)[i] == '\"')
 		{
 			res = ft_substr(*str, 0, i);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:08:48 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/10 23:09:27 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/20 20:52:52 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <signal.h>
-// #include <unistd.h>
-// #include "../lib/libft/libft.h"
+#include <signal.h>
+#include <unistd.h>
+#include "../lib/libft/libft.h"
 
 // void	handle_sigint(int signo)
 // {

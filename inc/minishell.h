@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/19 18:11:42 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/20 21:16:03 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void					handle_sigint(int signo);
 
 char					*get_special_char(char *input);
 
-t_cmd	*parser(t_tokens token);
+t_cmd	*create_cmd(t_tokens token);
 
 void execute_cmd(t_shell *shell);
 
