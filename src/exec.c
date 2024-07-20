@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/19 18:14:13 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/20 23:19:53 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,12 @@ char	*find_valid_path(char *cmd, t_env *envp)
 	int		i;
 	char	**paths;
 	char	*valid_path;
-	char	*tmp;
 
 	while (ft_strnstr(envp->key, "PATH", 4) == 0)
 		envp = envp->next;
 	paths = ft_split(envp->value, ':');
 	if (!paths || !*paths)
 		exit(-1);
-	free(tmp);
 	i = 0;
 	while (paths[i])
 	{
@@ -64,7 +62,7 @@ void child_process(t_shell *shell)
 {
 	char *path;
 	int result;
-
+	
 	path = find_valid_path(shell->tokens->token, shell->env);
 	result = execve(path, shell->cmd->cmd, shell->envp);
 	if (result == -1)

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/20 22:50:27 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/20 23:20:32 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,20 @@ static char *exchange_variable(char *str, t_env *env)
 		}
 	}
 	res[i] = '\0';
+	return (res);
 }
 
 void handle_dollar_sign(char **cmd, t_env *env)
 {
 	int i;
+	char *res;
 
 	i = 0;
 	while(cmd[i])
 	{
-		exchange_variable(cmd[i], env);
+		res = exchange_variable(cmd[i], env);
+		free(cmd[i]);
+		cmd[i] = ft_strdup(res);
 		i++;
 	}
 }
