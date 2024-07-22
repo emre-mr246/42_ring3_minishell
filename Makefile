@@ -6,7 +6,7 @@
 #    By: emgul <emgul@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/07/19 18:11:50 by emgul            ###   ########.fr        #
+#    Updated: 2024/07/22 23:06:51 by emgul            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ VALGRIND_PARAMS	=	--leak-check=full --show-leak-kinds=all --track-origins=yes
 	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@gcc $(OBJS) -o $(NAME) $(LIBFT)
+	@gcc $(OBJS) -o $(NAME) $(LIBFT) -lreadline
 	@echo "$(GREEN)-== $(NAME) created! ==-$(DEFAULT)"
 	@make --no-print-directory clean
 

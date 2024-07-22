@@ -6,19 +6,18 @@
 /*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/20 23:20:32 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/22 23:22:21 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 #include "../lib/libft/libft.h"
-#include "readline/history.h"
-#include "readline/readline.h"
+#include <readline/history.h>
+#include <readline/readline.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/wait.h>
-
 #include <stdio.h>
 void handle_exit(t_shell *shell)
 {
@@ -95,7 +94,6 @@ void handle_dollar_sign(char **cmd, t_env *env)
 	while(cmd[i])
 	{
 		res = exchange_variable(cmd[i], env);
-		free(cmd[i]);
 		cmd[i] = ft_strdup(res);
 		i++;
 	}
@@ -123,14 +121,12 @@ int	main(int ac, char **av, char **env)
 		return (-1);
 	while (1)
 	{
-		ft_putstr_fd("\033[1;31mRaRe\033[0m$ ", 1);
-		shell->line = get_next_line(shell->std_input);
+		shell->line = readline("\033[1;31mRaRe\033[0m$ ");
 		shell->tokens = tokenizer(shell->line, shell->env);
 		shell->cmd = create_cmd(*(shell->tokens));
 		parser(shell);
 		handle_exit(shell);
 		execute_cmd(shell);
-		free(shell->line);
 	}
 	return (0);
 }

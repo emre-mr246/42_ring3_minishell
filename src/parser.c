@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/20 21:16:04 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/22 23:31:50 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,11 @@ t_cmd	*create_cmd(t_tokens token)
             cmd->cmd[i] = ft_strdup(token.token);
         	i++;
         }
+        cmd->cmd[i] = NULL;
         if (token.next)
             token = *token.next;
 		else
             break ;
 	}
-    lstadd_back_cmd(&cmd, new_cmd(NULL));
 	return (cmd_tmp);
 }
-
-// ls -la && grep kek > sonuc.txt
