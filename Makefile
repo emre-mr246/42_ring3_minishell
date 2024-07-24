@@ -16,6 +16,7 @@ FILES			=	main \
 					tokenizer \
 					utils \
 					parser \
+					signal \
 					exec
 
 NAME			=	minishell

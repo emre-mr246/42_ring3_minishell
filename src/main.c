@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/22 23:22:21 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/24 22:38:03 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static char *exchange_variable(char *str, t_env *env)
 			value = get_value(key, env);
 			ft_strlcpy(res + i, value, ft_strlen(value) + 1);
 			i += ft_strlen(value);
-			int misra;
 		}
 		else
 		{
@@ -121,12 +120,20 @@ int	main(int ac, char **av, char **env)
 		return (-1);
 	while (1)
 	{
+		if (sigaction(SIGINT, &shell->sigint, NULL) != 0)
+			printf("VAKVAK\n");
 		shell->line = readline("\033[1;31mRaRe\033[0m$ ");
+		if (!*shell->line)
+		{
+			// free(shell->line); // bakılacak
+			continue ;
+		}
 		shell->tokens = tokenizer(shell->line, shell->env);
 		shell->cmd = create_cmd(*(shell->tokens));
 		parser(shell);
 		handle_exit(shell);
 		execute_cmd(shell);
+		// free(shell->line); // bakılacak
 	}
 	return (0);
 }
