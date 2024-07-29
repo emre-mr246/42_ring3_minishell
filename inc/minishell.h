@@ -15,6 +15,23 @@
 
 # include <signal.h>
 
+# include "libft.h"
+# include <stdbool.h>  
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <signal.h>
+# include <errno.h>
+# include <fcntl.h> 
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <dirent.h>
+# include <sys/stat.h>
+# include <termios.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+#define SA_RESTART	0x10000000
+
 #define ARG_MAX 42
 
 enum					e_special_char
@@ -49,6 +66,13 @@ typedef struct t_cmd
 	struct t_cmd		*next;
 }						t_cmd;
 
+typedef struct s_terminal
+{
+	struct termios	minishell;
+	struct termios	shell;
+
+}	t_terminal;
+
 typedef struct s_shell
 {
 	char				*line;
@@ -59,6 +83,7 @@ typedef struct s_shell
 	char				**envp;
 	struct sigaction	sigint;
 	struct sigaction	sigquit;
+	t_terminal			*terminal;
 }						t_shell;
 
 t_env					*get_env(char **env);
@@ -80,5 +105,7 @@ char					*get_special_char(char *input);
 t_cmd	*create_cmd(t_tokens token);
 
 void execute_cmd(t_shell *shell);
+
+void init_signal(int signo, void (*handler)(int), struct sigaction *sa);
 
 #endif

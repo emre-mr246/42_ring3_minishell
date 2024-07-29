@@ -13,6 +13,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <readline/readline.h>
+#include <stdio.h>
 
 #include "../lib/libft/libft.h"
 

@@ -17,6 +17,18 @@
 #include <unistd.h>
 #include <bits/sigaction.h>
 
+void init_signal(int signo, void (*handler)(int), struct sigaction *sa)
+{
+    sigemptyset(&sa->sa_mask);
+    sa->sa_flags = SA_RESTART;
+	if (!handler)
+		sa->sa_handler = SIG_IGN;
+	else
+    	sa->sa_handler = handler;
+    sigaction(signo, sa, NULL);
+}
+
+
 t_shell	*init_shell(char **env)
 {
 	t_shell	*shell;
@@ -30,8 +42,6 @@ t_shell	*init_shell(char **env)
 	shell->envp = env;
 	shell->tokens = NULL;
 	shell->cmd 	= NULL;
-	shell->sigint.sa_handler = handle_sigint;
-	shell->sigint.sa_flags = SA_RESTART;
-	// shell->sigint.sa_mask = 
+	init_signal(SIGINT, handle_sigint, &shell->sigint);
 	return (shell);
 }

@@ -111,6 +111,8 @@ void parser(t_shell *shell)
 	}
 }
 
+
+
 int	main(int ac, char **av, char **env)
 {
 	t_shell		*shell;
@@ -120,8 +122,6 @@ int	main(int ac, char **av, char **env)
 		return (-1);
 	while (1)
 	{
-		if (sigaction(SIGINT, &shell->sigint, NULL) != 0)
-			printf("VAKVAK\n");
 		shell->line = readline("\033[1;31mRaRe\033[0m$ ");
 		if (!*shell->line)
 		{
@@ -132,7 +132,11 @@ int	main(int ac, char **av, char **env)
 		shell->cmd = create_cmd(*(shell->tokens));
 		parser(shell);
 		handle_exit(shell);
+
+		
 		execute_cmd(shell);
+
+		// tcsetattr(STDIN_FILENO, TCSAFLUSH, &shell->terminal->minishell);
 		// free(shell->line); // bakılacak
 	}
 	return (0);

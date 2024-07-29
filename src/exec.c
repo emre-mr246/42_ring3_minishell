@@ -58,11 +58,20 @@ char	*find_valid_path(char *cmd, t_env *envp)
 	return (valid_path);
 }
 
+static void	child_signal_handler(int signum)
+{
+	if (signum == SIGINT)
+		exit(130);
+	else if (signum == SIGQUIT)
+		exit(131);
+}
+
 void child_process(t_shell *shell)
 {
 	char *path;
 	int result;
-	
+
+	init_signal(SIGINT, child_signal_handler, &shell->sigint);
 	path = find_valid_path(shell->tokens->token, shell->env);
 	result = execve(path, shell->cmd->cmd, shell->envp);
 	if (result == -1)
@@ -75,10 +84,12 @@ void execute_cmd(t_shell *shell)
 {
 	pid_t	pid;
 
+	init_signal(SIGINT, NULL, &shell->sigint);
 	pid = fork();
 	if (pid == -1)
 		exit(-1);
 	if (pid == 0)
 		child_process(shell);
 	waitpid(-1, NULL, 0);
+	init_signal(SIGINT, handle_sigint, &shell->sigint);
 }
