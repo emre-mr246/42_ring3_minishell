@@ -43,5 +43,6 @@ t_shell	*init_shell(char **env)
 	shell->tokens = NULL;
 	shell->cmd 	= NULL;
 	init_signal(SIGINT, handle_sigint, &shell->sigint);
+	init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
 	return (shell);
 }

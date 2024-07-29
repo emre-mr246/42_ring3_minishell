@@ -27,3 +27,9 @@ void	handle_sigint(int signo)
 		rl_redisplay();
 	}
 }
+
+void	handle_sigquit(int signo)
+{
+	if (signo == SIGQUIT)
+		exit(131);
+}

@@ -99,6 +99,7 @@ void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 
 // SIGNAL
 void					handle_sigint(int signo);
+void	handle_sigquit(int signo);
 
 char					*get_special_char(char *input);
 
