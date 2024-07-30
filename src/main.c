@@ -123,12 +123,14 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		shell->line = readline("\033[1;31mRaRe\033[0m$ ");
-		if (!*shell->line)
+		if (!shell->line)
 		{
 			// free(shell->line); // bakılacak
 			continue ;
 		}
 		shell->tokens = tokenizer(shell->line, shell->env);
+		if (!shell->tokens)
+			continue ;
 		shell->cmd = create_cmd(*(shell->tokens));
 		parser(shell);
 		handle_exit(shell);

@@ -72,6 +72,7 @@ void child_process(t_shell *shell)
 	int result;
 
 	init_signal(SIGINT, child_signal_handler, &shell->sigint);
+	init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
 	path = find_valid_path(shell->tokens->token, shell->env);
 	result = execve(path, shell->cmd->cmd, shell->envp);
 	if (result == -1)
@@ -92,4 +93,5 @@ void execute_cmd(t_shell *shell)
 		child_process(shell);
 	waitpid(-1, NULL, 0);
 	init_signal(SIGINT, handle_sigint, &shell->sigint);
+	init_signal(SIGQUIT, NULL, &shell->sigquit);
 }
