@@ -61,6 +61,7 @@ t_cmd	*new_cmd(char **cmd)
 	else
 		cmds->cmd = cmd;
 	cmds->special_char = NONE;
+	cmds->is_builtin = false;
 	return (cmds);
 }
 

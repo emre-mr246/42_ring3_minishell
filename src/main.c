@@ -19,10 +19,48 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdio.h>
-void handle_exit(t_shell *shell)
+
+void ft_echo(t_shell *shell)
+{
+	int i;
+	bool newline;
+
+	newline = true;
+	i = 1;
+	if(ft_strncmp(shell->cmd->cmd[1], "-n", ft_strlen(shell->cmd->cmd[1])) == 0)
+	{
+		i = 2;
+		newline = false;
+	}
+	while (shell->cmd->cmd[i])
+	{
+		ft_putstr_fd(shell->cmd->cmd[i], 1);
+		write(1, " ", 1);
+		i++;
+	}
+	if (newline)
+		write(1, "\n", 1);
+}
+
+void handle_builtins(t_shell *shell)
 {
 	if(ft_strncmp(shell->cmd->cmd[0], "exit", ft_strlen(shell->cmd->cmd[0])) == 0)
         exit(EXIT_SUCCESS);
+	if(ft_strncmp(shell->cmd->cmd[0], "echo", ft_strlen(shell->cmd->cmd[0])) == 0)
+	{
+		shell->cmd->is_builtin = true;
+        ft_echo(shell);
+	}
+	if(ft_strncmp(shell->cmd->cmd[0], "cd", ft_strlen(shell->cmd->cmd[0])) == 0)
+        exit(EXIT_SUCCESS);
+	if(ft_strncmp(shell->cmd->cmd[0], "pwd", ft_strlen(shell->cmd->cmd[0])) == 0)
+		exit(EXIT_SUCCESS);
+	if(ft_strncmp(shell->cmd->cmd[0], "export", ft_strlen(shell->cmd->cmd[0])) == 0)
+		exit(EXIT_SUCCESS);
+	if(ft_strncmp(shell->cmd->cmd[0], "unset", ft_strlen(shell->cmd->cmd[0])) == 0)
+		exit(EXIT_SUCCESS);
+	if(ft_strncmp(shell->cmd->cmd[0], "env", ft_strlen(shell->cmd->cmd[0])) == 0)
+		exit(EXIT_SUCCESS);
 }
 
 static char *get_key(char **str)
@@ -111,8 +149,6 @@ void parser(t_shell *shell)
 	}
 }
 
-
-
 int	main(int ac, char **av, char **env)
 {
 	t_shell		*shell;
@@ -133,10 +169,10 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		shell->cmd = create_cmd(*(shell->tokens));
 		parser(shell);
-		handle_exit(shell);
+		handle_builtins(shell);
 
-		
-		execute_cmd(shell);
+		if (!shell->cmd->is_builtin)
+			execute_cmd(shell);
 
 		// tcsetattr(STDIN_FILENO, TCSAFLUSH, &shell->terminal->minishell);
 		// free(shell->line); // bakılacak

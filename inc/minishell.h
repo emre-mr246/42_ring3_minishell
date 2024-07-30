@@ -64,14 +64,8 @@ typedef struct t_cmd
 	char				**cmd;
 	int					special_char;
 	struct t_cmd		*next;
+	bool				is_builtin;
 }						t_cmd;
-
-typedef struct s_terminal
-{
-	struct termios	minishell;
-	struct termios	shell;
-
-}	t_terminal;
 
 typedef struct s_shell
 {
@@ -83,7 +77,6 @@ typedef struct s_shell
 	char				**envp;
 	struct sigaction	sigint;
 	struct sigaction	sigquit;
-	t_terminal			*terminal;
 }						t_shell;
 
 t_env					*get_env(char **env);
