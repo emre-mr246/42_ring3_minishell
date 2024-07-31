@@ -6,7 +6,7 @@
 #    By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/07/31 08:44:11 by emgul            ###   ########.fr        #
+#    Updated: 2024/07/31 08:45:21 by emgul            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ FILES				= main utils parser tokenizer signal init exec env
 
 BONUS_FILES			= 
 
-BONUS_NAME			= minishell
+NAME				= minishell
 BONUS_NAME			= minishell_bonus
 
 CC					= gcc
