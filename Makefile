@@ -6,34 +6,34 @@
 #    By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/07/31 08:31:57 by emgul            ###   ########.fr        #
+#    Updated: 2024/07/31 08:44:11 by emgul            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES            = main utils parser tokenizer signal init exec env
+FILES				= main utils parser tokenizer signal init exec env
 
-BONUS_FILES      = 
+BONUS_FILES			= 
 
-NAME             = minishell
-BONUS_NAME		= minishell_bonus
+BONUS_NAME			= minishell
+BONUS_NAME			= minishell_bonus
 
-CC               = gcc
-CCFLAGS          = -lreadline #-Wall -Wextra -Werror
-MAKEFLAGS        = --no-print-directory
-RM               = rm -rf
+CC					= gcc
+CCFLAGS				= -lreadline #-Wall -Wextra -Werror
+MAKEFLAGS			= --no-print-directory
+RM					= rm -rf
 
-LIBFT_PATH       = lib/libft/
-LIBFT            = $(LIBFT_PATH)libft.a
+LIBFT_PATH			= lib/libft/
+LIBFT				= $(LIBFT_PATH)libft.a
 
-FILES_PATH       = src/mandatory/
-BONUS_FILES_PATH = src/bonus/
-OBJ_DIR          = .obj/
+FILES_PATH			= src/mandatory/
+BONUS_FILES_PATH	= src/bonus/
+OBJ_DIR				= .obj/
 
-SRCS             = $(addprefix $(FILES_PATH), $(addsuffix .c, $(FILES)))
-BONUS_SRCS       = $(addprefix $(BONUS_FILES_PATH), $(addsuffix _bonus.c, $(BONUS_FILES)))
+SRCS				= $(addprefix $(FILES_PATH), $(addsuffix .c, $(FILES)))
+BONUS_SRCS			= $(addprefix $(BONUS_FILES_PATH), $(addsuffix _bonus.c, $(BONUS_FILES)))
 
-OBJS             = $(addprefix $(OBJ_DIR), $(notdir $(SRCS:.c=.o)))
-BONUS_OBJS       = $(addprefix $(OBJ_DIR), $(notdir $(BONUS_SRCS:.c=.o)))
+OBJS				= $(addprefix $(OBJ_DIR), $(notdir $(SRCS:.c=.o)))
+BONUS_OBJS			= $(addprefix $(OBJ_DIR), $(notdir $(BONUS_SRCS:.c=.o)))
 
 vpath %.c $(FILES_PATH) $(BONUS_FILES_PATH)
 

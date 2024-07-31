@@ -6,15 +6,15 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/31 08:28:34 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/31 08:41:37 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <limits.h>
 #include "../../lib/libft/libft.h"
+#include <limits.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 char	*handle_comment(char *str)
 {
@@ -71,13 +71,16 @@ char	*handle_space(char **str, t_env *env)
 	char	*res;
 
 	i = 0;
-	while ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13) || ((*str)[i] == '\\'))
+	while ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
+		|| ((*str)[i] == '\\'))
 		i++;
 	while ((*str)[i])
 	{
-		if (((*str)[i] == '\'' || (*str)[i] == '\"') && ((*str)[i - 1] >= 8 && (*str)[i - 1] <= 13))
+		if (((*str)[i] == '\'' || (*str)[i] == '\"') && ((*str)[i - 1] >= 8
+				&& (*str)[i - 1] <= 13))
 			return (NULL);
-		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13) || ((*str)[i] == '\\'))
+		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
+			|| ((*str)[i] == '\\'))
 		{
 			res = ft_substr(*str, 0, i);
 			*str += i;
@@ -95,9 +98,9 @@ char	*handle_space(char **str, t_env *env)
 	return (NULL);
 }
 
-char *get_special_char(char *input)
+char	*get_special_char(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (input[i])
@@ -105,7 +108,7 @@ char *get_special_char(char *input)
 		if (*input == '&' && *(input + 1) == '&')
 			return (ft_strdup("&&"));
 		else if (*input == '|' && *(input + 1) == '|')
-			return (ft_strdup("||"));		
+			return (ft_strdup("||"));
 		else if (*input == '<' && *(input + 1) == '<')
 			return (ft_strdup("<<"));
 		else if (*input == '>' && *(input + 1) == '>')
@@ -121,12 +124,11 @@ char *get_special_char(char *input)
 	return (NULL);
 }
 
-
-int get_indexes(char *input)
+int	get_indexes(char *input)
 {
-	int *indexes;
-	int min_i;
-	int i;
+	int	*indexes;
+	int	min_i;
+	int	i;
 
 	min_i = INT_MAX;
 	indexes = (int *)malloc(sizeof(int) * 7);
@@ -149,11 +151,11 @@ int get_indexes(char *input)
 	return (min_i);
 }
 
-char *handle_special_char(char **input)
+char	*handle_special_char(char **input)
 {
-	int i;
-	char *res;
-	char *tmp;
+	int		i;
+	char	*res;
+	char	*tmp;
 
 	i = get_indexes(*input);
 	if (i == -1)
