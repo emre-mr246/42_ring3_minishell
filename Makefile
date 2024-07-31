@@ -3,83 +3,89 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emgul <emgul@student.42.fr>                +#+  +:+       +#+         #
+#    By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/07/22 23:06:51 by emgul            ###   ########.fr        #
+#    Updated: 2024/07/31 08:31:57 by emgul            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES			=	main \
-					env	\
-					init \
-					tokenizer \
-					utils \
-					parser \
-					signal \
-					exec
+FILES            = main utils parser tokenizer signal init exec env
 
-NAME			=	minishell
+BONUS_FILES      = 
 
-CC				=	gcc
-CFLAGS			=	-I $(LIBFT_PATH) -g # -Wall -Wextra -Werror
-MFLAGS			=	-s -C
-AR				=	ar rcs
-RM				=	rm -rf
+NAME             = minishell
+BONUS_NAME		= minishell_bonus
 
-LIBFT_PATH		=	lib/libft/
-LIBFT			=	$(LIBFT_PATH)libft.a
+CC               = gcc
+CCFLAGS          = -lreadline #-Wall -Wextra -Werror
+MAKEFLAGS        = --no-print-directory
+RM               = rm -rf
 
-FILES_PATH		=	src/
+LIBFT_PATH       = lib/libft/
+LIBFT            = $(LIBFT_PATH)libft.a
 
-SRCS            =   $(addprefix $(FILES_PATH), $(addsuffix .c, $(FILES)))
+FILES_PATH       = src/mandatory/
+BONUS_FILES_PATH = src/bonus/
+OBJ_DIR          = .obj/
 
-OBJS            =   $(SRCS:.c=.o)
+SRCS             = $(addprefix $(FILES_PATH), $(addsuffix .c, $(FILES)))
+BONUS_SRCS       = $(addprefix $(BONUS_FILES_PATH), $(addsuffix _bonus.c, $(BONUS_FILES)))
 
-VALGRIND_PARAMS	=	--leak-check=full --show-leak-kinds=all --track-origins=yes
+OBJS             = $(addprefix $(OBJ_DIR), $(notdir $(SRCS:.c=.o)))
+BONUS_OBJS       = $(addprefix $(OBJ_DIR), $(notdir $(BONUS_SRCS:.c=.o)))
 
-.c.o:
-	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
-
-$(NAME): $(LIBFT) $(OBJS)
-	@gcc $(OBJS) -o $(NAME) $(LIBFT) -lreadline
-	@echo "$(GREEN)-== $(NAME) created! ==-$(DEFAULT)"
-	@make --no-print-directory clean
-
-$(LIBFT):
-	@make --no-print-directory $(MFLAGS) $(LIBFT_PATH)
-
-check-leaks: all
-	@make --no-print-directory re
-	@echo "$(RED)-==/ LEAK CHECK MODE ON \==-$(DEFAULT)"
-	@valgrind $(VALGRIND_PARAMS) ./fdf maps/10-2.fdf
-	@make --no-print-directory clean
+vpath %.c $(FILES_PATH) $(BONUS_FILES_PATH)
 
 all: $(NAME)
 
+bonus: $(BONUS_NAME)
+
+$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS)
+	@$(CC) $(OBJS) $(LIBFT) $(CCFLAGS) -o $(NAME)
+	@echo "$(GREEN)-== $(NAME) created! ==-$(DEFAULT)"
+
+$(BONUS_NAME): $(LIBFT) $(OBJ_DIR) $(BONUS_OBJS)
+	@$(CC) $(BONUS_OBJS) $(LIBFT) $(CCFLAGS) -o $(BONUS_NAME)
+	@echo "$(GREEN)-== $(BONUS_NAME) created! ==-$(DEFAULT)"
+
+$(OBJ_DIR)%.o: %.c
+	@$(CC) $(CCFLAGS) -c -o $@ $<
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+
+$(LIBFT):
+	@make $(MAKEFLAGS) -C $(LIBFT_PATH)
+
+check-norm: all
+	@norminette src/ lib/libft inc/ | grep -B 1 "Error\|Warning" || echo "$(GREEN)Norme check passed!$(DEFAULT)"
+	
 clean:
 	@$(RM) $(OBJS)
 	@$(RM) $(BONUS_OBJS)
-	@echo "$(YELLOW)-== all object files deleted! -==$(DEFAULT)"
+	@echo "$(YELLOW)-== all object files deleted! ==-$(DEFAULT)"
 
 fclean: clean libclean
 	@$(RM) $(NAME)
-	@echo "$(RED)-== all files deleted! -==$(DEFAULT)"
+	@$(RM) $(BONUS_NAME)
+	@$(RM) $(OBJ_DIR)
+	@echo "$(RED)-== all files deleted! ==-$(DEFAULT)"
 
 libclean:
-	@make $(MFLAGS) $(LIBFT_PATH) fclean
-	@echo "$(BLUE)-== all object files deleted in libraries! -==$(DEFAULT)"
+	@make $(MAKEFLAGS) -C $(LIBFT_PATH) fclean
+	@echo "$(BLUE)-== all object files deleted in libraries! ==-$(DEFAULT)"
 
 re: fclean all
 
 re-bonus: fclean bonus
 
-.PHONY: all clean fclean re bonus check-leak libclean
+.PHONY: all bonus clean fclean libclean re re-bonus check-norm
 
 # ANSI COLOR CODES
 DEFAULT = \033[0m
-RED = \033[1;31m
-YELLOW = \033[1;33m
-GREEN = \033[1;32m
-BLUE = \033[1;36m
-ORANGE = \033[38;5;208m
+RED     = \033[1;31m
+YELLOW  = \033[1;33m
+GREEN   = \033[1;32m
+BLUE    = \033[1;36m
+ORANGE  = \033[38;5;208m

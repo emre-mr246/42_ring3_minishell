@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/20 21:19:05 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/31 08:28:34 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <limits.h>
-#include "../lib/libft/libft.h"
+#include "../../lib/libft/libft.h"
 
 char	*handle_comment(char *str)
 {

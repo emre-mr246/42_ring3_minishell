@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/22 23:31:50 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/31 08:28:29 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
-#include "../lib/libft/libft.h"
+#include "../../inc/minishell.h"
+#include "../../lib/libft/libft.h"
 #include "readline/history.h"
 #include "readline/readline.h"
 #include <fcntl.h>

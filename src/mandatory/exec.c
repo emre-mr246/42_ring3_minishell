@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/20 23:19:53 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/31 08:28:24 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
-#include "../lib/libft/libft.h"
+#include "../../inc/minishell.h"
+#include "../../lib/libft/libft.h"
 #include "readline/history.h"
 #include "readline/readline.h"
 #include <fcntl.h>

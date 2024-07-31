@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:24:29 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/24 23:21:45 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/31 08:28:25 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 #include <stdlib.h>
 #include <stdarg.h>
 #include <fcntl.h>

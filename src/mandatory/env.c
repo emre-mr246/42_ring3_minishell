@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:35:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/20 22:12:12 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/31 08:28:20 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
-#include "../lib/libft/libft.h"
+#include "../../inc/minishell.h"
+#include "../../lib/libft/libft.h"
 
 t_env	*env_lstlast(t_env *lst)
 {

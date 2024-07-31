@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42.fr>                +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/24 23:21:12 by emgul            ###   ########.fr       */
+/*   Updated: 2024/07/31 08:31:08 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,8 @@
 # define MINISHELL_H
 
 # include <signal.h>
+#include <stdbool.h>
 
-# include "libft.h"
-# include <stdbool.h>  
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <errno.h>
-# include <fcntl.h> 
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <dirent.h>
-# include <sys/stat.h>
-# include <termios.h>
-# include <sys/types.h>
-# include <sys/wait.h>
 #define SA_RESTART	0x10000000
 
 #define ARG_MAX 42
