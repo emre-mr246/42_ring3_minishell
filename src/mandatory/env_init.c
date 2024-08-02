@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:35:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/31 08:28:20 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/01 22:31:17 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,16 @@ void	env_lstadd_back(t_env **lst, t_env *new)
 	return ;
 }
 
-t_env *init_env(void)
+t_env *new_env(char *key, char *value)
 {
 	t_env *tmp;
 
 	tmp = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (!tmp)
 		return (NULL);
+	tmp->key = ft_strdup(key);
+	tmp->value = ft_strdup(value);
+	tmp->next = NULL;
 	return (tmp);
 }
 
@@ -73,7 +76,6 @@ void get_value(char *str, t_env *vars)
 	vars->value = ft_strdup(str);
 }
 
-
 t_env *get_env(char **env)
 {
 	t_env *vars;
@@ -81,14 +83,14 @@ t_env *get_env(char **env)
 
 	if (!env || !*env)
 		return (NULL);
-	vars = init_env();
+	vars = new_env(NULL, NULL);
 	get_key(*env, vars);
 	get_value(*env, vars);
 	env++;
 	tmp = vars;
 	while (*env)
 	{
-		tmp = init_env();
+		tmp = new_env(NULL, NULL);
 		get_key(*env, tmp);
 		get_value(*env, tmp);
 		env_lstadd_back(&vars, tmp);

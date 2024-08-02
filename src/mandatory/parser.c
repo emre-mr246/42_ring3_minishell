@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/31 08:28:29 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/02 12:34:57 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ t_cmd *init_cmd()
     cmd = (t_cmd *)malloc(sizeof(t_cmd));
     if (!cmd)
         return (NULL);
-    cmd->cmd = (char **)malloc(ARG_MAX);
-    if (!cmd->cmd)
+    cmd->arr = (char **)malloc(ARG_MAX);
+    if (!cmd->arr)
         return (NULL);
     cmd->special_char = NONE;
     cmd->next = NULL;
@@ -84,14 +84,41 @@ t_cmd	*create_cmd(t_tokens token)
         }
         else
         {
-            cmd->cmd[i] = ft_strdup(token.token);
+            cmd->arr[i] = ft_strdup(token.token);
         	i++;
         }
-        cmd->cmd[i] = NULL;
+        cmd->arr[i] = NULL;
         if (token.next)
             token = *token.next;
 		else
             break ;
 	}
 	return (cmd_tmp);
+}
+
+void handle_dollar_sign(char **cmd, t_env *env)
+{
+	int i;
+	char *res;
+
+	i = 0;
+	while(cmd[i])
+	{
+		res = exchange_variable(cmd[i], env);
+		cmd[i] = ft_strdup(res);
+		i++;
+	}
+}
+
+void parser(t_shell *shell)
+{
+	t_cmd *cmd;
+	t_cmd *tmp;
+
+	tmp = shell->cmd;
+	while(tmp)
+	{
+		handle_dollar_sign(tmp->arr, shell->env);
+		tmp = tmp->next;
+	}
 }

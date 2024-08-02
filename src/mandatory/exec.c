@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/31 08:28:24 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/02 12:34:57 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void child_process(t_shell *shell)
 	init_signal(SIGINT, child_signal_handler, &shell->sigint);
 	init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
 	path = find_valid_path(shell->tokens->token, shell->env);
-	result = execve(path, shell->cmd->cmd, shell->envp);
+	result = execve(path, shell->cmd->arr, shell->envp);
 	if (result == -1)
 		ft_printf("HATA\n");
 	ft_putendl_fd(path, 1);

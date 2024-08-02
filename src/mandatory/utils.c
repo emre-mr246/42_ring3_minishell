@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/31 08:28:36 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/02 12:34:57 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ t_cmd	*new_cmd(char **cmd)
 		return (NULL);
 	cmds->next = NULL;
 	if (!cmd)
-		cmds->cmd = (char **)malloc(ARG_MAX);
+		cmds->arr = (char **)malloc(ARG_MAX);
 	else
-		cmds->cmd = cmd;
+		cmds->arr = cmd;
 	cmds->special_char = NONE;
 	cmds->is_builtin = false;
 	return (cmds);

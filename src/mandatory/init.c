@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:24:29 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/31 08:28:25 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/01 22:15:21 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <bits/sigaction.h>
+#include <stdio.h>
 
 void init_signal(int signo, void (*handler)(int), struct sigaction *sa)
 {

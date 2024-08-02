@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/31 08:31:08 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/02 12:34:57 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdbool.h>
 
 #define SA_RESTART	0x10000000
+#define PATH_SIZE	512
 
 #define ARG_MAX 42
 
@@ -47,7 +48,7 @@ typedef struct s_tokens
 
 typedef struct t_cmd
 {
-	char				**cmd;
+	char				**arr;
 	int					special_char;
 	struct t_cmd		*next;
 	bool				is_builtin;
@@ -87,5 +88,11 @@ t_cmd	*create_cmd(t_tokens token);
 void execute_cmd(t_shell *shell);
 
 void init_signal(int signo, void (*handler)(int), struct sigaction *sa);
-
+void update_value(t_env *env, char *key, char *value);
+t_env *new_env(char *key, char *value);
+void parser(t_shell *shell);
+void handle_dollar_sign(char **cmd, t_env *env);
+void	env_lstadd_back(t_env **lst, t_env *new);
+char *exchange_variable(char *str, t_env *env);
+bool key_exists(t_env *env, char *key);
 #endif
