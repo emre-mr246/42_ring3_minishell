@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/02 13:10:09 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/02 13:25:27 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,30 +93,39 @@ void ft_env(t_shell *shell)
 	}
 }
 
-void export_parser(t_shell *shell)
+int env_search(t_shell *shell, int j)
+{
+	int i;
+
+	i = 0;
+	while (shell->cmd->arr[j][i])
+	{
+		if (shell->cmd->arr[j][i] == '=')
+			break ;
+		i++;
+	}
+	if (i == 0)
+	{
+		ft_printf("-RaRe: export: '%s': not a valid identifier\n", shell->cmd->arr[j]);
+		return (-1);
+	}
+	return (i);
+}
+
+void ft_export(t_shell *shell)
 {
 	int i;
 	int j;
 	char *key;
 	char *value;
 
+	shell->cmd->is_builtin = true;
 	j = 1;
 	while(shell->cmd->arr[j])
 	{
-		i = 0;
-		while (shell->cmd->arr[j][i])
-		{
-			if (shell->cmd->arr[j][i] == '=')
-				break ;
-			i++;
-		}
-		printf("İ: %c\n", shell->cmd->arr[j][i]);
-		printf("sayi: %i\n", i);
-		if (i == 0)
-		{
-			ft_putendl_fd("HATAAA", 1);
+		i = env_search(shell, j);
+		if (i == -1)
 			return ;
-		}
 		if (shell->cmd->arr[j][i] != '=')
 		{
 			j++;
@@ -130,11 +139,6 @@ void export_parser(t_shell *shell)
 			env_lstadd_back(&shell->env, new_env(key, value));
 		j++;
 	}
-}
-void ft_export(t_shell *shell)
-{
-	shell->cmd->is_builtin = true;
-	export_parser(shell);
 }
 
 void handle_builtins(t_shell *shell)
