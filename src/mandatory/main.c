@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/02 13:25:27 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/02 13:52:55 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void ft_echo(t_shell *shell)
 		write(1, "\n", 1);
 }
 
-char *loopsuz_basma_seysi(t_env *env, char *key)
+char *print_env(t_env *env, char *key)
 {
 	t_env *tmp;
 
@@ -55,6 +55,20 @@ char *loopsuz_basma_seysi(t_env *env, char *key)
 		tmp = tmp->next;
 	}
 	return (tmp->value);
+}
+
+void print_cmd(t_shell *shell)
+{
+	t_cmd *cmd;
+	int i;
+	
+	cmd = shell->cmd;
+	i = 0;
+	while (cmd->arr[i])
+	{
+		printf("CMD: %s\n", cmd->arr[i]);
+		i++;
+	}
 }
 
 void ft_cd(t_shell *shell)
@@ -152,7 +166,7 @@ void handle_builtins(t_shell *shell)
 	if(ft_strncmp(shell->cmd->arr[0], "pwd", ft_strlen(shell->cmd->arr[0])) == 0)
 	{
 		shell->cmd->is_builtin = true;
-		ft_printf("%s\n", loopsuz_basma_seysi(shell->env, "PWD"));
+		ft_printf("%s\n", print_env(shell->env, "PWD"));
 	}
 	if(ft_strncmp(shell->cmd->arr[0], "export", ft_strlen(shell->cmd->arr[0])) == 0)
 		ft_export(shell);
@@ -167,7 +181,7 @@ char *create_prompt(t_shell *shell)
 	char	*prompt;
 	char	*tmp;
 
-	prompt = ft_strjoin("\033[1;31mRaRe\033[0m$:\033[1;34m", loopsuz_basma_seysi(shell->env, "PWD"));
+	prompt = ft_strjoin("\033[1;31mRaRe\033[0m$:\033[1;34m", print_env(shell->env, "PWD"));
 	tmp = prompt;
 	prompt = ft_strjoin(tmp, "\033[0m$ ");
 	free(tmp);
@@ -193,6 +207,8 @@ int	main(int ac, char **av, char **env)
 		if (!shell->tokens)
 			continue ;
 		shell->cmd = create_cmd(*(shell->tokens));
+		print_cmd(shell);
+
 		parser(shell);
 		handle_builtins(shell);
 
@@ -200,8 +216,7 @@ int	main(int ac, char **av, char **env)
 			execute_cmd(shell);
 		shell->cmd->is_builtin = false;
 
-		// tcsetattr(STDIN_FILENO, TCSAFLUSH, &shell->terminal->minishell);
-		// free(shell->line); // bakılacak
+		free(shell->line); // bakılacak
 	}
 	return (0);
 }
