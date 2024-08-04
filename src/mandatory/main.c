@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/04 22:32:38 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/04 23:55:35 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		shell->line = readline(create_prompt(shell));
+		add_history(shell->line);
 		if (!shell->line)
 		{
 			// free(shell->line); // bakılacak

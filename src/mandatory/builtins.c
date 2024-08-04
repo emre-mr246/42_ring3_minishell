@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/04 23:41:08 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/04 23:48:40 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,25 +144,23 @@ t_env *get_prev_node(t_env *env, char *key)
 
 static void ft_unset_key(t_shell *shell, char *key)
 {
-	t_env *tmp;
 	t_env *node;
 	t_env *prev_node;
 	t_env *next_node;
 	
-	tmp = shell->env;
 	next_node = NULL;
 	prev_node = NULL;
 	node = NULL;
-	if (ft_strncmp(tmp->key, key, max_len(tmp->key, key) == 0))
+	if (ft_strncmp(shell->env->key, key, max_len(shell->env->key, key) == 0))
 	{
-		next_node = tmp->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
+		next_node = shell->env->next;
+		free(shell->env->key);
+		free(shell->env->value);
+		free(shell->env);
 		shell->env = next_node;
 		return ;
 	}
-	prev_node = get_prev_node(tmp, key);
+	prev_node = get_prev_node(shell->env, key);
 	node = prev_node->next;
 	if (!node)
 		return ;
@@ -172,7 +170,6 @@ static void ft_unset_key(t_shell *shell, char *key)
 	free(node);
 	prev_node->next = next_node;
 }
-
 
 void ft_unset(t_shell *shell)
 {
