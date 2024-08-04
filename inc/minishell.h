@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/02 12:34:57 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/04 22:37:21 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void					lstadd_back_token(t_tokens **lst, t_tokens *new);
 int						ft_find_index(char *haystack, char *needle);
 t_cmd					*new_cmd(char **cmd);
 void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
+int max_len(char *str1, char *str2);
 
 // SIGNAL
 void					handle_sigint(int signo);
@@ -95,4 +96,11 @@ void handle_dollar_sign(char **cmd, t_env *env);
 void	env_lstadd_back(t_env **lst, t_env *new);
 char *exchange_variable(char *str, t_env *env);
 bool key_exists(t_env *env, char *key);
+
+
+void print_cmd(t_shell *shell);
+char *get_env_value(t_env *env, char *key);
+
+void handle_builtins(t_shell *shell);
+
 #endif

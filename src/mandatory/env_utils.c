@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/01 22:29:23 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/04 22:00:59 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void update_value(t_env *env, char *key, char *value)
 	tmp = env;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key)) == 0)
+		if (ft_strncmp(tmp->key, key, max_len(tmp->key, key)) == 0)
 			break ;
 		tmp = tmp->next;
 	}
@@ -44,14 +44,14 @@ bool key_exists(t_env *env, char *key)
 	tmp = env;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key)) == 0)
+		if (ft_strncmp(tmp->key, key, max_len(tmp->key, key)) == 0)
 			return (true);
 		tmp = tmp->next;
 	}
 	return (false);
 }
 
-static char *get_key(char **str)
+static char *get_env_key(char **str)
 {
 	int i;
 	char *res;
@@ -65,17 +65,18 @@ static char *get_key(char **str)
 	return(res);
 }
 
-static char *get_value(char *key, t_env *env)
+char *get_env_value(t_env *env, char *key)
 {
 	t_env *tmp;
 
 	tmp = env;
 	while (tmp)
 	{
-		if (ft_strncmp(key, tmp->key, ft_strlen(key)) == 0)
-			return(tmp->value);
+		if (ft_strncmp(tmp->key, key, max_len(tmp->key, key)) == 0)
+			return (tmp->value);
 		tmp = tmp->next;
 	}
+	return (tmp->value);
 }
 
 char *exchange_variable(char *str, t_env *env)
@@ -94,8 +95,8 @@ char *exchange_variable(char *str, t_env *env)
 
 		if (*str == '$')
 		{
-			key = get_key(&str);
-			value = get_value(key, env);
+			key = get_env_key(&str);
+			value = get_env_value(env, key);
 			ft_strlcpy(res + i, value, ft_strlen(value) + 1);
 			i += ft_strlen(value);
 		}
@@ -109,3 +110,5 @@ char *exchange_variable(char *str, t_env *env)
 	res[i] = '\0';
 	return (res);
 }
+
+

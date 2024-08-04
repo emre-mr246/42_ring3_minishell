@@ -6,11 +6,11 @@
 #    By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/08/01 13:12:56 by emgul            ###   ########.fr        #
+#    Updated: 2024/08/04 22:37:38 by emgul            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES				= main utils parser tokenizer signal init exec env_utils env_init
+FILES				= main utils parser tokenizer signal init exec env_utils env_init builtins debug
 
 BONUS_FILES			= 
 

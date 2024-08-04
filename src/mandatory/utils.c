@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/02 12:34:57 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/04 21:59:51 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,17 @@ int	ft_find_index(char *haystack, char *needle)
 		i++;
 	}
 	return (-1);
+}
+
+int max_len(char *str1, char *str2)
+{
+	int len1;
+	int len2;
+
+	len1 = ft_strlen(str1);
+	len2 = ft_strlen(str2);
+	if (len1 > len2)
+		return (len1);
+	else
+		return (len2);
 }
