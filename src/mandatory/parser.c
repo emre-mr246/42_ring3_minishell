@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/02 12:34:57 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/05 00:23:21 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void handle_dollar_sign(char **cmd, t_env *env)
 	}
 }
 
-void parser(t_shell *shell)
+void dollar_sign(t_shell *shell)
 {
 	t_cmd *cmd;
 	t_cmd *tmp;

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/04 23:55:35 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/05 23:40:34 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdio.h>
+
+void ft_exit(int exit_code)
+{
+	rl_clear_history();
+	exit(exit_code);
+}
 
 static char *create_prompt(t_shell *shell)
 {
@@ -42,26 +48,21 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		shell->line = readline(create_prompt(shell));
-		add_history(shell->line);
 		if (!shell->line)
 		{
 			// free(shell->line); // bakılacak
 			continue ;
 		}
+		add_history(shell->line);
 		shell->tokens = tokenizer(shell->line, shell->env);
 		if (!shell->tokens)
 			continue ;
 		shell->cmd = create_cmd(*(shell->tokens));
-		print_cmd(shell);
+		dollar_sign(shell);
+		execute_cmd_pipe(shell);
 
-		parser(shell);
-		handle_builtins(shell);
-
-		if (!shell->cmd->is_builtin)
-			execute_cmd(shell);
-		shell->cmd->is_builtin = false;
-
-		// free(shell->line); // bakılacak
+		free(shell->line);
 	}
-	return (0);
+	ft_exit(0);
 }
+

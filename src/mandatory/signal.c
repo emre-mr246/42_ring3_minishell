@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:08:48 by emgul             #+#    #+#             */
-/*   Updated: 2024/07/31 08:28:31 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/05 00:14:31 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include <stdio.h>
-
+#include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
 
 void	handle_sigint(int signo)
@@ -31,5 +31,5 @@ void	handle_sigint(int signo)
 void	handle_sigquit(int signo)
 {
 	if (signo == SIGQUIT)
-		exit(131);
+		ft_exit(131);
 }

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/04 22:37:21 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/05 21:57:56 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void execute_cmd(t_shell *shell);
 void init_signal(int signo, void (*handler)(int), struct sigaction *sa);
 void update_value(t_env *env, char *key, char *value);
 t_env *new_env(char *key, char *value);
-void parser(t_shell *shell);
+void dollar_sign(t_shell *shell);
 void handle_dollar_sign(char **cmd, t_env *env);
 void	env_lstadd_back(t_env **lst, t_env *new);
 char *exchange_variable(char *str, t_env *env);
@@ -102,5 +102,21 @@ void print_cmd(t_shell *shell);
 char *get_env_value(t_env *env, char *key);
 
 void handle_builtins(t_shell *shell);
+
+void ft_exit(int exit_code);
+
+
+
+// UTILS
+void	execute(char *argv, char **envp);
+char	*find_valid_path(char *cmd, t_env *envp);
+char	*make_path(char *uncompleted_path, char *cmd);
+void	free_array(char **array);
+
+// ERROR
+void	input_error(void);
+void	error(char *error_message);
+
+void execute_cmd_pipe(t_shell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/04 23:48:40 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/05 00:00:14 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void ft_unset(t_shell *shell)
 void handle_builtins(t_shell *shell)
 {
 	if(ft_strncmp(shell->cmd->arr[0], "exit", max_len(shell->cmd->arr[0], "exit")) == 0)
-        exit(EXIT_SUCCESS);
+        ft_exit(EXIT_SUCCESS);
 	if(ft_strncmp(shell->cmd->arr[0], "echo", max_len(shell->cmd->arr[0], "echo")) == 0)
         ft_echo(shell);
 	if(ft_strncmp(shell->cmd->arr[0], "cd", max_len(shell->cmd->arr[0], "cd")) == 0)
