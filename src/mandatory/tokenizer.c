@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 15:39:55 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 15:48:36 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char	*handle_space(char **str, t_env *env)
 	int		i;
 	char	*res;
 
-	printf("handle space'in başında input: %s\n", *str);
 	i = 0;
 	while ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
 		|| ((*str)[i] == '\\'))

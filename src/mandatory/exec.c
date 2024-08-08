@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 15:00:02 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 15:55:12 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,7 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
-			if (cmd->special_char == PIPE)
-				redirect_pipes(cmd, fd, cmdlen, i);
+			redirect_pipes(cmd, fd, cmdlen, i);
 			handle_builtins(shell);
 			if (!cmd->is_builtin)
 				child_process(shell, cmd);
