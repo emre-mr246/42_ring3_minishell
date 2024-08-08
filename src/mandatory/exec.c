@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/06 14:26:13 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 12:31:36 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ static bool get_cond(int i, int j, int cmd_i, int cmdlen)
 	else if (cmd_i == cmdlen - 1)
 		return (!(i == cmdlen - 2 && j == 0));
 	else
-		return (!(i == cmd_i - 1 && j == 0) || !(i == cmd_i && j == 1));
+		return (!(i == cmd_i - 1 && j == 0) && !(i == cmd_i && j == 1));
 }
 
 void close_fds(int fd[][2], int cmdlen, int cmd_i)
@@ -212,7 +212,10 @@ void execute_cmd_pipe(t_shell *shell)
 				dup2(fd[i - 1][0], STDIN_FILENO);
 				close(fd[i - 1][0]);				
 			}
-			child_process_pipe(shell, cmd);
+			handle_builtins(shell);
+			if (!cmd->is_builtin)
+				child_process_pipe(shell, cmd);
+			cmd->is_builtin = false;
 		}
 		i++;
 		printf("PİDİ: %d\n", pid[i]);
