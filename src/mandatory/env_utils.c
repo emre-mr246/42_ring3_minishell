@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:37:34 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 14:08:24 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ char *get_env_value(t_env *env, char *key)
 			return (tmp->value);
 		tmp = tmp->next;
 	}
-	return (tmp->value);
+	return (NULL);
 }
 
-char *exchange_variable(char *str, t_env *env)
+char *exchange_variable(char *str, t_shell *shell)
 {
 	int i;
 	char *key;
@@ -95,7 +95,12 @@ char *exchange_variable(char *str, t_env *env)
 		if (*str == '$')
 		{
 			key = get_env_key(&str);
-			value = get_env_value(env, key);
+			if (!key)
+				return (NULL);
+			if (ft_strncmp(key, "?", get_higher_len(key, "?")) == 0)
+				value = ft_itoa(*shell->last_exit_status);
+			else
+				value = get_env_value(shell->env, key);
 			ft_strlcpy(res + i, value, ft_strlen(value) + 1);
 			i += ft_strlen(value);
 		}

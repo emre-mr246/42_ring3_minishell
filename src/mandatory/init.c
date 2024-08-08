@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:24:29 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/01 22:15:21 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 13:50:50 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void init_signal(int signo, void (*handler)(int), struct sigaction *sa)
     	sa->sa_handler = handler;
     sigaction(signo, sa, NULL);
 }
-
 
 t_shell	*init_shell(char **env)
 {

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:24:35 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 13:47:55 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 	close_all_fds(fd, cmdlen);				
 	i = -1;
 	while (++i < cmdlen)
-        waitpid(pid[i], NULL, 0);
+        waitpid(pid[i], shell->last_exit_status, 0);
 }
 
 void execute_cmd(t_shell *shell)

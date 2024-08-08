@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:37:34 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 14:06:29 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_shell
 	char				**envp;
 	struct sigaction	sigint;
 	struct sigaction	sigquit;
+	int 				*last_exit_status;
 }						t_shell;
 
 t_env					*get_env(char **env);
@@ -92,9 +93,8 @@ void init_signal(int signo, void (*handler)(int), struct sigaction *sa);
 void update_value(t_env *env, char *key, char *value);
 t_env *new_env(char *key, char *value);
 void dollar_sign(t_shell *shell);
-void handle_dollar_sign(char **cmd, t_env *env);
 void	env_lstadd_back(t_env **lst, t_env *new);
-char *exchange_variable(char *str, t_env *env);
+char *exchange_variable(char *str, t_shell *shell);
 bool key_exists(t_env *env, char *key);
 
 
@@ -125,6 +125,5 @@ char	*find_valid_path(char *cmd, t_env *envp);
 
 void ft_export(t_shell *shell);
 void ft_unset(t_shell *shell);
-void handle_dollar_sign(char **cmd, t_env *env);
 
 #endif
