@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   cmd_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 12:32:10 by emgul            ###   ########.fr       */
+/*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
+/*   Updated: 2024/08/08 13:41:08 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
-#include "readline/history.h"
-#include "readline/readline.h"
-#include <fcntl.h>
+#include <readline/history.h>
+#include <readline/readline.h>
 #include <stdlib.h>
-#include <sys/wait.h>
+#include <fcntl.h>
 #include <unistd.h>
-#include <limits.h>
-#include <linux/limits.h>
+#include <stdio.h>
 
 t_cmd *init_cmd()
 {
@@ -35,7 +33,7 @@ t_cmd *init_cmd()
     return (cmd);
 }
 
-int get_special_char_enum(char *input)
+static int get_special_char_enum(char *input)
 {
 	int i;
 
@@ -59,6 +57,42 @@ int get_special_char_enum(char *input)
 		i++;
 	}
 	return (NONE);
+}
+
+void	lstadd_back_cmd(t_cmd **lst, t_cmd *new)
+{
+	t_cmd	*tmp;
+
+	if (!new)
+		return ;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	tmp = *lst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	return ;
+}
+
+t_cmd	*new_cmd(char **cmd)
+{
+	t_cmd	*cmds;
+
+	cmds = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
+	if (!cmds)
+		return (NULL);
+	if (!cmd)
+	{
+		cmds->arr = (char **)ft_calloc(1, ARG_MAX);
+		if (!cmds->arr)
+			return (NULL);
+	}
+	else
+		cmds->arr = cmd;
+	return (cmds);
 }
 
 t_cmd	*create_cmd(t_tokens token)
@@ -95,29 +129,5 @@ t_cmd	*create_cmd(t_tokens token)
 	return (cmd_tmp);
 }
 
-void handle_dollar_sign(char **cmd, t_env *env)
-{
-	int i;
-	char *res;
 
-	i = 0;
-	while(cmd[i])
-	{
-		res = exchange_variable(cmd[i], env);
-		cmd[i] = ft_strdup(res);
-		i++;
-	}
-}
 
-void dollar_sign(t_shell *shell)
-{
-	t_cmd *cmd;
-	t_cmd *tmp;
-
-	tmp = shell->cmd;
-	while(tmp)
-	{
-		handle_dollar_sign(tmp->arr, shell->env);
-		tmp = tmp->next;
-	}
-}

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/02 13:48:25 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 13:36:44 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,9 +184,9 @@ t_tokens	*tokenizer(char *input, t_env *env)
 	char		*res;
 	t_tokens	*tokens;
 
-	tokens = NULL;
 	if (!env)
 		return (NULL);
+	tokens = NULL;
 	while (input && *input)
 	{
 		res = NULL;
@@ -206,10 +206,7 @@ t_tokens	*tokenizer(char *input, t_env *env)
 		if (input && !res)
 			input++;
 		while (*input == ' ')
-		{
 			input++;
-		}
-			
 	}
 	return (tokens);
 }

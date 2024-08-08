@@ -6,21 +6,12 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:35:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/01 22:31:17 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 13:34:04 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
-
-t_env	*env_lstlast(t_env *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
 
 void	env_lstadd_back(t_env **lst, t_env *new)
 {

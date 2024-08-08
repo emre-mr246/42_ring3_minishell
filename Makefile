@@ -6,11 +6,11 @@
 #    By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/08/08 12:32:21 by emgul            ###   ########.fr        #
+#    Updated: 2024/08/08 13:40:55 by emgul            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES				= main utils cmd tokenizer signal init exec env_utils env_init builtins debug
+FILES				= main utils cmd_init cmd_utils tokenizer token_init signal init exec env_utils env_init builtins builtins2 debug exec_utils
 
 BONUS_FILES			= 
 
@@ -48,7 +48,6 @@ $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS)
 $(BONUS_NAME): $(LIBFT) $(OBJ_DIR) $(BONUS_OBJS)
 	@$(CC) $(BONUS_OBJS) $(LIBFT) $(CCFLAGS) -o $(BONUS_NAME)
 	@echo "$(GREEN)-== $(BONUS_NAME) created! ==-$(DEFAULT)"
-
 $(OBJ_DIR)%.o: %.c
 	@$(CC) $(CCFLAGS) -c -o $@ $<
 

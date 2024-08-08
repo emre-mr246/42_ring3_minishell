@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   token_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 23:08:48 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:19:25 by emgul            ###   ########.fr       */
+/*   Created: 2024/08/08 13:40:37 by emgul             #+#    #+#             */
+/*   Updated: 2024/08/08 13:40:44 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,35 @@
 #include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
 
-void	handle_sigint(int signo)
+t_tokens	*new_token(char *token)
 {
-	if (signo == SIGINT)
+	t_tokens	*tokens;
+
+	tokens = (t_tokens *)malloc(sizeof(t_tokens));
+	if (!tokens)
+		return (NULL);
+	tokens->next = NULL;
+	if (!token)
+		tokens->token = NULL;
+	else
+		tokens->token = token;
+	return (tokens);
+}
+
+void	lstadd_back_token(t_tokens **lst, t_tokens *new)
+{
+	t_tokens	*tmp;
+
+	if (!new)
+		return ;
+	if (!*lst)
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		*lst = new;
+		return ;
 	}
-}
-
-void	handle_sigquit(int signo)
-{
-	if (signo == SIGQUIT)
-		ft_exit(131);
-}
-
-void	child_signal_handler(int signum)
-{
-	if (signum == SIGINT)
-		exit(130);
-	else if (signum == SIGQUIT)
-		exit(131);
+	tmp = *lst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	return ;
 }

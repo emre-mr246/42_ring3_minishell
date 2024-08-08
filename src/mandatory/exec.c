@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:18:26 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 13:24:35 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,69 +20,6 @@
 #include <unistd.h>
 #include <limits.h>
 #include <linux/limits.h>
-
-char	*make_path(char *uncompleted_path, char *cmd)
-{
-	char	*path_part;
-	char	*valid_path;
-
-	path_part = ft_strjoin(uncompleted_path, "/");
-	if (!path_part)
-		ft_exit(-1);
-	valid_path = ft_strjoin(path_part, cmd);
-	free(path_part);
-	if (access(valid_path, F_OK) < 0)
-		return (NULL);
-	return (valid_path);
-}
-
-char	*find_valid_path(char *cmd, t_env *envp)
-{
-	int		i;
-	char	**paths;
-	char	*valid_path;
-	t_env *env_tmp;
-
-	env_tmp = envp;
-
-	while (ft_strnstr(env_tmp->key, "PATH", 4) == 0)
-		env_tmp = env_tmp->next;
-	paths = ft_split(env_tmp->value, ':');
-	if (!paths || !*paths)
-		ft_exit(-1);
-	i = 0;
-	while (paths[i])
-	{
-		valid_path = make_path(paths[i++], cmd);
-		if (valid_path != NULL)
-			break ;
-	}
-	// free_array(paths);
-	return (valid_path);
-}
-
-static void	child_signal_handler(int signum)
-{
-	if (signum == SIGINT)
-		exit(130);
-	else if (signum == SIGQUIT)
-		exit(131);
-}
-
-int cmd_len(t_cmd *cmd)
-{
-	t_cmd *tmp;
-	int len;
-
-	tmp = cmd;
-	len = 0;
-	while(tmp)
-	{
-		len++;
-		tmp = tmp->next;
-	}
-	return (len);
-}
 
 void child_process(t_shell *shell, t_cmd *cmd)
 {

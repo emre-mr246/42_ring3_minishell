@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/04 22:00:59 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 13:37:34 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void update_value(t_env *env, char *key, char *value)
 	tmp = env;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, max_len(tmp->key, key)) == 0)
+		if (ft_strncmp(tmp->key, key, get_higher_len(tmp->key, key)) == 0)
 			break ;
 		tmp = tmp->next;
 	}
@@ -44,7 +44,7 @@ bool key_exists(t_env *env, char *key)
 	tmp = env;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, max_len(tmp->key, key)) == 0)
+		if (ft_strncmp(tmp->key, key, get_higher_len(tmp->key, key)) == 0)
 			return (true);
 		tmp = tmp->next;
 	}
@@ -72,7 +72,7 @@ char *get_env_value(t_env *env, char *key)
 	tmp = env;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, max_len(tmp->key, key)) == 0)
+		if (ft_strncmp(tmp->key, key, get_higher_len(tmp->key, key)) == 0)
 			return (tmp->value);
 		tmp = tmp->next;
 	}
@@ -86,13 +86,12 @@ char *exchange_variable(char *str, t_env *env)
 	char *value;
 	char *res;
 
-	i = 0;
 	res = (char *)malloc(sizeof(char) * 4096);
 	if (!res)
 		return (NULL);
+	i = 0;
 	while (str && *str)
 	{
-
 		if (*str == '$')
 		{
 			key = get_env_key(&str);
@@ -101,11 +100,7 @@ char *exchange_variable(char *str, t_env *env)
 			i += ft_strlen(value);
 		}
 		else
-		{
-			res[i] = *str;
-			i++;
-			str++;
-		}
+			res[i++] = *str++;
 	}
 	res[i] = '\0';
 	return (res);

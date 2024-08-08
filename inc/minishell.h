@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:12:43 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 13:37:34 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void					lstadd_back_token(t_tokens **lst, t_tokens *new);
 int						ft_find_index(char *haystack, char *needle);
 t_cmd					*new_cmd(char **cmd);
 void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
-int max_len(char *str1, char *str2);
+int get_higher_len(char *str1, char *str2);
 
 // SIGNAL
 void					handle_sigint(int signo);
@@ -105,7 +105,7 @@ void handle_builtins(t_shell *shell);
 
 void ft_exit(int exit_code);
 
-
+void	child_signal_handler(int signum);
 
 // UTILS
 void	execute(char *argv, char **envp);
@@ -118,5 +118,13 @@ void	input_error(void);
 void	error(char *error_message);
 
 void execute_cmd(t_shell *shell);
+int cmd_len(t_cmd *cmd);
+
+char	*make_path(char *uncompleted_path, char *cmd);
+char	*find_valid_path(char *cmd, t_env *envp);
+
+void ft_export(t_shell *shell);
+void ft_unset(t_shell *shell);
+void handle_dollar_sign(char **cmd, t_env *env);
 
 #endif
