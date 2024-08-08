@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:12:43 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 15:35:41 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,12 @@ int	main(int ac, char **av, char **env)
 		if (!shell->tokens)
 			continue ;
 		shell->cmd = create_cmd(*(shell->tokens));
-		dollar_sign(shell);
-		execute_cmd(shell);
-		free(shell->line);
+		if(ft_strncmp(shell->cmd->arr[0], "exit", get_higher_len(shell->cmd->arr[0], "exit")) == 0)
+        	ft_exit(EXIT_SUCCESS);
+		print_cmd(shell);
+		// dollar_sign(shell);
+		// execute_cmd(shell);
+		// free(shell->line);
 	}
 	ft_exit(0);
 }

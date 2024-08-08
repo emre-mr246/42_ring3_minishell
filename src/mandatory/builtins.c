@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:37:34 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 15:30:50 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ void ft_cd(t_shell *shell)
 
 void handle_builtins(t_shell *shell)
 {
-	if(ft_strncmp(shell->cmd->arr[0], "exit", get_higher_len(shell->cmd->arr[0], "exit")) == 0)
-        ft_exit(EXIT_SUCCESS);
 	if(ft_strncmp(shell->cmd->arr[0], "echo", get_higher_len(shell->cmd->arr[0], "echo")) == 0)
         ft_echo(shell);
 	if(ft_strncmp(shell->cmd->arr[0], "cd", get_higher_len(shell->cmd->arr[0], "cd")) == 0)

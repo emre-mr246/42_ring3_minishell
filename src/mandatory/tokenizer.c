@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:36:44 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 15:39:55 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdio.h>
 
 char	*handle_comment(char *str)
 {
@@ -70,17 +71,17 @@ char	*handle_space(char **str, t_env *env)
 	int		i;
 	char	*res;
 
+	printf("handle space'in başında input: %s\n", *str);
 	i = 0;
 	while ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
 		|| ((*str)[i] == '\\'))
 		i++;
 	while ((*str)[i])
 	{
-		if (((*str)[i] == '\'' || (*str)[i] == '\"') && ((*str)[i - 1] >= 8
+		if (((*str)[i] == '\'' || (*str)[i] == '\"') && ((*str)[i - 1] >= 8 //tırnak görünce çık
 				&& (*str)[i - 1] <= 13))
 			return (NULL);
-		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
-			|| ((*str)[i] == '\\'))
+		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13) || (*str)[i] == '\\')
 		{
 			res = ft_substr(*str, 0, i);
 			*str += i;
@@ -91,6 +92,7 @@ char	*handle_space(char **str, t_env *env)
 	if ((*str)[i] == '\0')
 	{
 		res = ft_substr(*str, 0, i);
+		printf("RES: %s İ: %i\n", res, i);	
 		*str += i;
 		return (res);
 	}
@@ -163,7 +165,7 @@ char	*handle_special_char(char **input)
 	else if (i == 0)
 	{
 		res = get_special_char(*input);
-		*input += 2;
+		*input += ft_strlen(res);
 		return (res);
 	}
 	else if (i == INT_MAX)
