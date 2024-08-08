@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 12:31:36 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 13:18:26 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,39 +69,6 @@ static void	child_signal_handler(int signum)
 		exit(131);
 }
 
-void child_process(t_shell *shell)
-{
-	char *path;
-	int result;
-
-	init_signal(SIGINT, child_signal_handler, &shell->sigint);
-	init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
-	path = find_valid_path(shell->tokens->token, shell->env);
-	result = execve(path, shell->cmd->arr, shell->envp);
-	if (result == -1)
-		ft_putendl_fd("HATA", 2);
-	exit(0);
-}
-
-void execute_cmd(t_shell *shell)
-{
-	pid_t	pid;
-
-	handle_builtins(shell);
-	if (shell->cmd->is_builtin)
-		return ;
-	init_signal(SIGINT, NULL, &shell->sigint);
-	pid = fork();
-	if (pid == -1)
-		ft_exit(-1);
-	if (pid == 0)
-		child_process(shell);
-	waitpid(-1, NULL, 0);
-	init_signal(SIGINT, handle_sigint, &shell->sigint);
-	init_signal(SIGQUIT, NULL, &shell->sigquit);
-	shell->cmd->is_builtin = false;
-}
-
 int cmd_len(t_cmd *cmd)
 {
 	t_cmd *tmp;
@@ -117,7 +84,7 @@ int cmd_len(t_cmd *cmd)
 	return (len);
 }
 
-void child_process_pipe(t_shell *shell, t_cmd *cmd)
+void child_process(t_shell *shell, t_cmd *cmd)
 {
 	char *path;
 	int result;
@@ -125,9 +92,6 @@ void child_process_pipe(t_shell *shell, t_cmd *cmd)
 	init_signal(SIGINT, child_signal_handler, &shell->sigint);
 	init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
 	path = find_valid_path(cmd->arr[0], shell->env);
-	printf("PATH: %s\n", path);
-	printf("ENVP KEY: %s\n", shell->envp[0]);
-	printf("CMD ARR: %s\n", cmd->arr[1]);
 	result = execve(path, cmd->arr, shell->envp);
 	if (result == -1)
 		ft_putendl_fd("HATA", 2);
@@ -156,71 +120,32 @@ void close_fds(int fd[][2], int cmdlen, int cmd_i)
 		while (j < 2)
 		{
 			if (get_cond(i, j, cmd_i, cmdlen))
-			{
-				printf("CLOSED: %d %d, COND: %i\n", i, j, get_cond(i, j, cmd_i, cmdlen));
 				close(fd[i][j]);
-			}
 			j++;
 		}
 		i++;
 	}
 }
 
-void read_input(int fd)
+void redirect_pipes(t_cmd *cmd, int fd[][2], int cmdlen, int i)
 {
-	char *str;
-	while(str = get_next_line(fd))
-		printf("LİNE: %s\n", str);
+	close_fds(fd, cmdlen, i);
+	if (i != cmdlen - 1)
+	{
+		dup2(fd[i][1], STDOUT_FILENO);
+		close(fd[i][1]);
+	}
+	if (i != 0)
+	{
+		dup2(fd[i - 1][0], STDIN_FILENO);
+		close(fd[i - 1][0]);				
+	}
 }
 
-void execute_cmd_pipe(t_shell *shell)
+void close_all_fds(int fd[][2], int cmdlen)
 {
-	pid_t *pid;
-	int fd[100][2];
-	int cmdlen;
 	int i;
-	t_cmd	*cmd;
-
-	cmdlen = cmd_len(shell->cmd);
-	pid = (pid_t *)ft_calloc(sizeof(pid_t), cmdlen);
-	cmd = shell->cmd;
-	i = 0;
-	while (i < cmdlen - 1)
-	{
-		if (pipe(fd[i]) == -1)
-		{
-			perror("pipe'ı açamıyorum imdat");
-			free(pid);
-			return ;
-		}
-		i++;
-	}
-	i = 0;
-	while (i < cmdlen)
-	{
-		pid[i] = fork();
-		if (pid[i] == 0)
-		{
-			close_fds(fd, cmdlen, i);
-			if (i != cmdlen - 1)
-			{
-				dup2(fd[i][1], STDOUT_FILENO);
-				close(fd[i][1]);
-			}
-			if (i != 0)
-			{
-				dup2(fd[i - 1][0], STDIN_FILENO);
-				close(fd[i - 1][0]);				
-			}
-			handle_builtins(shell);
-			if (!cmd->is_builtin)
-				child_process_pipe(shell, cmd);
-			cmd->is_builtin = false;
-		}
-		i++;
-		printf("PİDİ: %d\n", pid[i]);
-		cmd = cmd->next;
-	}							
+	
 	i = 0;
 	while (i < cmdlen - 1)
     {
@@ -228,11 +153,57 @@ void execute_cmd_pipe(t_shell *shell)
         close(fd[i][1]);
 		i++;
     }
+}
 
-	for (i = 0; i < cmdlen; i++)
-    {
-        waitpid(pid[i], NULL, 0);
-    }
-
+void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
+{
+	int	i;
+	t_cmd	*cmd;
 	
+	cmd = shell->cmd;
+	i = 0;
+	while (i < cmdlen)
+	{
+		pid[i] = fork();
+		if (pid[i] == 0)
+		{
+			redirect_pipes(cmd, fd, cmdlen, i);
+			handle_builtins(shell);
+			if (!cmd->is_builtin)
+				child_process(shell, cmd);
+			cmd->is_builtin = false;
+		}
+		i++;
+		cmd = cmd->next;
+	}		
+	close_all_fds(fd, cmdlen);				
+	i = -1;
+	while (++i < cmdlen)
+        waitpid(pid[i], NULL, 0);
+}
+
+void execute_cmd(t_shell *shell)
+{
+	int fd[100][2];
+	int cmdlen;
+	int i;
+	t_cmd	*cmd;
+	pid_t *pid;
+
+	cmdlen = cmd_len(shell->cmd);
+	pid = (pid_t *)ft_calloc(sizeof(pid_t), cmdlen);
+	if (!pid)
+		return ;
+	cmd = shell->cmd;
+	i = 0;
+	while (i < cmdlen - 1)
+	{
+		if (pipe(fd[i]) == -1)
+		{
+			free(pid);
+			return ;
+		}
+		i++;
+	}
+	handle_pipes(shell, fd, cmdlen, pid);
 }

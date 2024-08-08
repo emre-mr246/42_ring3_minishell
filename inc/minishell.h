@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/05 21:57:56 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/08 13:12:43 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,6 @@ void	free_array(char **array);
 void	input_error(void);
 void	error(char *error_message);
 
-void execute_cmd_pipe(t_shell *shell);
+void execute_cmd(t_shell *shell);
 
 #endif
