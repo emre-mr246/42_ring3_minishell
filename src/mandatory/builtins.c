@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 15:30:50 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/09 13:45:12 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void ft_echo(t_shell *shell)
 	shell->cmd->is_builtin = true;
 	newline = true;
 	i = 1;
-	if(ft_strncmp(shell->cmd->arr[1], "-n", get_higher_len(shell->cmd->arr[1], "-n")) == 0)
+	if(ft_strncmp(shell->cmd->arr[1], "-n", higher_len(shell->cmd->arr[1], "-n")) == 0)
 	{
 		i = 2;
 		newline = false;
@@ -80,19 +80,19 @@ void ft_cd(t_shell *shell)
 
 void handle_builtins(t_shell *shell)
 {
-	if(ft_strncmp(shell->cmd->arr[0], "echo", get_higher_len(shell->cmd->arr[0], "echo")) == 0)
+	if(ft_strncmp(shell->cmd->arr[0], "echo", higher_len(shell->cmd->arr[0], "echo")) == 0)
         ft_echo(shell);
-	if(ft_strncmp(shell->cmd->arr[0], "cd", get_higher_len(shell->cmd->arr[0], "cd")) == 0)
+	if(ft_strncmp(shell->cmd->arr[0], "cd", higher_len(shell->cmd->arr[0], "cd")) == 0)
 		ft_cd(shell);
-	if(ft_strncmp(shell->cmd->arr[0], "pwd", get_higher_len(shell->cmd->arr[0], "pwd")) == 0)
+	if(ft_strncmp(shell->cmd->arr[0], "pwd", higher_len(shell->cmd->arr[0], "pwd")) == 0)
 	{
 		shell->cmd->is_builtin = true;
 		ft_printf("%s\n", get_env_value(shell->env, "PWD"));
 	}
-	if(ft_strncmp(shell->cmd->arr[0], "export", get_higher_len(shell->cmd->arr[0], "export")) == 0)
+	if(ft_strncmp(shell->cmd->arr[0], "export", higher_len(shell->cmd->arr[0], "export")) == 0)
 		ft_export(shell);
-	if(ft_strncmp(shell->cmd->arr[0], "unset", get_higher_len(shell->cmd->arr[0], "unset")) == 0)
+	if(ft_strncmp(shell->cmd->arr[0], "unset", higher_len(shell->cmd->arr[0], "unset")) == 0)
 		ft_unset(shell);
-	if(ft_strncmp(shell->cmd->arr[0], "env", get_higher_len(shell->cmd->arr[0], "env")) == 0)
+	if(ft_strncmp(shell->cmd->arr[0], "env", higher_len(shell->cmd->arr[0], "env")) == 0)
 		ft_env(shell);
 }

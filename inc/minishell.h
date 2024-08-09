@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 12:11:22 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/09 14:34:12 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,21 @@
 
 #define ARG_MAX 42
 
+enum					e_redirection
+{
+	NONE_REDIR,
+	REDIRECT_INPUT,
+	HERE_DOC,
+	REDIRECT_OUTPUT,
+	APPEND_OUTPUT
+};
+
 enum					e_special_char
 {
 	NONE,
 	AND,
 	OR,
-	PIPE,
-	REDIRECT_INPUT,
-	HERE_DOC,
-	REDIRECT_OUTPUT,
-	APPEND_OUTPUT
+	PIPE
 };
 
 typedef struct s_env
@@ -50,7 +55,8 @@ typedef struct t_cmd
 {
 	char				**arr;
 	int					special_char;
-	char				*outfile;
+	int					redirection;
+	char				*redir_file;
 	struct t_cmd		*next;
 	bool				is_builtin;
 }						t_cmd;
@@ -78,7 +84,7 @@ void					lstadd_back_token(t_tokens **lst, t_tokens *new);
 int						ft_find_index(char *haystack, char *needle);
 t_cmd					*new_cmd(char **cmd);
 void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
-int get_higher_len(char *str1, char *str2);
+int higher_len(char *str1, char *str2);
 
 // SIGNAL
 void					handle_sigint(int signo);
@@ -91,6 +97,7 @@ t_cmd	*create_cmd(t_tokens token);
 void execute_cmd(t_shell *shell);
 
 void init_signal(int signo, void (*handler)(int), struct sigaction *sa);
+void redirect_files(t_cmd *cmd);
 void update_value(t_env *env, char *key, char *value);
 t_env *new_env(char *key, char *value);
 void dollar_sign(t_shell *shell);
@@ -126,5 +133,8 @@ char	*find_valid_path(char *cmd, t_env *envp);
 
 void ft_export(t_shell *shell);
 void ft_unset(t_shell *shell);
+
+void update_cmdarr(t_shell *shell);
+int open_redirfile(t_cmd *cmd);
 
 #endif

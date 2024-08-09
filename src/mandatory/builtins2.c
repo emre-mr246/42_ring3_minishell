@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:37:34 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/09 13:45:12 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static t_env *get_prev_node(t_env *env, char *key)
 	tmp = env;
 	while (tmp->next)
 	{
-		if (ft_strncmp(tmp->next->key, key, get_higher_len(tmp->next->key, key)) == 0)
+		if (ft_strncmp(tmp->next->key, key, higher_len(tmp->next->key, key)) == 0)
 			break ;
 		tmp = tmp->next;
 		i++;
@@ -92,7 +92,7 @@ static void ft_unset_key(t_shell *shell, char *key)
 	next_node = NULL;
 	prev_node = NULL;
 	node = NULL;
-	if (ft_strncmp(shell->env->key, key, get_higher_len(shell->env->key, key) == 0))
+	if (ft_strncmp(shell->env->key, key, higher_len(shell->env->key, key) == 0))
 	{
 		next_node = shell->env->next;
 		free(shell->env->key);

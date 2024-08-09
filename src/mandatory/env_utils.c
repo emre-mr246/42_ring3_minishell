@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 14:08:24 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/09 13:45:12 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void update_value(t_env *env, char *key, char *value)
 	tmp = env;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, get_higher_len(tmp->key, key)) == 0)
+		if (ft_strncmp(tmp->key, key, higher_len(tmp->key, key)) == 0)
 			break ;
 		tmp = tmp->next;
 	}
@@ -44,7 +44,7 @@ bool key_exists(t_env *env, char *key)
 	tmp = env;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, get_higher_len(tmp->key, key)) == 0)
+		if (ft_strncmp(tmp->key, key, higher_len(tmp->key, key)) == 0)
 			return (true);
 		tmp = tmp->next;
 	}
@@ -72,7 +72,7 @@ char *get_env_value(t_env *env, char *key)
 	tmp = env;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, get_higher_len(tmp->key, key)) == 0)
+		if (ft_strncmp(tmp->key, key, higher_len(tmp->key, key)) == 0)
 			return (tmp->value);
 		tmp = tmp->next;
 	}
@@ -97,7 +97,7 @@ char *exchange_variable(char *str, t_shell *shell)
 			key = get_env_key(&str);
 			if (!key)
 				return (NULL);
-			if (ft_strncmp(key, "?", get_higher_len(key, "?")) == 0)
+			if (ft_strncmp(key, "?", higher_len(key, "?")) == 0)
 				value = ft_itoa(*shell->last_exit_status);
 			else
 				value = get_env_value(shell->env, key);
