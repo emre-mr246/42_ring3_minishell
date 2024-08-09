@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 14:06:29 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/09 12:11:22 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct t_cmd
 {
 	char				**arr;
 	int					special_char;
+	char				*outfile;
 	struct t_cmd		*next;
 	bool				is_builtin;
 }						t_cmd;
