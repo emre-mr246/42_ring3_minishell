@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 14:34:30 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/09 15:11:35 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,13 @@ void redirect_files(t_cmd *cmd)
 	fd = open_redirfile(cmd);
 	if (fd == -1)
 		return ;
-	dup2(fd, STDOUT_FILENO);
+	if (cmd->redirection == REDIRECT_OUTPUT || cmd->redirection == APPEND_OUTPUT)
+		dup2(fd, STDOUT_FILENO);
+	else if (cmd->redirection == REDIRECT_INPUT)
+	{
+		dup2(fd, STDIN_FILENO);
+		
+	}
 	close(fd);
 }
 
