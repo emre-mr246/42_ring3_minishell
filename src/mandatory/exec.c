@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 15:11:35 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/09 16:34:35 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void child_process(t_shell *shell, t_cmd *cmd)
 	path = find_valid_path(cmd->arr[0], shell->env);
 	result = execve(path, cmd->arr, shell->envp);
 	if (result == -1)
-		ft_putendl_fd("HATA", 2);
+		perror("execve:");
 	exit(0);
 }
 
@@ -102,10 +102,7 @@ void redirect_files(t_cmd *cmd)
 	if (cmd->redirection == REDIRECT_OUTPUT || cmd->redirection == APPEND_OUTPUT)
 		dup2(fd, STDOUT_FILENO);
 	else if (cmd->redirection == REDIRECT_INPUT)
-	{
 		dup2(fd, STDIN_FILENO);
-		
-	}
 	close(fd);
 }
 
@@ -126,7 +123,7 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 			handle_builtins(shell);
 			if (!cmd->is_builtin)
 				child_process(shell, cmd);
-			cmd->is_builtin = false;
+			exit(0);
 		}
 		i++;
 		cmd = cmd->next;

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 13:45:12 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/09 16:02:23 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int env_search_export(t_shell *shell, int j)
 	}
 	if (i == 0)
 	{
-		ft_printf("-RaRe: export: '%s': not a valid identifier\n", shell->cmd->arr[j]);
+		print_error(shell->cmd->arr[j], "export", ENV_NAME);	
 		return (-1);
 	}
 	return (i);

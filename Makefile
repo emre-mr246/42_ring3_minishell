@@ -6,11 +6,11 @@
 #    By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/08/09 15:00:41 by emgul            ###   ########.fr        #
+#    Updated: 2024/08/09 16:03:01 by emgul            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES				= main utils cmd_init cmd_utils tokenizer token_init signal init exec env_utils env_init builtins builtins2 debug exec_utils redir
+FILES				= main utils cmd_init cmd_utils tokenizer token_init signal init exec env_utils env_init builtins builtins2 debug exec_utils redir error
 
 BONUS_FILES			= 
 
