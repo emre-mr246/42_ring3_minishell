@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/11 22:39:42 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/12 00:23:26 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,39 @@ void close_all_fds(int fd[][2], int cmdlen)
     }
 }
 
+void heredoc(t_cmd *cmd)
+{
+	char	*line;
+	char	*delim;
+	int		tmpfd;
+
+	tmpfd = open(HEREDOC_TMP_PATH, O_CREAT | O_RDWR, 0777);
+	delim = ft_strdup(cmd->infile);
+	line = NULL;
+	while (1)
+	{
+		line = readline(">");
+		if (!line)
+			return ;
+		if (ft_strncmp(line, delim, higher_len(line, delim)) == 0)
+			break ;
+		ft_putendl_fd(line, tmpfd);
+		free(line);
+	}
+	free(line);
+	close(tmpfd);
+}
+
 void redirect_files(t_cmd *cmd)
 {
 	int outfd;
 	int	infd;
 
 	outfd = open_outfile(cmd);
-	infd = open_infile(cmd);
-	printf("infd: %i, outfd: %i\n", infd, outfd);
+	if (cmd->in_redir != HERE_DOC)
+		infd = open_infile(cmd);
+	else
+		infd = -1;
 	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT))
 	{
 		dup2(outfd, STDOUT_FILENO);
@@ -110,7 +135,17 @@ void redirect_files(t_cmd *cmd)
 		dup2(infd, STDIN_FILENO);
 		close(infd);
 	}
-	printf("VAKVAK");
+	if (cmd->in_redir == HERE_DOC)
+	{
+		heredoc(cmd);
+		infd = open(HEREDOC_TMP_PATH, O_RDONLY, 0777);
+		if (infd != -1)
+		{
+			dup2(infd, STDIN_FILENO);
+			close(infd);
+			unlink(HEREDOC_TMP_PATH);
+		}
+	}
 }
 
 void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)

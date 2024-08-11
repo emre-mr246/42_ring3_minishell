@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/11 22:40:27 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/12 00:11:09 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # define PATH_SIZE 512
 
 # define ARG_MAX 42
+
+#define HEREDOC_TMP_PATH ".heredoc_tmp_424242"
 
 enum					e_error
 {

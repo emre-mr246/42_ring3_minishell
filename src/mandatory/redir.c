@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/11 22:40:27 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/11 23:43:06 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int open_outfile(t_cmd *cmd)
 
 	fd = -1;
 	if (cmd->out_redir == REDIRECT_OUTPUT)
-		fd = open(cmd->outfile, O_WRONLY | O_CREAT, 0777);
+		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (cmd->out_redir == APPEND_OUTPUT)
 		fd = open(cmd->outfile, O_APPEND | O_CREAT, 0777);
 	else
@@ -96,12 +96,12 @@ static void remove_redir(t_cmd *cmd, char **arr)
 	j = 0;
 	while (cmd->arr[i])
 	{
-		if (ft_strncmp(cmd->arr[i], ">", higher_len(cmd->arr[i], ">")) == 0)
+		if (ft_strncmp(cmd->arr[i], ">", 1) == 0)
 		{
 			if (write_to_redir(cmd, &i, 0))
 				break ;
 		}
-		else if (ft_strncmp(cmd->arr[i], "<", higher_len(cmd->arr[i], "<")) == 0)
+		else if (ft_strncmp(cmd->arr[i], "<", 1) == 0)
 		{
 			if (write_to_redir(cmd, &i, 1))
 				break ;
