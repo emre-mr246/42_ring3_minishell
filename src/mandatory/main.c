@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 16:34:50 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/11 22:40:27 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		shell->cmd = create_cmd(*(shell->tokens));
 		update_cmdarr(shell);
-		// print_cmd(shell);
+		print_cmd(shell);
 		dollar_sign(shell);
 		handle_builtins_main(shell);
 		execute_cmd(shell);

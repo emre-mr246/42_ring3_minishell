@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:54:12 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 15:48:18 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/11 22:40:27 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void print_cmd(t_shell *shell)
 			i++;
 		}
 		printf("Special Char: %i\n", cmd->special_char);
+		if (cmd->infile && cmd->in_redir)
+			printf("INFILE: %s, IN_REDIR: %i\n", cmd->infile, cmd->in_redir);
+		if (cmd->outfile && cmd->out_redir)
+			printf("OUTFILE: %s, OUT_REDIR: %i\n", cmd->outfile, cmd->out_redir);
 		cmd = cmd->next;	
 		j++;
 	}

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 15:05:58 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/11 22:40:27 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,69 @@
 
 static int get_redirection(char *s)
 {
-	if (strncmp(s, ">", higher_len(s, ">")) == 0)
+	if (ft_strncmp(s, ">", higher_len(s, ">")) == 0)
 		return (REDIRECT_OUTPUT);
-	else if (strncmp(s, ">>", higher_len(s, ">>")) == 0)
+	else if (ft_strncmp(s, ">>", higher_len(s, ">>")) == 0)
 		return (APPEND_OUTPUT);
-	else if (strncmp(s, "<", higher_len(s, "<")) == 0)
+	else if (ft_strncmp(s, "<", higher_len(s, "<")) == 0)
 		return (REDIRECT_INPUT);
-	else if (strncmp(s, "<<", higher_len(s, "<<")) == 0)
+	else if (ft_strncmp(s, "<<", higher_len(s, "<<")) == 0)
 		return (HERE_DOC);
 	return (NONE_REDIR);
 }
 
-int open_redirfile(t_cmd *cmd)
+int open_outfile(t_cmd *cmd)
 {
 	int fd;
 
-	if (cmd->redirection == REDIRECT_OUTPUT)
-		fd = open(cmd->redir_file, O_WRONLY | O_CREAT);
-	else if (cmd->redirection == APPEND_OUTPUT)
-		fd = open(cmd->redir_file, O_APPEND | O_CREAT);
-	else if (cmd->redirection == REDIRECT_INPUT)
-		fd = open(cmd->redir_file, O_RDONLY | O_CREAT);
+	fd = -1;
+	if (cmd->out_redir == REDIRECT_OUTPUT)
+		fd = open(cmd->outfile, O_WRONLY | O_CREAT, 0777);
+	else if (cmd->out_redir == APPEND_OUTPUT)
+		fd = open(cmd->outfile, O_APPEND | O_CREAT, 0777);
 	else
 		fd = -1;
 	return (fd);
+}
+
+int open_infile(t_cmd *cmd)
+{
+	int fd;
+	
+	if (cmd->in_redir == REDIRECT_INPUT)
+		fd = open(cmd->infile, O_RDONLY);
+	else
+		fd = -1;
+	return (fd);
+}
+
+int	write_to_redir(t_cmd *cmd, int *i, int mode_in_out)
+{
+	if (mode_in_out == 0)
+	{
+		cmd->outfile = ft_strdup(cmd->arr[*i + 1]);
+		cmd->out_redir = get_redirection(cmd->arr[*i]);
+		if (cmd->arr[*i + 1] && cmd->arr[*i + 2])
+		{
+			free(cmd->arr[*i]);
+			*i += 2;
+		}
+		else
+			return (1);
+	}
+	if (mode_in_out == 1)
+	{
+		cmd->infile = ft_strdup(cmd->arr[*i + 1]);
+		cmd->in_redir = get_redirection(cmd->arr[*i]);
+		if (cmd->arr[*i + 1] && cmd->arr[*i + 2])
+		{
+			free(cmd->arr[*i]);
+			*i += 2;
+		}
+		else
+			return (1);
+	}
+	return (0);
 }
 
 static void remove_redir(t_cmd *cmd, char **arr)
@@ -57,22 +96,21 @@ static void remove_redir(t_cmd *cmd, char **arr)
 	j = 0;
 	while (cmd->arr[i])
 	{
-		if (strncmp(cmd->arr[i], ">", higher_len(cmd->arr[i], ">")) == 0
-			|| strncmp(cmd->arr[i], ">>", higher_len(cmd->arr[i], ">>")) == 0
-			|| strncmp(cmd->arr[i], "<", higher_len(cmd->arr[i], "<")) == 0
-			|| strncmp(cmd->arr[i], "<<", higher_len(cmd->arr[i], "<<")) == 0)
+		if (ft_strncmp(cmd->arr[i], ">", higher_len(cmd->arr[i], ">")) == 0)
 		{
-			cmd->redir_file = ft_strdup(cmd->arr[i + 1]);
-			cmd->redirection = get_redirection(cmd->arr[i]);
-			if (cmd->arr[i + 1] && cmd->arr[i + 2])
-				i += 2;
-			else
-				break;
+			if (write_to_redir(cmd, &i, 0))
+				break ;
 		}
-		arr[j] = ft_strdup(cmd->arr[i]);
-		free(cmd->arr[i]);
-		i++;
-		j++;
+		else if (ft_strncmp(cmd->arr[i], "<", higher_len(cmd->arr[i], "<")) == 0)
+		{
+			if (write_to_redir(cmd, &i, 1))
+				break ;
+		}
+		else
+		{
+			arr[j++] = ft_strdup(cmd->arr[i]);
+			free(cmd->arr[i++]);
+		}
 	}
 	arr[j] = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 16:25:05 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/11 22:40:27 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,10 @@ typedef struct t_cmd
 {
 	char				**arr;
 	int					special_char;
-	int					redirection;
-	char				*redir_file;
+	int					out_redir;
+	int					in_redir;
+	char				*outfile;
+	char				*infile;
 	struct t_cmd		*next;
 	bool				is_builtin;
 }						t_cmd;
@@ -144,8 +146,9 @@ void					ft_export(t_shell *shell);
 void					ft_unset(t_shell *shell);
 
 void					update_cmdarr(t_shell *shell);
-int						open_redirfile(t_cmd *cmd);
+int						open_outfile(t_cmd *cmd);
+int						open_infile(t_cmd *cmd);
 
-void	print_error(char *str, char *cmd, int mode);
-void handle_builtins_main(t_shell *shell);
+void					print_error(char *str, char *cmd, int mode);
+void					handle_builtins_main(t_shell *shell);
 #endif

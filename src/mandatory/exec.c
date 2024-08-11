@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 16:34:35 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/11 22:39:42 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void child_process(t_shell *shell, t_cmd *cmd)
 	path = find_valid_path(cmd->arr[0], shell->env);
 	result = execve(path, cmd->arr, shell->envp);
 	if (result == -1)
-		perror("execve:");
+		perror("execve");
 	exit(0);
 }
 
@@ -94,16 +94,23 @@ void close_all_fds(int fd[][2], int cmdlen)
 
 void redirect_files(t_cmd *cmd)
 {
-	int fd;
+	int outfd;
+	int	infd;
 
-	fd = open_redirfile(cmd);
-	if (fd == -1)
-		return ;
-	if (cmd->redirection == REDIRECT_OUTPUT || cmd->redirection == APPEND_OUTPUT)
-		dup2(fd, STDOUT_FILENO);
-	else if (cmd->redirection == REDIRECT_INPUT)
-		dup2(fd, STDIN_FILENO);
-	close(fd);
+	outfd = open_outfile(cmd);
+	infd = open_infile(cmd);
+	printf("infd: %i, outfd: %i\n", infd, outfd);
+	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT))
+	{
+		dup2(outfd, STDOUT_FILENO);
+		close(outfd);
+	}
+	if (infd != -1 && cmd->in_redir == REDIRECT_INPUT)
+	{
+		dup2(infd, STDIN_FILENO);
+		close(infd);
+	}
+	printf("VAKVAK");
 }
 
 void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
