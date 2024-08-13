@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/13 23:09:10 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/14 00:39:50 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_tokens
 {
 	char				*token;
 	struct s_tokens		*next;
+	bool				is_single_quote;
 }						t_tokens;
 
 typedef struct t_cmd
@@ -71,6 +72,7 @@ typedef struct t_cmd
 	char				*infile;
 	struct t_cmd		*next;
 	bool				is_builtin;
+	bool				is_single_quote;
 }						t_cmd;
 
 typedef struct s_shell
@@ -146,7 +148,7 @@ char					*find_valid_path(char *cmd, t_env *envp);
 void					ft_export(t_shell *shell);
 void					ft_unset(t_shell *shell);
 
-void					update_cmdarr(t_shell *shell);
+void					remove_redirs(t_shell *shell);
 int						open_outfile(t_cmd *cmd);
 int						open_infile(t_cmd *cmd);
 

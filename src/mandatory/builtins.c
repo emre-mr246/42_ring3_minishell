@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 16:29:21 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/13 23:13:27 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void ft_echo(t_shell *shell)
 	while (shell->cmd->arr[i])
 	{
 		ft_putstr_fd(shell->cmd->arr[i], 1);
-		write(1, " ", 1);
+		if (shell->cmd->arr[i + 1])
+			write(1, " ", 1);
 		i++;
 	}
 	if (newline)

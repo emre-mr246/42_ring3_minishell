@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/13 22:04:09 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/14 00:47:35 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ static void remove_redir(t_cmd *cmd, char **arr)
 	arr[j] = NULL;
 }
 
-void update_cmdarr(t_shell *shell)
+void remove_redirs(t_shell *shell)
 {
 	int		i;
 	int		j;
@@ -125,6 +125,8 @@ void update_cmdarr(t_shell *shell)
 	cmd = shell->cmd;
 	while(cmd)
 	{
+		if (cmd->arr[i][0] == '\"' || cmd->arr[i][0] == '\'')
+			continue ;
 		arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
 		if (!arr)
 			return ;

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 12:36:19 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/14 00:19:16 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,45 +24,22 @@ char	*handle_comment(char *str)
 	return (str);
 }
 
-char	*handle_single_quote(char **str)
+char	*handle_quote(char **str, char quote)
 {
 	int		i;
 	char	*res;
 
-	i = 0;
-	(*str)++;
+	i = 1;
 	while ((*str)[i])
 	{
-		if ((*str)[i] == '\'')
+		if ((*str)[i] == quote)
 		{
-			res = ft_substr(*str, 0, i);
+			res = ft_substr(*str, 0, i + 1);
 			*str += i + 1;
 			return (res);
 		}
 		i++;
 	}
-	*str += i;
-	return (NULL);
-}
-
-char	*handle_double_quote(char **str, t_env *env)
-{
-	int		i;
-	char	*res;
-
-	i = 0;
-	(*str)++;
-	while ((*str)[i])
-	{
-		if ((*str)[i] == '\"')
-		{
-			res = ft_substr(*str, 0, i);
-			*str += i + 1;
-			return (res);
-		}
-		i++;
-	}
-	*str += i;
 	return (NULL);
 }
 
@@ -183,6 +160,7 @@ t_tokens	*tokenizer(char *input, t_env *env)
 {
 	char		*res;
 	t_tokens	*tokens;
+	bool		is_single_quote;
 
 	if (!env)
 		return (NULL);
@@ -190,10 +168,8 @@ t_tokens	*tokenizer(char *input, t_env *env)
 	while (input && *input)
 	{
 		res = NULL;
-		if (*input == '\'' && input)
-			res = handle_single_quote(&input);
-		if (input && !res && *input == '\"')
-			res = handle_double_quote(&input, env);
+		if ((*input == '\'' || *input == '\"') && input)
+			res = handle_quote(&input, *input);
 		if (input && !res)
 			res = handle_special_char(&input);
 		if (input && !res)

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 12:40:24 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/14 00:39:15 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,6 @@ static int get_special_char_enum(char *input)
 			return (AND);
 		else if (*input == '|' && *(input + 1) == '|')
 			return (OR);		
-		// else if (*input == '<' && *(input + 1) == '<')
-		// 	return (HERE_DOC);
-		// else if (*input == '>' && *(input + 1) == '>')
-		// 	return (APPEND_OUTPUT);
-		// else if (*input == '>')
-		// 	return (REDIRECT_OUTPUT);
-		// else if (*input == '<')
-		// 	return (REDIRECT_INPUT);
 		else if (*input == '|')
 			return (PIPE);
 		i++;
@@ -95,6 +87,39 @@ t_cmd	*new_cmd(char **cmd)
 	return (cmds);
 }
 
+void	check_odd_quotes(char *token)
+{
+	int	single_quote_num;
+	int double_quote_num;
+	bool single_quote;
+	bool double_quote;
+	int	i;
+
+	single_quote_num = 0;
+	double_quote_num = 0;
+	//bool false olarak init ediliyormuş diye buraya açık açık "= false" yazmadık
+	// ama kontrol et
+	i = -1;
+	while (token[++i])
+	{
+		if (token[i] == '\"' && !single_quote)
+		{
+			double_quote = !double_quote;
+			double_quote_num++;
+		}
+		if (token[i] == '\'' && !double_quote)
+		{
+			single_quote = !single_quote;
+			single_quote_num++;
+		}
+	}
+	if (double_quote_num % 2 != 0 || single_quote_num % 2 != 0)
+	{
+		ft_putendl_fd("Odd number of quotes", 2);
+		exit(1);
+	}
+}
+
 t_cmd	*create_cmd(t_tokens token)
 {
 	t_cmd	*cmd;
@@ -117,7 +142,8 @@ t_cmd	*create_cmd(t_tokens token)
         }
         else
         {
-            cmd->arr[i] = ft_strdup(token.token);
+            check_odd_quotes(token.token);
+			cmd->arr[i] = ft_strdup(token.token);
         	i++;
         }
         cmd->arr[i] = NULL;

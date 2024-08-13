@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/13 22:16:21 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/14 00:57:59 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,31 @@ static char *create_prompt(t_shell *shell)
 	free(tmp);
 	return (prompt);
 }
+void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
+{
+	if (!tester)
+	{
+		shell->line = readline(create_prompt(shell));
+		if (!shell->line)
+		{
+			free(shell->line); // bakılacak
+			return ;
+		}
+		add_history(shell->line);
+	}
+	else
+		shell->line = arg_input[*i];
+	shell->tokens = tokenizer(shell->line, shell->env);
+	if (!shell->tokens)
+		return ;
+	shell->cmd = create_cmd(*(shell->tokens));
+	remove_redirs(shell);
+	dollar_sign(shell);
+	print_cmd(shell);
+	handle_builtins_main(shell);
+	execute_cmd(shell);
+	shell->cmd->is_builtin = false;
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -46,32 +71,13 @@ int	main(int ac, char **av, char **env)
 	if (!shell)
 		return (-1);
 	while (1)
-	{
-		shell->line = readline(create_prompt(shell));
-		if (!shell->line)
-		{
-			free(shell->line); // bakılacak
-			continue ;
-		}
-		add_history(shell->line);
-		shell->tokens = tokenizer(shell->line, shell->env);
-		if (!shell->tokens)
-			continue ;
-		shell->cmd = create_cmd(*(shell->tokens));
-		update_cmdarr(shell);
-		// print_cmd(shell);
-		dollar_sign(shell);
-		handle_builtins_main(shell);
-		execute_cmd(shell);
-		shell->cmd->is_builtin = false;
-	}
+		main_loop(shell, 0, NULL, NULL);
 	ft_exit(0);
 }
 
 // int main(int argc, char **argv, char **envp)
 // {
 // 	t_shell		*shell;
-// 	char	*readline_input;
 // 	char	**arg_input;
 // 	int		i;
 
@@ -86,42 +92,14 @@ int	main(int ac, char **av, char **env)
 // 		i = 0;
 // 		while (arg_input[i])
 // 		{
-// 			shell->line = arg_input[i];
-// 			shell->tokens = tokenizer(shell->line, shell->env);
-// 			if (!shell->tokens)
-// 				continue ;
-// 			shell->cmd = create_cmd(*(shell->tokens));
-// 			if(ft_strncmp(shell->cmd->arr[0], "exit", higher_len(shell->cmd->arr[0], "exit")) == 0)
-// 				ft_exit(EXIT_SUCCESS);
-// 			update_cmdarr(shell);
-// 			//print_cmd(shell);
-// 			dollar_sign(shell);
-// 			execute_cmd(shell);
+// 			main_loop(shell, 1, arg_input, &i);
 // 			i++;
 // 		}
 // 	}
 // 	else
 // 	{
-// 		while (1)
-// 		{
-// 			shell->line = readline(create_prompt(shell));
-// 			if (!shell->line)
-// 			{
-// 				// free(shell->line); // bakılacak
-// 				continue ;
-// 			}
-// 			add_history(shell->line);
-// 			shell->tokens = tokenizer(shell->line, shell->env);
-// 			if (!shell->tokens)
-// 				continue ;
-// 			shell->cmd = create_cmd(*(shell->tokens));
-// 			if(ft_strncmp(shell->cmd->arr[0], "exit", higher_len(shell->cmd->arr[0], "exit")) == 0)
-// 				ft_exit(EXIT_SUCCESS);
-// 			update_cmdarr(shell);
-// 			//print_cmd(shell);
-// 			dollar_sign(shell);
-// 			execute_cmd(shell);
-// 		}
+// 		//while (1)
+// 			main_loop(shell, 0, NULL, NULL);
 // 	}
 // 	// Free data and exit minishell when done
 
