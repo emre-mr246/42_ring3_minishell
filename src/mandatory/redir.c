@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/11 23:43:06 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/08/13 22:04:09 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int open_infile(t_cmd *cmd)
 	int fd;
 	
 	if (cmd->in_redir == REDIRECT_INPUT)
-		fd = open(cmd->infile, O_RDONLY);
+		fd = open(cmd->infile, O_RDONLY, 0777);
 	else
 		fd = -1;
 	return (fd);

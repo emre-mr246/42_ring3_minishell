@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:24:29 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:50:50 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/13 23:09:02 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,28 @@
 #include <unistd.h>
 #include <bits/sigaction.h>
 #include <stdio.h>
+#include "../../lib/libft/libft.h"
 
 void init_signal(int signo, void (*handler)(int), struct sigaction *sa)
 {
-    sigemptyset(&sa->sa_mask);
+	sa = (struct sigaction *)ft_calloc(1, sizeof(struct sigaction));
+	if (sigemptyset(&sa->sa_mask) == -1)
+		perror("sigemptyset");
     sa->sa_flags = SA_RESTART;
 	if (!handler)
 		sa->sa_handler = SIG_IGN;
 	else
     	sa->sa_handler = handler;
-    sigaction(signo, sa, NULL);
+    if (sigaction(signo, sa, NULL) == -1)
+		perror("sigaction");
+	return (sa);
 }
 
 t_shell	*init_shell(char **env)
 {
 	t_shell	*shell;
 
-	shell = (t_shell *)malloc(sizeof(t_shell));
+	shell = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!shell)
 		return (NULL);
 	shell->line = (NULL);
@@ -42,6 +47,8 @@ t_shell	*init_shell(char **env)
 	shell->envp = env;
 	shell->tokens = NULL;
 	shell->cmd 	= NULL;
+	shell->last_exit_status = (int *)ft_calloc(1, sizeof(int));
+	*shell->last_exit_status = 0;
 	init_signal(SIGINT, handle_sigint, &shell->sigint);
 	init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
 	return (shell);

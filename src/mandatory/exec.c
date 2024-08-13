@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/12 00:23:26 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/13 23:09:14 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void child_process(t_shell *shell, t_cmd *cmd)
 	char *path;
 	int result;
 
-	init_signal(SIGINT, child_signal_handler, &shell->sigint);
-	init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
 	path = find_valid_path(cmd->arr[0], shell->env);
 	result = execve(path, cmd->arr, shell->envp);
 	if (result == -1)
@@ -157,9 +155,12 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 	i = 0;
 	while (i < cmdlen)
 	{
+		init_signal(SIGINT, NULL, &shell->sigint);
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
+			init_signal(SIGINT, child_signal_handler, &shell->sigint);
+			init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
 			redirect_pipes(cmd, fd, cmdlen, i);
 			redirect_files(cmd);
 			handle_builtins(shell);
@@ -199,4 +200,5 @@ void execute_cmd(t_shell *shell)
 		i++;
 	}
 	handle_pipes(shell, fd, cmdlen, pid);
+	init_signal(SIGINT, handle_sigint, &shell->sigint);
 }

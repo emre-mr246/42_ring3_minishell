@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/12 00:11:09 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/13 23:09:10 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 # define ARG_MAX 42
 
-#define HEREDOC_TMP_PATH ".heredoc_tmp_424242"
+# define HEREDOC_TMP_PATH ".heredoc_tmp_424242"
 
 enum					e_error
 {
@@ -108,8 +108,7 @@ t_cmd					*create_cmd(t_tokens token);
 
 void					execute_cmd(t_shell *shell);
 
-void					init_signal(int signo, void (*handler)(int),
-							struct sigaction *sa);
+void					init_signal(int signo, void (*handler)(int), struct sigaction *sa);
 void					redirect_files(t_cmd *cmd);
 void					update_value(t_env *env, char *key, char *value);
 t_env					*new_env(char *key, char *value);

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 13:45:12 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/13 22:11:56 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,11 @@ char *exchange_variable(char *str, t_shell *shell)
 			if (!key)
 				return (NULL);
 			if (ft_strncmp(key, "?", higher_len(key, "?")) == 0)
+			{
+				printf("MAYMUN\n");
+				printf("LAST: %i\n", *shell->last_exit_status);
 				value = ft_itoa(*shell->last_exit_status);
+			}
 			else
 				value = get_env_value(shell->env, key);
 			ft_strlcpy(res + i, value, ft_strlen(value) + 1);
