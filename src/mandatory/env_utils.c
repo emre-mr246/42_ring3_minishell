@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/13 22:11:56 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/15 21:13:10 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,20 @@ bool key_exists(t_env *env, char *key)
 	return (false);
 }
 
-static char *get_env_key(char **str)
+char *get_env_key(char *str)
 {
 	int i;
 	char *res;
 
-	i = 0;
-	(*str)++;
-	while ((*str)[i] && (*str)[i] != '$')
+	i = 1;
+	if (str[i] == '?')
+		return ft_strdup("?");
+	while (str[i] && str[i] != '$' && str[i] != '"' && str[i] != '\'' && str[i] != ' ')
 		i++;
-	res = ft_substr(*str, 0, i);
-	*str += i;
-	return(res);
+	if (i == 1)
+		return ft_strdup("$");
+	res = ft_substr(str, 1, i - 1);
+	return (res);
 }
 
 char *get_env_value(t_env *env, char *key)
@@ -79,40 +81,36 @@ char *get_env_value(t_env *env, char *key)
 	return (NULL);
 }
 
-char *exchange_variable(char *str, t_shell *shell)
-{
-	int i;
-	char *key;
-	char *value;
-	char *res;
+// char *exchange_variable(char *str, t_shell *shell)
+// {
+// 	int i;
+// 	char *key;
+// 	char *value;
+// 	char *res;
 
-	res = (char *)malloc(sizeof(char) * 4096);
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (str && *str)
-	{
-		if (*str == '$')
-		{
-			key = get_env_key(&str);
-			if (!key)
-				return (NULL);
-			if (ft_strncmp(key, "?", higher_len(key, "?")) == 0)
-			{
-				printf("MAYMUN\n");
-				printf("LAST: %i\n", *shell->last_exit_status);
-				value = ft_itoa(*shell->last_exit_status);
-			}
-			else
-				value = get_env_value(shell->env, key);
-			ft_strlcpy(res + i, value, ft_strlen(value) + 1);
-			i += ft_strlen(value);
-		}
-		else
-			res[i++] = *str++;
-	}
-	res[i] = '\0';
-	return (res);
-}
+// 	res = (char *)malloc(sizeof(char) * 4096);
+// 	if (!res)
+// 		return (NULL);
+// 	i = 0;
+// 	while (str && *str)
+// 	{
+// 		if (*str == '$')
+// 		{
+// 			key = get_env_key(&str);
+// 			if (!key)
+// 				return (NULL);
+// 			if (ft_strncmp(key, "?", higher_len(key, "?")) == 0)
+// 				value = ft_itoa(*shell->last_exit_status);
+// 			else
+// 				value = get_env_value(shell->env, key);
+// 			ft_strlcpy(res + i, value, ft_strlen(value) + 1);
+// 			i += ft_strlen(value);
+// 		}
+// 		else
+// 			res[i++] = *str++;
+// 	}
+// 	res[i] = '\0';
+// 	return (res);
+// }
 
 

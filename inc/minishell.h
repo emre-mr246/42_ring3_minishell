@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/14 00:39:50 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/15 21:13:10 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define PATH_SIZE 512
 
 # define ARG_MAX 42
+# define BUFFER_SIZE 4096
 
 # define HEREDOC_TMP_PATH ".heredoc_tmp_424242"
 
@@ -154,4 +155,6 @@ int						open_infile(t_cmd *cmd);
 
 void					print_error(char *str, char *cmd, int mode);
 void					handle_builtins_main(t_shell *shell);
+
+char *get_env_key(char *str);
 #endif

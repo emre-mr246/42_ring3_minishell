@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:24:29 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/13 23:09:02 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/15 19:05:26 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 
 void init_signal(int signo, void (*handler)(int), struct sigaction *sa)
 {
-	sa = (struct sigaction *)ft_calloc(1, sizeof(struct sigaction));
 	if (sigemptyset(&sa->sa_mask) == -1)
 		perror("sigemptyset");
     sa->sa_flags = SA_RESTART;
@@ -31,7 +30,6 @@ void init_signal(int signo, void (*handler)(int), struct sigaction *sa)
     	sa->sa_handler = handler;
     if (sigaction(signo, sa, NULL) == -1)
 		perror("sigaction");
-	return (sa);
 }
 
 t_shell	*init_shell(char **env)

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/14 00:57:59 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/15 21:12:04 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,102 @@ static char *create_prompt(t_shell *shell)
 	free(tmp);
 	return (prompt);
 }
+
+void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
+{
+	char *key;
+	char *value;
+	
+	key = get_env_key(str + *j);
+	if (!key)
+		return ;
+	if (ft_strncmp(key, "$", higher_len(key, "$")) == 0)
+		value = ft_strdup("$");
+	else if (ft_strncmp(key, "?", 1) == 0)
+		value = ft_itoa(*shell->last_exit_status);
+	else
+		value = get_env_value(shell->env, key);
+	ft_strlcpy(new + *k, value, ft_strlen(value) + 1);
+	*k += ft_strlen(value);
+	*j += ft_strlen(key);
+}
+
+void parse_cmd(t_cmd *cmd, t_shell *shell)
+{
+	bool single_quote;
+	bool double_quote;
+	int i;
+	int j;
+	int	k;
+	char	*new;
+
+	new = (char *)ft_calloc(sizeof(char), BUFFER_SIZE);
+	if (!new)
+		return ;
+	i = 0;
+	while (cmd->arr[i])
+	{
+		j = 0;
+		k = 0;
+		while (cmd->arr[i][j])
+		{
+			if (k >= BUFFER_SIZE)
+			{
+				ft_putendl_fd("Exceeded buffer size", 2);
+				exit(-1);
+			}
+			if (cmd->arr[i][j] == '\'' && !double_quote)
+			{
+				single_quote = !single_quote;
+				j++;
+				continue ;
+			}
+			if (cmd->arr[i][j] == '"' && !single_quote)
+			{
+				double_quote = !double_quote;
+				j++;
+				continue ;
+			}
+			if (!single_quote && !double_quote)
+			{
+				if (cmd->arr[i][j] != '\'' && cmd->arr[i][j] != '"' && cmd->arr[i][j] != '$')
+					new[k++] = cmd->arr[i][j];
+				if (cmd->arr[i][j] == '$')
+					exchange_var(cmd->arr[i], &j, new, &k, shell);
+			}
+			if (single_quote)
+			{
+				if (cmd->arr[i][j] != '\'')
+					new[k++] = cmd->arr[i][j];
+			}
+			if (double_quote)
+			{
+				if (cmd->arr[i][j] != '"' && cmd->arr[i][j] != '$')
+					new[k++] = cmd->arr[i][j];
+				if (cmd->arr[i][j] == '$')
+					exchange_var(cmd->arr[i], &j, new, &k, shell);
+			}
+			j++;
+		}
+		new[k] = '\0';
+		free(cmd->arr[i]);
+		cmd->arr[i] = ft_strdup(new);
+		i++;
+	}
+}
+void parse_cmds(t_shell *shell)
+{
+	t_cmd *cmd;
+
+	cmd = shell->cmd;
+	while (cmd)
+	{
+		parse_cmd(cmd, shell);
+		cmd = cmd->next;
+	}
+
+}
+
 void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 {
 	if (!tester)
@@ -55,9 +151,9 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	if (!shell->tokens)
 		return ;
 	shell->cmd = create_cmd(*(shell->tokens));
+	//print_cmd(shell);
+	parse_cmds(shell);
 	remove_redirs(shell);
-	dollar_sign(shell);
-	print_cmd(shell);
 	handle_builtins_main(shell);
 	execute_cmd(shell);
 	shell->cmd->is_builtin = false;
@@ -70,7 +166,7 @@ int	main(int ac, char **av, char **env)
 	shell = init_shell(env);
 	if (!shell)
 		return (-1);
-	while (1)
+	//while (1)
 		main_loop(shell, 0, NULL, NULL);
 	ft_exit(0);
 }
