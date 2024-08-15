@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/15 21:12:04 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/15 22:26:25 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,64 +57,54 @@ void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
 	*j += ft_strlen(key);
 }
 
-void parse_cmd(t_cmd *cmd, t_shell *shell)
+char *allocate_str(int buff_size)
 {
-	bool single_quote;
-	bool double_quote;
-	int i;
+	char *new;
+
+	new = (char *)ft_calloc(sizeof(char), buff_size);
+	if (!new)
+		print_error("HATA", NULL, ERR_MEMALLOC);
+	return (new);
+}
+
+char *parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
+{
+	bool quote[2];
 	int j;
-	int	k;
+	int k;
 	char	*new;
 
-	new = (char *)ft_calloc(sizeof(char), BUFFER_SIZE);
-	if (!new)
-		return ;
+	new = allocate_str(BUFFER_SIZE);
+	j = -1;
+	k = 0;
+	while (cmd->arr[*i][++j])
+	{
+		if (cmd->arr[*i][j] == '\'' && !quote[1])
+			quote[0] = !quote[0];
+		else if (cmd->arr[*i][j] == '"' && !quote[0])
+			quote[1] = !quote[1];
+		else if (quote[0] && cmd->arr[*i][j] != '\'')
+			new[k++] = cmd->arr[*i][j];
+		else if ((!quote[0] && !quote[1]) || (quote[1] && cmd->arr[*i][j] != '"'))
+		{
+			if (cmd->arr[*i][j] != '$')
+				new[k++] = cmd->arr[*i][j];
+			if (cmd->arr[*i][j] == '$')
+				exchange_var(cmd->arr[*i], &(j), new, &(k), shell);
+		}
+	}
+	return (new);
+}
+
+void parse_cmd(t_cmd *cmd, t_shell *shell)
+{
+	int i;
+	char *new;
+
 	i = 0;
 	while (cmd->arr[i])
 	{
-		j = 0;
-		k = 0;
-		while (cmd->arr[i][j])
-		{
-			if (k >= BUFFER_SIZE)
-			{
-				ft_putendl_fd("Exceeded buffer size", 2);
-				exit(-1);
-			}
-			if (cmd->arr[i][j] == '\'' && !double_quote)
-			{
-				single_quote = !single_quote;
-				j++;
-				continue ;
-			}
-			if (cmd->arr[i][j] == '"' && !single_quote)
-			{
-				double_quote = !double_quote;
-				j++;
-				continue ;
-			}
-			if (!single_quote && !double_quote)
-			{
-				if (cmd->arr[i][j] != '\'' && cmd->arr[i][j] != '"' && cmd->arr[i][j] != '$')
-					new[k++] = cmd->arr[i][j];
-				if (cmd->arr[i][j] == '$')
-					exchange_var(cmd->arr[i], &j, new, &k, shell);
-			}
-			if (single_quote)
-			{
-				if (cmd->arr[i][j] != '\'')
-					new[k++] = cmd->arr[i][j];
-			}
-			if (double_quote)
-			{
-				if (cmd->arr[i][j] != '"' && cmd->arr[i][j] != '$')
-					new[k++] = cmd->arr[i][j];
-				if (cmd->arr[i][j] == '$')
-					exchange_var(cmd->arr[i], &j, new, &k, shell);
-			}
-			j++;
-		}
-		new[k] = '\0';
+		new = parse_cmd_loop(cmd, shell, &i);
 		free(cmd->arr[i]);
 		cmd->arr[i] = ft_strdup(new);
 		i++;

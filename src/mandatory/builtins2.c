@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 16:02:23 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/15 21:47:11 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int env_search_export(t_shell *shell, int j)
 	}
 	if (i == 0)
 	{
-		print_error(shell->cmd->arr[j], "export", ENV_NAME);	
+		print_error(shell->cmd->arr[j], "export", ERR_ENVNAME);	
 		return (-1);
 	}
 	return (i);

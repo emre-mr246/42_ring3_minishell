@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/09 15:57:08 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/15 22:03:33 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 void	print_error(char *str, char *cmd, int mode)
 {
-	if (mode == ENV_NAME)
+	if (mode == ERR_ENVNAME)
 	{
 		ft_putstr_fd("RaRe: ", 2);
 		ft_putstr_fd(cmd, 2);
@@ -29,19 +29,26 @@ void	print_error(char *str, char *cmd, int mode)
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd("\': not a valid identifier\n", 2);
 	}
-	else if (mode == CD_NODIR)
+	else if (mode == ERR_CD_NODIR)
 	{
 		ft_putstr_fd("RaRe: cd: no such file or directory: ", 2);
 		ft_putendl_fd(str, 2);
 	}
-	else if (mode == CD_PWD)
+	else if (mode == ERR_CD_PWD)
 	{
 		ft_putstr_fd("RaRe: cd: string not in pwd: ", 2);
 		ft_putendl_fd(str, 2);
 	}
-	else if (mode == NO_CMD)
+	else if (mode == ERR_NOCMD)
 	{
 		ft_putstr_fd("RaRe: command not found: ", 2);
 		ft_putendl_fd (str, 2);
 	}
+	else if (mode == ERR_EXCBUFF)
+		ft_putstr_fd("Exceeded buffer size\n", 2);
+	else if (mode == ERR_MEMALLOC)
+		ft_putstr_fd("Cannot allocate memory\n", 2);
+	else
+		exit(-1);
+	exit(1);
 }

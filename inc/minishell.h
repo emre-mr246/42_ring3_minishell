@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/15 21:13:10 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/15 22:00:57 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@
 
 enum					e_error
 {
-	NO_CMD,
-	ENV_NAME,
-	CD_NODIR,
-	CD_PWD,
+	ERR_NOCMD,
+	ERR_ENVNAME,
+	ERR_CD_NODIR,
+	ERR_CD_PWD,
+	ERR_EXCBUFF,
+	ERR_MEMALLOC,
 };
 
 enum					e_redirection

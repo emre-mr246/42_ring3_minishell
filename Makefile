@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+         #
+#    By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/08/09 16:03:01 by emgul            ###   ########.fr        #
+#    Updated: 2024/08/15 22:04:10 by mitasci          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS)
 $(BONUS_NAME): $(LIBFT) $(OBJ_DIR) $(BONUS_OBJS)
 	@$(CC) $(BONUS_OBJS) $(LIBFT) $(CCFLAGS) -o $(BONUS_NAME)
 	@echo "$(GREEN)-== $(BONUS_NAME) created! ==-$(DEFAULT)"
+
 $(OBJ_DIR)%.o: %.c
 	@$(CC) $(CCFLAGS) -c -o $@ $<
 
