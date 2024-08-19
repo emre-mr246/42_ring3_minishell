@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/15 21:47:11 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/08/19 18:06:02 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,19 @@ static int env_search_export(t_shell *shell, int j)
 	return (i);
 }
 
+static void key_valid(char *key)
+{
+	int	i;
+
+	i = 0;
+	while (key[i])
+	{
+		if (!(ft_isalnum(key[i]) || key[i] == '_'))
+			print_error(key, "export", ERR_ENVNAME);
+		i++;
+	}
+}
+
 void ft_export(t_shell *shell)
 {
 	int i;
@@ -58,6 +71,7 @@ void ft_export(t_shell *shell)
 			continue ;
 		}
 		key = ft_substr(shell->cmd->arr[j], 0, i);
+		key_valid(key);
 		value = ft_substr(shell->cmd->arr[j], i + 1, ft_strlen(shell->cmd->arr[j]) - (i + 1));
 		if (key_exists(shell->env, key))
 			update_value(shell->env, key, value);
