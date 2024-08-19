@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/15 19:14:13 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/19 17:48:43 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ static void remove_redir(t_cmd *cmd, char **arr)
 	j = 0;
 	while (cmd->arr[i])
 	{
-		if (ft_strncmp(cmd->arr[i], ">", 1) == 0)
+		if (ft_strncmp(cmd->arr[i], ">", 1) == 0 && (cmd->arr[i][0] == '"' || cmd->arr[i][0] == '\''))
 		{
 			if (write_to_redir(cmd, &i, 0))
 				break ;
 		}
-		else if (ft_strncmp(cmd->arr[i], "<", 1) == 0)
+		else if (ft_strncmp(cmd->arr[i], "<", 1) == 0 && (cmd->arr[i][0] == '"' || cmd->arr[i][0] == '\''))
 		{
 			if (write_to_redir(cmd, &i, 1))
 				break ;
@@ -115,24 +115,18 @@ static void remove_redir(t_cmd *cmd, char **arr)
 	arr[j] = NULL;
 }
 
-void remove_redirs(t_shell *shell)
+void remove_redirs(t_shell *shell, t_cmd *cmd)
 {
 	int		i;
 	int		j;
-	t_cmd	*cmd;
 	char	**arr;
 
-	cmd = shell->cmd;
-	while(cmd)
-	{
-		arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
-		if (!arr)
-			return ;
-		remove_redir(cmd, arr);
-		if (!*arr)
-			free(arr);
-		free(cmd->arr);
-		cmd->arr = arr;
-		cmd = cmd->next;
-	}
+	arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
+	if (!arr)
+		return ;
+	remove_redir(cmd, arr);
+	if (!*arr)
+		free(arr);
+	free(cmd->arr);
+	cmd->arr = arr;
 }

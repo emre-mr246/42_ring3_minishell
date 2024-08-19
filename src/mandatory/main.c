@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/15 22:26:25 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/19 17:53:40 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
 		value = get_env_value(shell->env, key);
 	ft_strlcpy(new + *k, value, ft_strlen(value) + 1);
 	*k += ft_strlen(value);
+	if (ft_strncmp(key, "$", higher_len(key, "$")) == 0)
+		return ;
 	*j += ft_strlen(key);
 }
 
@@ -96,7 +98,7 @@ char *parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 	return (new);
 }
 
-void parse_cmd(t_cmd *cmd, t_shell *shell)
+void parse_cmd(t_shell *shell, t_cmd *cmd)
 {
 	int i;
 	char *new;
@@ -110,6 +112,7 @@ void parse_cmd(t_cmd *cmd, t_shell *shell)
 		i++;
 	}
 }
+
 void parse_cmds(t_shell *shell)
 {
 	t_cmd *cmd;
@@ -117,7 +120,8 @@ void parse_cmds(t_shell *shell)
 	cmd = shell->cmd;
 	while (cmd)
 	{
-		parse_cmd(cmd, shell);
+		remove_redirs(shell, shell->cmd);
+		parse_cmd(shell, cmd);
 		cmd = cmd->next;
 	}
 
@@ -143,7 +147,6 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	shell->cmd = create_cmd(*(shell->tokens));
 	//print_cmd(shell);
 	parse_cmds(shell);
-	remove_redirs(shell);
 	handle_builtins_main(shell);
 	execute_cmd(shell);
 	shell->cmd->is_builtin = false;

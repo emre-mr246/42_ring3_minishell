@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/15 22:00:57 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/08/19 17:48:31 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ char					*find_valid_path(char *cmd, t_env *envp);
 void					ft_export(t_shell *shell);
 void					ft_unset(t_shell *shell);
 
-void					remove_redirs(t_shell *shell);
+void					remove_redirs(t_shell *shell, t_cmd *cmd);
 int						open_outfile(t_cmd *cmd);
 int						open_infile(t_cmd *cmd);
 
