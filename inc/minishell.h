@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/19 18:08:35 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/20 19:03:51 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void					remove_redirs(t_shell *shell, t_cmd *cmd);
 int						open_outfile(t_cmd *cmd);
 int						open_infile(t_cmd *cmd);
 
-void					print_error(char *str, char *cmd, int mode);
+void					print_error(t_shell *shell, char *str, char *cmd, int mode, int exits);
 void					handle_builtins_main(t_shell *shell);
 
 char *get_env_key(char *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/15 22:03:33 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/08/20 19:07:57 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void	print_error(char *str, char *cmd, int mode)
+void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)
 {
+	*(shell->last_exit_status) = 1;
 	if (mode == ERR_ENVNAME)
 	{
 		ft_putstr_fd("RaRe: ", 2);
@@ -48,7 +49,8 @@ void	print_error(char *str, char *cmd, int mode)
 		ft_putstr_fd("Exceeded buffer size\n", 2);
 	else if (mode == ERR_MEMALLOC)
 		ft_putstr_fd("Cannot allocate memory\n", 2);
+	else if (exits)
+		exit(*(shell->last_exit_status));
 	else
-		exit(-1);
-	exit(1);
+		return ;
 }

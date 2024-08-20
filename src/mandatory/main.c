@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/19 18:08:35 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/20 19:10:06 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
 	if (ft_strncmp(key, "$", higher_len(key, "$")) == 0)
 		value = ft_strdup("$");
 	else if (ft_strncmp(key, "?", 1) == 0)
-		value = ft_itoa(*shell->last_exit_status);
+		value = ft_itoa(*(shell->last_exit_status));
 	else
 		value = get_env_value(shell->env, key);
 	ft_strlcpy(new + *k, value, ft_strlen(value) + 1);
@@ -59,13 +59,13 @@ void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
 	*j += ft_strlen(key);
 }
 
-char *allocate_str(int buff_size)
+char *allocate_str(t_shell *shell, int buff_size)
 {
 	char *new;
 
 	new = (char *)ft_calloc(sizeof(char), buff_size);
 	if (!new)
-		print_error("HATA", NULL, ERR_MEMALLOC);
+		print_error(shell, "HATA", NULL, ERR_MEMALLOC, 1);
 	return (new);
 }
 
@@ -76,7 +76,7 @@ char *parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 	int k;
 	char	*new;
 
-	new = allocate_str(BUFFER_SIZE);
+	new = allocate_str(shell, BUFFER_SIZE);
 	j = -1;
 	k = 0;
 	while (cmd->arr[*i][++j])
@@ -148,7 +148,8 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	//print_cmd(shell);
 	parse_cmds(shell);
 	handle_builtins_main(shell);
-	execute_cmd(shell);
+	if (!shell->cmd->is_builtin)
+		execute_cmd(shell);
 	shell->cmd->is_builtin = false;
 }
 
@@ -161,7 +162,7 @@ int	main(int ac, char **av, char **env)
 		return (-1);
 	//while (1)
 		main_loop(shell, 0, NULL, NULL);
-	ft_exit(0);
+	ft_exit(*(shell->last_exit_status));
 }
 
 // int main(int argc, char **argv, char **envp)

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/20 18:12:49 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/20 19:06:47 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,21 @@ static int env_search_export(t_shell *shell, int j)
 		i++;
 	}
 	if (i == 0)
-		print_error(shell->cmd->arr[j], "export", ERR_ENVNAME);	
+		print_error(shell, shell->cmd->arr[j], "export", ERR_ENVNAME, 0);	
 	return (i);
 }
 
-static void key_valid(char *key)
+static void key_valid(t_shell *shell, char *key)
 {
 	int	i;
 
 	if (ft_isdigit(key[0]))
-		print_error(key, "export", ERR_ENVNAME);
+		print_error(shell, key, "export", ERR_ENVNAME, 0);
 	i = 0;
 	while (key[i])
 	{
 		if (!(ft_isalnum(key[i]) || key[i] == '_'))
-			print_error(key, "export", ERR_ENVNAME);
+			print_error(shell, key, "export", ERR_ENVNAME, 0);
 		i++;
 	}
 }
@@ -56,8 +56,10 @@ static char *get_export_key(t_shell *shell, int *j)
 	char *key;
 	
 	i = env_search_export(shell, *j);
+	if (i == 0)
+		return (NULL);
 	key = ft_substr(shell->cmd->arr[*j], 0, i);
-	key_valid(key);
+	key_valid(shell, key);
 	return (key);
 }
 
@@ -73,6 +75,8 @@ void ft_export(t_shell *shell)
 	while(shell->cmd->arr[j])
 	{
 		key = get_export_key(shell, &j);
+		if (!key)
+			return ;
 		value = ft_substr(shell->cmd->arr[j], i + 1, ft_strlen(shell->cmd->arr[j]) - (i + 1));
 		if (key_exists(shell->env, key))
 			update_value(shell->env, key, value);
