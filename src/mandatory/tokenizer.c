@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/15 19:18:05 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/20 18:12:34 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,31 @@ char	*handle_quote(char **str, char quote)
 	return (NULL);
 }
 
+int skip_whitespaces(char **str, int *i)
+{
+	while ((*str)[*i] == ' ' || ((*str)[*i] >= 8 && (*str)[*i] <= 13)
+		|| ((*str)[*i] == '\\'))
+	(*i)++;
+	return (*i);
+}
+
 char	*handle_space(char **str, t_env *env)
 {
 	int		i;
 	char	*res;
+	char c;
 
 	i = 0;
-	while ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
-		|| ((*str)[i] == '\\'))
-		i++;
+	i = skip_whitespaces(str, &i);
 	while ((*str)[i])
 	{
-		if (((*str)[i] == '\'' || (*str)[i] == '\"') && ((*str)[i - 1] >= 8 //tırnak görünce çık
-				&& (*str)[i - 1] <= 13))
-			return (NULL);
+		if ((*str)[i] == '"' || (*str)[i] == '\'')
+		{
+			c = (*str)[i];
+			i++;
+			while ((*str)[i] != c)
+				i++;
+		}
 		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13) || (*str)[i] == '\\')
 		{
 			res = ft_substr(*str, 0, i);
@@ -160,7 +171,6 @@ t_tokens	*tokenizer(char *input, t_env *env)
 {
 	char		*res;
 	t_tokens	*tokens;
-	bool		is_single_quote;
 
 	if (!env)
 		return (NULL);

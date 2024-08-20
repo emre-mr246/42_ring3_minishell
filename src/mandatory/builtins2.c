@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/19 18:06:02 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/20 18:12:49 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ static int env_search_export(t_shell *shell, int j)
 		i++;
 	}
 	if (i == 0)
-	{
 		print_error(shell->cmd->arr[j], "export", ERR_ENVNAME);	
-		return (-1);
-	}
 	return (i);
 }
 
@@ -42,6 +39,8 @@ static void key_valid(char *key)
 {
 	int	i;
 
+	if (ft_isdigit(key[0]))
+		print_error(key, "export", ERR_ENVNAME);
 	i = 0;
 	while (key[i])
 	{
@@ -49,6 +48,17 @@ static void key_valid(char *key)
 			print_error(key, "export", ERR_ENVNAME);
 		i++;
 	}
+}
+
+static char *get_export_key(t_shell *shell, int *j)
+{
+	int i;
+	char *key;
+	
+	i = env_search_export(shell, *j);
+	key = ft_substr(shell->cmd->arr[*j], 0, i);
+	key_valid(key);
+	return (key);
 }
 
 void ft_export(t_shell *shell)
@@ -62,16 +72,7 @@ void ft_export(t_shell *shell)
 	j = 1;
 	while(shell->cmd->arr[j])
 	{
-		i = env_search_export(shell, j);
-		if (i == -1)
-			return ;
-		if (shell->cmd->arr[j][i] != '=')
-		{
-			j++;
-			continue ;
-		}
-		key = ft_substr(shell->cmd->arr[j], 0, i);
-		key_valid(key);
+		key = get_export_key(shell, &j);
 		value = ft_substr(shell->cmd->arr[j], i + 1, ft_strlen(shell->cmd->arr[j]) - (i + 1));
 		if (key_exists(shell->env, key))
 			update_value(shell->env, key, value);
