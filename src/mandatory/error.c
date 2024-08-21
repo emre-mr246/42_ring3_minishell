@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/20 19:07:57 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/21 23:02:56 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)
 		ft_putstr_fd("Exceeded buffer size\n", 2);
 	else if (mode == ERR_MEMALLOC)
 		ft_putstr_fd("Cannot allocate memory\n", 2);
+	else if (mode == ERR_NONNUM)
+	{
+		*(shell->last_exit_status) = 2;
+		ft_putstr_fd("Input nonnumeric\n", 2);
+	}
 	else if (exits)
 		exit(*(shell->last_exit_status));
 	else

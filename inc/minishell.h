@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/20 19:03:51 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/21 23:02:00 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ enum					e_error
 	ERR_CD_PWD,
 	ERR_EXCBUFF,
 	ERR_MEMALLOC,
+	ERR_NONNUM
 };
 
 enum					e_redirection
