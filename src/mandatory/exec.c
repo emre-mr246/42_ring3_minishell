@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/22 23:08:44 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/22 23:50:26 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,23 +149,15 @@ void redirect_files(t_cmd *cmd)
 static void wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
 {
 	int exit_status;
-	int failed;
 	int i;
 
-	failed = 0;	
-	waitpid(pid[0], &exit_status, 0);
-    if (WIFEXITED(exit_status) && WEXITSTATUS(exit_status) != 0)
-    {
-        *shell->last_exit_status = WEXITSTATUS(exit_status);
-        failed = 1;
-    }
-	i = 1;
+	i = 0;
     while (i < cmdlen)
     {
-        if (failed)
-            kill(pid[i], SIGKILL);
         waitpid(pid[i], &exit_status, 0);
-		i++;
+		if (WIFEXITED(exit_status) && WEXITSTATUS(exit_status) != 0)
+			*shell->last_exit_status = WEXITSTATUS(exit_status);
+        i++;
     }
 }
 
@@ -179,6 +171,7 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 	while (i < cmdlen)
 	{
 		init_signal(SIGINT, NULL, &shell->sigint);
+		handle_builtins_main(shell, cmd);
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
@@ -187,7 +180,6 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 			redirect_pipes(cmd, fd, cmdlen, i);
 			redirect_files(cmd);
 			handle_builtins(shell, cmd);
-			handle_builtins_main(shell, cmd);
 			if (!cmd->is_builtin)
 				child_process(shell, cmd);
 			exit(0);

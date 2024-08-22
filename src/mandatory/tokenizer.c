@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/20 19:03:52 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/08/22 23:57:32 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ char	*handle_quote(char **str, char quote)
 	i = 1;
 	while ((*str)[i])
 	{
-		if ((*str)[i] == quote)
+		if ((*str)[i] == quote && ((*str)[i + 1] == ' '
+			|| (*str)[i + 1] == '\0' || (*str)[i + 1] >= 8 && (*str)[i + 1] <= 13))
 		{
 			res = ft_substr(*str, 0, i + 1);
 			*str += i + 1;
