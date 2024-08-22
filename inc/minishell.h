@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/21 23:02:00 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/22 21:49:33 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ bool					key_exists(t_env *env, char *key);
 void					print_cmd(t_shell *shell);
 char					*get_env_value(t_env *env, char *key);
 
-void					handle_builtins(t_shell *shell);
+void 					handle_builtins(t_shell *shell, t_cmd *cmd);
 void					handle_builtins_main(t_shell *shell);
 
 void					ft_exit(int exit_code);

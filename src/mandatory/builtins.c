@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/21 23:03:32 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/22 21:51:25 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,16 @@ void ft_cd(t_shell *shell)
 	update_value(shell->env, "PWD", cwd);
 }
 
-void handle_builtins(t_shell *shell)
+void handle_builtins(t_shell *shell, t_cmd *cmd)
 {
-	if(ft_strncmp(shell->cmd->arr[0], "echo", higher_len(shell->cmd->arr[0], "echo")) == 0)
+	if (ft_strncmp(cmd->arr[0], "echo", higher_len(cmd->arr[0], "echo")) == 0)
         ft_echo(shell);
-	else if(ft_strncmp(shell->cmd->arr[0], "pwd", higher_len(shell->cmd->arr[0], "pwd")) == 0)
+	else if (ft_strncmp(cmd->arr[0], "pwd", higher_len(cmd->arr[0], "pwd")) == 0)
 	{
-		shell->cmd->is_builtin = true;
+		cmd->is_builtin = true;
 		ft_printf("%s\n", get_env_value(shell->env, "PWD"));
 	}
-	else if (ft_strncmp(shell->cmd->arr[0], "env", higher_len(shell->cmd->arr[0], "env")) == 0)
+	else if (ft_strncmp(cmd->arr[0], "env", higher_len(cmd->arr[0], "env")) == 0)
 		ft_env(shell);
 	else
 		return ;

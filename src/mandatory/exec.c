@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/13 23:09:14 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/22 22:34:05 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <limits.h>
 #include <linux/limits.h>
 
-void child_process(t_shell *shell, t_cmd *cmd)
+int child_process(t_shell *shell, t_cmd *cmd)
 {
 	char *path;
 	int result;
@@ -30,7 +30,7 @@ void child_process(t_shell *shell, t_cmd *cmd)
 	result = execve(path, cmd->arr, shell->envp);
 	if (result == -1)
 		perror("execve");
-	exit(0);
+	exit(1);
 }
 
 static bool get_cond(int i, int j, int cmd_i, int cmdlen)
@@ -73,7 +73,7 @@ void redirect_pipes(t_cmd *cmd, int fd[][2], int cmdlen, int i)
 	if (i != 0)
 	{
 		dup2(fd[i - 1][0], STDIN_FILENO);
-		close(fd[i - 1][0]);				
+		close(fd[i - 1][0]);		
 	}
 }
 
@@ -146,6 +146,29 @@ void redirect_files(t_cmd *cmd)
 	}
 }
 
+static void wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
+{
+	int exit_status;
+	int failed;
+	int i;
+
+	failed = 0;	
+	waitpid(pid[0], &exit_status, 0);
+    if (WIFEXITED(exit_status) && WEXITSTATUS(exit_status) != 0)
+    {
+        *shell->last_exit_status = WEXITSTATUS(exit_status);
+        failed = 1;
+    }
+	i = 1;
+    while (i < cmdlen)
+    {
+        if (failed)
+            kill(pid[i], SIGKILL);
+        waitpid(pid[i], &exit_status, 0);
+		i++;
+    }
+}
+
 void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 {
 	int	i;
@@ -163,19 +186,19 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 			init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
 			redirect_pipes(cmd, fd, cmdlen, i);
 			redirect_files(cmd);
-			handle_builtins(shell);
+			handle_builtins(shell, cmd);
 			if (!cmd->is_builtin)
 				child_process(shell, cmd);
 			exit(0);
 		}
 		i++;
 		cmd = cmd->next;
-	}		
-	close_all_fds(fd, cmdlen);				
-	i = -1;
-	while (++i < cmdlen)
-        waitpid(pid[i], shell->last_exit_status, 0);
+	}
+	close_all_fds(fd, cmdlen);	
+	wait_for_pids(shell, pid, cmdlen);
+	
 }
+
 void execute_cmd(t_shell *shell)
 {
 	int fd[100][2];
