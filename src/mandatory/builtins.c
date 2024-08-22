@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/22 22:36:47 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/22 23:09:04 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 #include <stdio.h>
 #include <errno.h>
 
-void ft_env(t_shell *shell)
+void ft_env(t_shell *shell, t_cmd *cmd)
 {
 	t_env *tmp;
 
-	shell->cmd->is_builtin = true;
+	cmd->is_builtin = true;
 	tmp = shell->env;
 	while (tmp)
 	{
@@ -35,23 +35,23 @@ void ft_env(t_shell *shell)
 	}
 }
 
-void ft_echo(t_shell *shell)
+void ft_echo(t_shell *shell, t_cmd *cmd)
 {
 	int i;
 	bool newline;
 
-	shell->cmd->is_builtin = true;
+	cmd->is_builtin = true;
 	newline = true;
 	i = 1;
-	if(ft_strncmp(shell->cmd->arr[1], "-n", higher_len(shell->cmd->arr[1], "-n")) == 0)
+	if(ft_strncmp(cmd->arr[1], "-n", higher_len(cmd->arr[1], "-n")) == 0)
 	{
 		i = 2;
 		newline = false;
 	}
-	while (shell->cmd->arr[i])
+	while (cmd->arr[i])
 	{
-		ft_putstr_fd(shell->cmd->arr[i], 1);
-		if (shell->cmd->arr[i + 1])
+		ft_putstr_fd(cmd->arr[i], 1);
+		if (cmd->arr[i + 1])
 			write(1, " ", 1);
 		i++;
 	}
@@ -59,14 +59,14 @@ void ft_echo(t_shell *shell)
 		write(1, "\n", 1);
 }
 
-void ft_cd(t_shell *shell)
+void ft_cd(t_shell *shell, t_cmd *cmd)
 {
 	t_env *tmp;
 	char *cwd;
 
 	*(shell->last_exit_status) = 0;
-	shell->cmd->is_builtin = true;
-	if (shell->cmd->arr[2])
+	cmd->is_builtin = true;
+	if (cmd->arr[2])
 		print_error(shell, "too many args", "cd", -1, 0);
 	tmp = shell->env;
 	cwd = (char *)malloc(sizeof(char) * PATH_SIZE);
@@ -77,9 +77,9 @@ void ft_cd(t_shell *shell)
 		update_value(shell->env, "OLDPWD", cwd);
 	else
 		env_lstadd_back(&tmp, new_env("OLDPWD", cwd));
-	if (chdir(shell->cmd->arr[1]) == -1)
+	if (chdir(cmd->arr[1]) == -1)
 	{
-		print_error(shell, shell->cmd->arr[1], "cd", ERR_CD_NODIR, 0);
+		print_error(shell, cmd->arr[1], "cd", ERR_CD_NODIR, 0);
 		return ;
 	}
 	free(cwd);
@@ -90,14 +90,14 @@ void ft_cd(t_shell *shell)
 void handle_builtins(t_shell *shell, t_cmd *cmd)
 {
 	if (ft_strncmp(cmd->arr[0], "echo", higher_len(cmd->arr[0], "echo")) == 0)
-        ft_echo(shell);
+        ft_echo(shell, cmd);
 	else if (ft_strncmp(cmd->arr[0], "pwd", higher_len(cmd->arr[0], "pwd")) == 0)
 	{
 		cmd->is_builtin = true;
 		ft_printf("%s\n", get_env_value(shell->env, "PWD"));
 	}
 	else if (ft_strncmp(cmd->arr[0], "env", higher_len(cmd->arr[0], "env")) == 0)
-		ft_env(shell);
+		ft_env(shell, cmd);
 	else
 		return ;
 }
@@ -121,26 +121,26 @@ static int arg_numeric(t_shell *shell, char *arg)
 	return (1);
 }
 
-void handle_builtins_main(t_shell *shell)
+void handle_builtins_main(t_shell *shell, t_cmd *cmd)
 {
-	if(ft_strncmp(shell->cmd->arr[0], "exit", higher_len(shell->cmd->arr[0], "exit")) == 0)
+	if(ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
 	{
-		if (!shell->cmd->arr[1])
+		if (!cmd->arr[1])
 			ft_exit(*shell->last_exit_status);
-		else if (!arg_numeric(shell, shell->cmd->arr[1]))
+		else if (!arg_numeric(shell, cmd->arr[1]))
 			print_error(shell, NULL, "exit", ERR_NONNUM, 0);
-		else if (shell->cmd->arr[2])
+		else if (cmd->arr[2])
 			print_error(shell, "too many args", "exit", -1, 0);
-		else if (shell->cmd->arr[1])
-			*shell->last_exit_status = ft_atoi(shell->cmd->arr[1]);
+		else if (cmd->arr[1])
+			*shell->last_exit_status = ft_atoi(cmd->arr[1]);
 		ft_exit(*shell->last_exit_status);
 	}
-	else if(ft_strncmp(shell->cmd->arr[0], "cd", higher_len(shell->cmd->arr[0], "cd")) == 0)
-		ft_cd(shell);
-	else if(ft_strncmp(shell->cmd->arr[0], "export", higher_len(shell->cmd->arr[0], "export")) == 0)
-		ft_export(shell);
-	else if(ft_strncmp(shell->cmd->arr[0], "unset", higher_len(shell->cmd->arr[0], "unset")) == 0)
-		ft_unset(shell);
+	else if(ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)
+		ft_cd(shell, cmd);
+	else if(ft_strncmp(cmd->arr[0], "export", higher_len(cmd->arr[0], "export")) == 0)
+		ft_export(shell, cmd);
+	else if(ft_strncmp(cmd->arr[0], "unset", higher_len(cmd->arr[0], "unset")) == 0)
+		ft_unset(shell, cmd);
 	else
 		return ;
 }

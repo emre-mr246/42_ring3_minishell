@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/22 22:34:05 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/22 23:08:44 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 			redirect_pipes(cmd, fd, cmdlen, i);
 			redirect_files(cmd);
 			handle_builtins(shell, cmd);
+			handle_builtins_main(shell, cmd);
 			if (!cmd->is_builtin)
 				child_process(shell, cmd);
 			exit(0);
@@ -196,7 +197,6 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 	}
 	close_all_fds(fd, cmdlen);	
 	wait_for_pids(shell, pid, cmdlen);
-	
 }
 
 void execute_cmd(t_shell *shell)

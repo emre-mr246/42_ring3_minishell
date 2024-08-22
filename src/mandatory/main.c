@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/20 19:10:06 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/08/22 23:08:33 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,8 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	shell->cmd = create_cmd(*(shell->tokens));
 	//print_cmd(shell);
 	parse_cmds(shell);
-	handle_builtins_main(shell);
-	if (!shell->cmd->is_builtin)
-		execute_cmd(shell);
+	handle_builtins_main(shell, shell->cmd);
+	execute_cmd(shell);
 	shell->cmd->is_builtin = false;
 }
 

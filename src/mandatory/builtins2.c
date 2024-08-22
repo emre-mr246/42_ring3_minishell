@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/20 19:06:47 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/08/22 23:04:57 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,22 @@ static char *get_export_key(t_shell *shell, int *j)
 	return (key);
 }
 
-void ft_export(t_shell *shell)
+void ft_export(t_shell *shell, t_cmd *cmd)
 {
 	int i;
 	int j;
 	char *key;
 	char *value;
 
-	shell->cmd->is_builtin = true;
+	cmd->is_builtin = true;
 	j = 1;
-	while(shell->cmd->arr[j])
+	while(cmd->arr[j])
 	{
 		key = get_export_key(shell, &j);
 		if (!key)
 			return ;
-		value = ft_substr(shell->cmd->arr[j], i + 1, ft_strlen(shell->cmd->arr[j]) - (i + 1));
+		i = env_search_export(shell, j);
+		value = ft_substr(cmd->arr[j], i + 1, ft_strlen(cmd->arr[j]) - (i + 1));
 		if (key_exists(shell->env, key))
 			update_value(shell->env, key, value);
 		else
@@ -131,15 +132,15 @@ static void ft_unset_key(t_shell *shell, char *key)
 	prev_node->next = next_node;
 }
 
-void ft_unset(t_shell *shell)
+void ft_unset(t_shell *shell, t_cmd *cmd)
 {
 	int i;
 
 	i = 1;
-	shell->cmd->is_builtin = true;
-	while (shell->cmd->arr[i])
+	cmd->is_builtin = true;
+	while (cmd->arr[i])
 	{
-		ft_unset_key(shell, shell->cmd->arr[i]);
+		ft_unset_key(shell, cmd->arr[i]);
 		i++;
 	}
 }

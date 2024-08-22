@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/22 21:49:33 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/22 22:57:49 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void					print_cmd(t_shell *shell);
 char					*get_env_value(t_env *env, char *key);
 
 void 					handle_builtins(t_shell *shell, t_cmd *cmd);
-void					handle_builtins_main(t_shell *shell);
+void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
 
 void					ft_exit(int exit_code);
 
@@ -149,15 +149,15 @@ int						cmd_len(t_cmd *cmd);
 char					*make_path(char *uncompleted_path, char *cmd);
 char					*find_valid_path(char *cmd, t_env *envp);
 
-void					ft_export(t_shell *shell);
-void					ft_unset(t_shell *shell);
+void					ft_export(t_shell *shell, t_cmd *cmd);
+void					ft_unset(t_shell *shell, t_cmd *cmd);
 
 void					remove_redirs(t_shell *shell, t_cmd *cmd);
 int						open_outfile(t_cmd *cmd);
 int						open_infile(t_cmd *cmd);
 
 void					print_error(t_shell *shell, char *str, char *cmd, int mode, int exits);
-void					handle_builtins_main(t_shell *shell);
+void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
 
 char *get_env_key(char *str);
 #endif
