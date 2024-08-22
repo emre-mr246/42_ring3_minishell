@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/22 21:51:25 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/22 22:36:47 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,9 @@ void handle_builtins_main(t_shell *shell)
 {
 	if(ft_strncmp(shell->cmd->arr[0], "exit", higher_len(shell->cmd->arr[0], "exit")) == 0)
 	{
-		if (!arg_numeric(shell, shell->cmd->arr[1]))
+		if (!shell->cmd->arr[1])
+			ft_exit(*shell->last_exit_status);
+		else if (!arg_numeric(shell, shell->cmd->arr[1]))
 			print_error(shell, NULL, "exit", ERR_NONNUM, 0);
 		else if (shell->cmd->arr[2])
 			print_error(shell, "too many args", "exit", -1, 0);
