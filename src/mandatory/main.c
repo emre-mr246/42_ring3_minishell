@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/22 23:55:08 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/26 13:49:49 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void parse_cmds(t_shell *shell)
 	cmd = shell->cmd;
 	while (cmd)
 	{
-		remove_redirs(shell, shell->cmd);
+		remove_redirs(shell, cmd);
 		parse_cmd(shell, cmd);
 		cmd = cmd->next;
 	}
@@ -146,6 +146,7 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 		return ;
 	shell->cmd = create_cmd(*(shell->tokens));
 	parse_cmds(shell);
+	// print_cmd(shell);
 	execute_cmd(shell);
 	shell->cmd->is_builtin = false;
 }

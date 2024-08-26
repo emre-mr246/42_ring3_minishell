@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/19 18:08:35 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/26 13:51:10 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ static void remove_redir(t_cmd *cmd, char **arr)
 	j = 0;
 	while (cmd->arr[i])
 	{
-		if (ft_strncmp(cmd->arr[i], ">", 1) == 0 && (cmd->arr[i][0] == '"' || cmd->arr[i][0] == '\''))
+		if (ft_strncmp(cmd->arr[i], ">", 1) == 0)
 		{
 			if (write_to_redir(cmd, &i, 0))
 				break ;
 		}
-		else if (ft_strncmp(cmd->arr[i], "<", 1) == 0 && (cmd->arr[i][0] == '"' || cmd->arr[i][0] == '\''))
+		else if (ft_strncmp(cmd->arr[i], "<", 1) == 0)
 		{
 			if (write_to_redir(cmd, &i, 1))
 				break ;

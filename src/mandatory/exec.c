@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/22 23:50:26 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/26 13:46:27 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,20 @@ static void wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
     }
 }
 
+int is_main_builtin(t_shell *shell, t_cmd *cmd)
+{
+	if(ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
+		return (1);
+	else if(ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)
+		return (1);
+	else if(ft_strncmp(cmd->arr[0], "export", higher_len(cmd->arr[0], "export")) == 0)
+		return (1);
+	else if(ft_strncmp(cmd->arr[0], "unset", higher_len(cmd->arr[0], "unset")) == 0)
+		return (1);
+	else
+		return (0);
+}
+
 void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 {
 	int	i;
@@ -171,7 +185,8 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 	while (i < cmdlen)
 	{
 		init_signal(SIGINT, NULL, &shell->sigint);
-		handle_builtins_main(shell, cmd);
+		if (cmdlen == 1)
+			handle_builtins_main(shell, cmd);
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
@@ -179,6 +194,8 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 			init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
 			redirect_pipes(cmd, fd, cmdlen, i);
 			redirect_files(cmd);
+			if (is_main_builtin(shell, cmd))
+				exit(0) ;
 			handle_builtins(shell, cmd);
 			if (!cmd->is_builtin)
 				child_process(shell, cmd);
@@ -188,6 +205,7 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 		cmd = cmd->next;
 	}
 	close_all_fds(fd, cmdlen);	
+	
 	wait_for_pids(shell, pid, cmdlen);
 }
 
