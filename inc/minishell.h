@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/23 00:44:15 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/26 14:13:47 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ enum					e_error
 {
 	ERR_NOCMD,
 	ERR_ENVNAME,
-	ERR_CD_NODIR,
+	ERR_NODIR,
 	ERR_CD_PWD,
 	ERR_EXCBUFF,
 	ERR_MEMALLOC,
-	ERR_NONNUM
+	ERR_NONNUM,
+	ERR_NOREAD
 };
 
 enum					e_redirection
@@ -115,7 +116,7 @@ t_cmd					*create_cmd(t_tokens token);
 void					execute_cmd(t_shell *shell);
 
 void					init_signal(int signo, void (*handler)(int), struct sigaction *sa);
-void					redirect_files(t_cmd *cmd);
+void					redirect_files(t_shell *shell, t_cmd *cmd);
 void					update_value(t_env *env, char *key, char *value);
 t_env					*new_env(char *key, char *value);
 void					dollar_sign(t_shell *shell);
@@ -153,8 +154,8 @@ void					ft_export(t_shell *shell, t_cmd *cmd);
 void					ft_unset(t_shell *shell, t_cmd *cmd);
 
 void					remove_redirs(t_shell *shell, t_cmd *cmd);
-int						open_outfile(t_cmd *cmd);
-int						open_infile(t_cmd *cmd);
+int						open_outfile(t_shell *shell, t_cmd *cmd);
+int						open_infile(t_shell *shell, t_cmd *cmd);
 
 void					print_error(t_shell *shell, char *str, char *cmd, int mode, int exits);
 void					handle_builtins_main(t_shell *shell, t_cmd *cmd);

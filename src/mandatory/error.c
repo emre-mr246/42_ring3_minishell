@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/21 23:02:56 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/26 14:16:36 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd("\': not a valid identifier\n", 2);
 	}
-	else if (mode == ERR_CD_NODIR)
+	else if (mode == ERR_NODIR)
 	{
-		ft_putstr_fd("RaRe: cd: no such file or directory: ", 2);
+		ft_putstr_fd("RaRe: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": no such file or directory: ", 2);
 		ft_putendl_fd(str, 2);
 	}
 	else if (mode == ERR_CD_PWD)
@@ -54,7 +56,14 @@ void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)
 		*(shell->last_exit_status) = 2;
 		ft_putstr_fd("Input nonnumeric\n", 2);
 	}
-	else if (exits)
+	else if (mode == ERR_NOREAD)
+	{
+		ft_putstr_fd("RaRe: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": cannot read file: ", 2);
+		ft_putendl_fd(str, 2);
+	}
+	if (exits)
 		exit(*(shell->last_exit_status));
 	else
 		return ;

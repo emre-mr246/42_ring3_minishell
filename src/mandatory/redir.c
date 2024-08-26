@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/26 13:51:10 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/26 14:45:37 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,43 @@ static int get_redirection(char *s)
 	return (NONE_REDIR);
 }
 
-int open_outfile(t_cmd *cmd)
+int open_outfile(t_shell *shell, t_cmd *cmd)
 {
 	int fd;
-
-	fd = -1;
+	char *trimmed;
+	
+	trimmed = ft_strtrim(cmd->outfile, "\"\'");
+	if (cmd->out_redir == REDIRECT_OUTPUT && access(trimmed, F_OK))
+		print_error(shell, trimmed, "open", ERR_NODIR, 1);
 	if (cmd->out_redir == REDIRECT_OUTPUT)
-		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		fd = open(trimmed, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (cmd->out_redir == APPEND_OUTPUT)
-		fd = open(cmd->outfile, O_APPEND | O_CREAT, 0777);
+		fd = open(trimmed, O_APPEND | O_CREAT, 0777);
 	else
 		fd = -1;
 	return (fd);
 }
 
-int open_infile(t_cmd *cmd)
+// char *trim_file(char *file)
+// {
+// 	bool is_single;
+// 	bool is_double;
+
+	
+
+// 	if (is_double && !is_single)
+// }
+
+int open_infile(t_shell *shell, t_cmd *cmd)
 {
 	int fd;
+	char *trimmed;
 	
+	trimmed = ft_strtrim(cmd->infile, "\"\'");
+	if (cmd->in_redir == REDIRECT_INPUT && access(trimmed, F_OK))
+		print_error(shell, cmd->infile, "open", ERR_NODIR, 1);
 	if (cmd->in_redir == REDIRECT_INPUT)
-		fd = open(cmd->infile, O_RDONLY, 0777);
+		fd = open(trimmed, O_RDONLY, 0777);
 	else
 		fd = -1;
 	return (fd);

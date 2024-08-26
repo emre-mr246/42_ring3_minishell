@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/26 13:46:27 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/26 14:17:07 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,14 @@ void heredoc(t_cmd *cmd)
 	close(tmpfd);
 }
 
-void redirect_files(t_cmd *cmd)
+void redirect_files(t_shell *shell, t_cmd *cmd)
 {
 	int outfd;
 	int	infd;
 
-	outfd = open_outfile(cmd);
+	outfd = open_outfile(shell, cmd);
 	if (cmd->in_redir != HERE_DOC)
-		infd = open_infile(cmd);
+		infd = open_infile(shell, cmd);
 	else
 		infd = -1;
 	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT))
@@ -193,7 +193,7 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 			init_signal(SIGINT, child_signal_handler, &shell->sigint);
 			init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
 			redirect_pipes(cmd, fd, cmdlen, i);
-			redirect_files(cmd);
+			redirect_files(shell, cmd);
 			if (is_main_builtin(shell, cmd))
 				exit(0) ;
 			handle_builtins(shell, cmd);
