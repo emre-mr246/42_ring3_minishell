@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/28 12:53:14 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/28 13:56:46 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,25 +139,12 @@ char *parse_file(t_shell *shell, t_cmd *cmd, char *file)
 void parse_cmds(t_shell *shell)
 {
 	t_cmd *cmd;
-	char *newfile;
 
 	cmd = shell->cmd;
 	while (cmd)
 	{
 		remove_redirs(shell, cmd);
 		parse_cmd(shell, cmd);
-		if (cmd->infile)
-		{
-			newfile = parse_file(shell, cmd, cmd->infile);
-			free(cmd->infile);
-			cmd->infile = newfile;
-		}
-		if (cmd->outfile)
-		{
-			newfile = parse_file(shell, cmd, cmd->outfile);
-			free(cmd->outfile);
-			cmd->outfile = newfile;
-		}
 		cmd = cmd->next;
 	}
 }

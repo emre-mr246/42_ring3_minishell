@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/26 14:17:07 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/28 13:58:28 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ static void wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
     while (i < cmdlen)
     {
         waitpid(pid[i], &exit_status, 0);
-		if (WIFEXITED(exit_status) && WEXITSTATUS(exit_status) != 0)
+		if (WIFEXITED(exit_status))
 			*shell->last_exit_status = WEXITSTATUS(exit_status);
         i++;
     }
@@ -195,7 +195,7 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 			redirect_pipes(cmd, fd, cmdlen, i);
 			redirect_files(shell, cmd);
 			if (is_main_builtin(shell, cmd))
-				exit(0) ;
+				exit(*shell->last_exit_status) ;
 			handle_builtins(shell, cmd);
 			if (!cmd->is_builtin)
 				child_process(shell, cmd);
@@ -205,7 +205,6 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 		cmd = cmd->next;
 	}
 	close_all_fds(fd, cmdlen);	
-	
 	wait_for_pids(shell, pid, cmdlen);
 }
 
@@ -216,7 +215,6 @@ void execute_cmd(t_shell *shell)
 	int i;
 	t_cmd	*cmd;
 	pid_t *pid;
-
 	cmdlen = cmd_len(shell->cmd);
 	pid = (pid_t *)ft_calloc(sizeof(pid_t), cmdlen);
 	if (!pid)
