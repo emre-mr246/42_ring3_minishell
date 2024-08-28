@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/28 13:51:50 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/28 14:58:32 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int open_outfile(t_shell *shell, t_cmd *cmd)
 {
 	int fd;
 
-	if (cmd->out_redir == REDIRECT_OUTPUT && access(cmd->outfile, F_OK))
+	if (cmd->in_redir == REDIRECT_OUTPUT && access(cmd->infile, R_OK))
 		exit(1);
 	if (cmd->out_redir == REDIRECT_OUTPUT)
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0777);
@@ -64,14 +64,16 @@ int open_infile(t_shell *shell, t_cmd *cmd)
 int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 {
 	char *parsed;
+	int fd;
 	
 	parsed = parse_file(shell, cmd, cmd->arr[*i + 1]);
 	if (mode_in_out == 0)
 	{
-		if (access(parsed, F_OK))
-			print_error(shell, parsed, NULL, ERR_NODIR, 0);
 		cmd->outfile = parsed;
 		cmd->out_redir = get_redirection(cmd->arr[*i]);
+		fd = open_outfile(shell, cmd);
+		if (fd != -1)
+			close(fd);
 		if (cmd->arr[*i + 1] && cmd->arr[*i + 2])
 		{
 			// free(cmd->arr[*i]);
@@ -84,6 +86,8 @@ int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 	{
 		if (access(parsed, F_OK))
 			print_error(shell, parsed, NULL, ERR_NODIR, 0);
+		if (access(parsed, R_OK))
+			print_error(shell, parsed, NULL, ERR_NOREAD, 0);
 		cmd->infile = parsed;
 		cmd->in_redir = get_redirection(cmd->arr[*i]);
 		if (cmd->arr[*i + 1] && cmd->arr[*i + 2])
