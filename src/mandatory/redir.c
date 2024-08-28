@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/26 14:45:37 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/28 13:10:24 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int open_infile(t_shell *shell, t_cmd *cmd)
 	
 	trimmed = ft_strtrim(cmd->infile, "\"\'");
 	if (cmd->in_redir == REDIRECT_INPUT && access(trimmed, F_OK))
-		print_error(shell, cmd->infile, "open", ERR_NODIR, 1);
+		print_error(shell, trimmed, "open", ERR_NODIR, 1);
 	if (cmd->in_redir == REDIRECT_INPUT)
 		fd = open(trimmed, O_RDONLY, 0777);
 	else
@@ -83,7 +83,7 @@ int	write_to_redir(t_cmd *cmd, int *i, int mode_in_out)
 		cmd->out_redir = get_redirection(cmd->arr[*i]);
 		if (cmd->arr[*i + 1] && cmd->arr[*i + 2])
 		{
-			free(cmd->arr[*i]);
+			// free(cmd->arr[*i]);
 			*i += 2;
 		}
 		else
@@ -95,7 +95,6 @@ int	write_to_redir(t_cmd *cmd, int *i, int mode_in_out)
 		cmd->in_redir = get_redirection(cmd->arr[*i]);
 		if (cmd->arr[*i + 1] && cmd->arr[*i + 2])
 		{
-			free(cmd->arr[*i]);
 			*i += 2;
 		}
 		else
@@ -126,7 +125,7 @@ static void remove_redir(t_cmd *cmd, char **arr)
 		else
 		{
 			arr[j++] = ft_strdup(cmd->arr[i]);
-			free(cmd->arr[i++]);
+			i++;
 		}
 	}
 	arr[j] = NULL;

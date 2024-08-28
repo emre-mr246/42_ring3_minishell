@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/26 14:16:49 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/28 12:53:14 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,18 +113,53 @@ void parse_cmd(t_shell *shell, t_cmd *cmd)
 	}
 }
 
+char *parse_file(t_shell *shell, t_cmd *cmd, char *file)
+{
+	bool quote[2];
+	int i;
+	int j;
+	char	*new;
+
+	new = allocate_str(shell, BUFFER_SIZE);
+	i = 0;
+	j = 0;
+	while (file[i])
+	{
+		if (file[i] == '\'' && !quote[1])
+			quote[0] = !quote[0];
+		else if (file[i] == '"' && !quote[0])
+			quote[1] = !quote[1];
+		else if ((quote[0] && file[i] != '\'') || (quote[1] && file[i] != '"') || (!quote[0] && !quote[1]))
+			new[j++] = file[i];
+		i++;
+	}
+	return (new);
+}
+
 void parse_cmds(t_shell *shell)
 {
 	t_cmd *cmd;
+	char *newfile;
 
 	cmd = shell->cmd;
 	while (cmd)
 	{
 		remove_redirs(shell, cmd);
 		parse_cmd(shell, cmd);
+		if (cmd->infile)
+		{
+			newfile = parse_file(shell, cmd, cmd->infile);
+			free(cmd->infile);
+			cmd->infile = newfile;
+		}
+		if (cmd->outfile)
+		{
+			newfile = parse_file(shell, cmd, cmd->outfile);
+			free(cmd->outfile);
+			cmd->outfile = newfile;
+		}
 		cmd = cmd->next;
 	}
-
 }
 
 void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
@@ -145,8 +180,8 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	if (!shell->tokens)
 		return ;
 	shell->cmd = create_cmd(*(shell->tokens));
-	parse_cmds(shell);
 	// print_cmd(shell);
+	parse_cmds(shell);
 	execute_cmd(shell);
 	shell->cmd->is_builtin = false;
 }

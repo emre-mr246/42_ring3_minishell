@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/26 14:16:36 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/28 13:01:12 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)
 	}
 	else if (mode == ERR_NODIR)
 	{
+		*(shell->last_exit_status) = 1;
 		ft_putstr_fd("RaRe: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": no such file or directory: ", 2);

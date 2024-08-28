@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/22 23:43:20 by emgul            ###   ########.fr       */
+/*   Updated: 2024/08/28 12:14:21 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void ft_cd(t_shell *shell, t_cmd *cmd)
 		env_lstadd_back(&tmp, new_env("OLDPWD", cwd));
 	if (chdir(cmd->arr[1]) == -1)
 	{
-		print_error(shell, cmd->arr[1], "cd", ERR_CD_NODIR, 0);
+		print_error(shell, cmd->arr[1], "cd", ERR_NODIR, 0);
 		return ;
 	}
 	free(cwd);
