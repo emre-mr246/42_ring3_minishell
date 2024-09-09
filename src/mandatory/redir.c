@@ -37,8 +37,12 @@ int open_outfile(t_shell *shell, t_cmd *cmd)
 {
 	int fd;
 
-	if (cmd->in_redir == REDIRECT_OUTPUT && access(cmd->infile, R_OK))
-		exit(1);
+	//printf("outfile: %s, r access: %i, f access: %i\n", cmd->outfile, access(cmd->outfile, R_OK), !access(cmd->outfile, F_OK));
+	if (cmd->out_redir == REDIRECT_OUTPUT && (access(cmd->outfile, R_OK) && !access(cmd->outfile, F_OK)))
+	{
+		//printf("içeride\n");
+		print_error(shell, cmd->outfile, NULL, ERR_NOREAD, 1);
+	}
 	if (cmd->out_redir == REDIRECT_OUTPUT)
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (cmd->out_redir == APPEND_OUTPUT)
@@ -67,10 +71,12 @@ int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 	int fd;
 	
 	parsed = parse_file(shell, cmd, cmd->arr[*i + 1]);
+
 	if (mode_in_out == 0)
 	{
 		cmd->outfile = parsed;
 		cmd->out_redir = get_redirection(cmd->arr[*i]);
+		
 		fd = open_outfile(shell, cmd);
 		if (fd != -1)
 			close(fd);
@@ -86,7 +92,7 @@ int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 	{
 		if (access(parsed, F_OK))
 			print_error(shell, parsed, NULL, ERR_NODIR, 0);
-		if (access(parsed, R_OK))
+		else if (access(parsed, R_OK))
 			print_error(shell, parsed, NULL, ERR_NOREAD, 0);
 		cmd->infile = parsed;
 		cmd->in_redir = get_redirection(cmd->arr[*i]);

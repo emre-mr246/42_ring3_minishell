@@ -1,10 +1,10 @@
+emre.txt
 img
 inc
-infile
-kek
 lib
 Makefile
 minishell
-minishell_tester
+misra.txt
 README.md
 src
+tester
