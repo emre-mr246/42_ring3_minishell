@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/14 00:39:15 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/10 22:56:02 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_cmd *init_cmd()
     if (!cmd->arr)
         return (NULL);
     cmd->special_char = NONE;
+	cmd->is_builtin = false;
     return (cmd);
 }
 

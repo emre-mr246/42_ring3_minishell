@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/28 14:33:15 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/10 23:00:53 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ void redirect_files(t_shell *shell, t_cmd *cmd)
 	int outfd;
 	int	infd;
 
+	if (cmd->outfiles_invalid)
+		exit(1);
 	outfd = open_outfile(shell, cmd);
 	if (cmd->in_redir != HERE_DOC)
 		infd = open_infile(shell, cmd);
