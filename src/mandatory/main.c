@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/10 23:01:22 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/10 23:12:59 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,8 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	if (!shell->tokens)
 		return ;
 	shell->cmd = create_cmd(*(shell->tokens));
-	// print_cmd(shell);
 	parse_cmds(shell);
+	// print_cmd(shell);
 	// printf("MUZMUZ\n");
 	execute_cmd(shell);
 	shell->cmd->is_builtin = false;

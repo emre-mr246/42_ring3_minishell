@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/10 23:00:46 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/10 23:14:36 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ typedef struct t_cmd
 	int					in_redir;
 	char				*outfile;
 	char				*infile;
-	bool				outfiles_invalid;
 	struct t_cmd		*next;
 	bool				is_builtin;
 	bool				is_single_quote;

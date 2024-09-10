@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/10 23:04:35 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/10 23:18:46 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,12 @@ int open_outfile(t_shell *shell, t_cmd *cmd)
 {
 	int fd;
 
-	// printf("outfile: %s, r access: %i, f access: %i\n", cmd->outfile, access(cmd->outfile, R_OK), access(cmd->outfile, F_OK));
-	if (cmd->out_redir == REDIRECT_OUTPUT && access(cmd->outfile, R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
-	{
-		//printf("içeride\n");
+	if ((cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT) && access(cmd->outfile, R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
 		print_error(shell, cmd->outfile, NULL, ERR_NOREAD, 1);
-	}
 	if (cmd->out_redir == REDIRECT_OUTPUT)
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (cmd->out_redir == APPEND_OUTPUT)
-		fd = open(cmd->outfile, O_APPEND | O_CREAT, 0644);
+		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		fd = -1;
 	return (fd);
@@ -76,11 +72,8 @@ int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 	{
 		cmd->outfile = parsed;
 		cmd->out_redir = get_redirection(cmd->arr[*i]);
-		if (cmd->out_redir == REDIRECT_OUTPUT && access(cmd->outfile, R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
+		if ((cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT) && access(cmd->outfile, R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
 		{
-			//printf("içeride\n");
-			//print_error(shell, cmd->outfile, NULL, ERR_NOREAD, 0);
-			cmd->outfiles_invalid = 1;
 			return (1);
 		}
 		else if (access(cmd->outfile, F_OK) == -1)
@@ -99,12 +92,18 @@ int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 	}
 	if (mode_in_out == 1)
 	{
-		if (access(parsed, F_OK))
-			print_error(shell, parsed, NULL, ERR_NODIR, 0);
-		else if (access(parsed, R_OK))
-			print_error(shell, parsed, NULL, ERR_NOREAD, 0);
 		cmd->infile = parsed;
 		cmd->in_redir = get_redirection(cmd->arr[*i]);
+		if (access(cmd->infile, F_OK))
+		{
+			print_error(shell, parsed, NULL, ERR_NODIR, 0);
+			return (1);
+		}
+		else if (access(cmd->infile, R_OK))
+		{
+			print_error(shell, parsed, NULL, ERR_NOREAD, 0);
+			return (1);
+		}
 		if (cmd->arr[*i + 1] && cmd->arr[*i + 2])
 		{
 			*i += 2;
