@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/10 23:10:23 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/10 23:52:04 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,29 @@
 #include <unistd.h>
 #include <limits.h>
 #include <linux/limits.h>
+#include <sys/stat.h>
+
 
 int child_process(t_shell *shell, t_cmd *cmd)
 {
 	char *path;
 	int result;
+	struct stat *statbuf;
+	statbuf = (struct stat *)ft_calloc(1, sizeof(struct stat));
 
 	path = find_valid_path(cmd->arr[0], shell->env);
+	result = stat(cmd->arr[0], statbuf);
+	printf("cmd->arr[0]: %s, stat: %d\n", cmd->arr[0], S_ISDIR(statbuf->st_mode));
+	if (S_ISDIR(statbuf->st_mode))
+	{
+		ft_putendl_fd("Is a directory", 2);
+		exit(126);
+	}
 	result = execve(path, cmd->arr, shell->envp);
 	if (result == -1)
-		perror("execve");
+	{
+		perror("hello");
+	}
 	exit(1);
 }
 
@@ -118,8 +131,6 @@ void redirect_files(t_shell *shell, t_cmd *cmd)
 	int outfd;
 	int	infd;
 
-	if (cmd->outfiles_invalid)
-		exit(1);
 	outfd = open_outfile(shell, cmd);
 	if (cmd->in_redir != HERE_DOC)
 		infd = open_infile(shell, cmd);

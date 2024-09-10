@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/10 23:12:59 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/10 23:21:44 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ void parse_cmds(t_shell *shell)
 	{
 		remove_redirs(shell, cmd);
 		parse_cmd(shell, cmd);
-		cmd->outfiles_invalid = 0;
 		cmd = cmd->next;
 	}
 }
