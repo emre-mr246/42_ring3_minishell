@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:33:36 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 15:50:35 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,36 @@ char	*handle_quote(char **str, char quote)
 	return (NULL);
 }
 
-int	skip_whitespaces(char **str, int *i)
+static void	skip_whitespaces(char **str, int *i)
 {
 	while ((*str)[*i] == ' ' || ((*str)[*i] >= 8 && (*str)[*i] <= 13)
 		|| ((*str)[*i] == '\\'))
 		(*i)++;
-	return (*i);
 }
 
-char	*handle_space(char **str, t_env *env)
+static void skip_quotes(char **str, int *i)
+{
+	char c;
+	
+	if ((*str)[*i] == '"' || (*str)[*i] == '\'')
+	{
+		c = (*str)[*i];
+		(*i)++;
+		while ((*str)[*i] != c)
+			(*i)++;
+	}
+}
+
+char	*handle_space(char **str)
 {
 	int		i;
 	char	*res;
-	char	c;
 
 	i = 0;
-	i = skip_whitespaces(str, &i);
+	skip_whitespaces(str, &i);
 	while ((*str)[i])
 	{
-		if ((*str)[i] == '"' || (*str)[i] == '\'')
-		{
-			c = (*str)[i];
-			i++;
-			while ((*str)[i] != c)
-				i++;
-		}
+		skip_quotes(str, &i);
 		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
 			|| (*str)[i] == '\\')
 		{
@@ -171,10 +176,9 @@ t_tokens	*tokenizer(char *input, t_env *env)
 	char		*res;
 	t_tokens	*tokens;
 
-	if (!env)
-		return (NULL);
+
 	tokens = NULL;
-	while (input && *input)
+	while (input && *input && env)
 	{
 		res = NULL;
 		if ((*input == '\'' || *input == '\"') && input)
@@ -182,7 +186,7 @@ t_tokens	*tokenizer(char *input, t_env *env)
 		if (input && !res)
 			res = handle_special_char(&input);
 		if (input && !res)
-			res = handle_space(&input, env);
+			res = handle_space(&input);
 		if (input && res && ft_strtrim(res, " ") != NULL)
 		{
 			lstadd_back_token(&tokens, new_token(ft_strtrim(res, "\n\t ")));
