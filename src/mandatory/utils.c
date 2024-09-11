@@ -6,12 +6,12 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 16:37:35 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:46:26 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 
 int	ft_find_index(char *haystack, char *needle)
 {
@@ -40,8 +40,8 @@ int	ft_find_index(char *haystack, char *needle)
 
 int	higher_len(char *str1, char *str2)
 {
-	int len1;
-	int len2;
+	int	len1;
+	int	len2;
 
 	len1 = ft_strlen(str1);
 	len2 = ft_strlen(str2);
@@ -51,7 +51,7 @@ int	higher_len(char *str1, char *str2)
 		return (len2);
 }
 
-void free_array(char **arr)
+void	free_array(char **arr)
 {
 	int	i;
 
@@ -64,10 +64,11 @@ void free_array(char **arr)
 	free(arr);
 }
 
-void free_all(t_shell *shell)
+void	free_all(t_shell *shell)
 {
-	t_cmd	*tmp_cmd;
+	t_cmd		*tmp_cmd;
 	t_tokens	*tmp_tokens;
+	t_env		*tmp_env;
 
 	while (shell->cmd)
 	{
@@ -85,10 +86,11 @@ void free_all(t_shell *shell)
 	}
 	while (shell->env)
 	{
-		free(shell->env->key);
-		free(shell->env->value);
-		free(shell->env);
+		tmp_env = shell->env;
 		shell->env = shell->env->next;
+		free(tmp_env->key);
+		free(tmp_env->value);
+		free(tmp_env);
 	}
 	if (shell)
 		free(shell);

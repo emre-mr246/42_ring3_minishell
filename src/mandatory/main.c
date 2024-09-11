@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 16:22:34 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:50:29 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*allocate_str(t_shell *shell, int buff_size)
 {
 	char	*new;
 
-	new = (char *)ft_calloc(sizeof(char), buff_size);
+	new = (char *)ft_calloc(sizeof(char), buff_size + 1);
 	if (!new)
 		print_error(shell, "HATA", NULL, ERR_MEMALLOC, 1);
 	return (new);
@@ -76,6 +76,8 @@ char	*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 	new = allocate_str(shell, BUFFER_SIZE);
 	j = -1;
 	k = 0;
+	quote[0] = false;
+	quote[1] = false;
 	while (cmd->arr[*i][++j])
 	{
 		if (cmd->arr[*i][j] == '\'' && !quote[1])
@@ -164,10 +166,7 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	{
 		shell->line = readline(create_prompt(shell));
 		if (!shell->line)
-		{
-			free(shell->line); // bakılacak
 			return ;
-		}
 		add_history(shell->line);
 	}
 	else
