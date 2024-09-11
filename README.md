@@ -25,7 +25,7 @@ A Unix shell interprets user commands and executes them. It manages processes, h
 
 ## Image 📸
 
-![](img/minishell-image.png)
+![](img/rareshell.gif)
 
 ## Usage 🔍
 

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 12:55:18 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:26:14 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,54 +22,38 @@
 #include <linux/limits.h>
 #include <sys/stat.h>
 
+static void handle_cmd_errors(t_shell *shell, t_cmd *cmd)
+{
+	struct stat	statbuf;
+	
+	stat(cmd->arr[0], &statbuf);
+	if(access(cmd->arr[0], X_OK) == -1 && access(cmd->arr[0], F_OK) == 0 && ft_strchr(cmd->arr[0], '/'))
+		print_error(shell, cmd->arr[0], NULL, ERR_NOPERM, 0);
+	else if (S_ISDIR(statbuf.st_mode) && ft_strchr(cmd->arr[0], '/'))
+		print_error(shell, cmd->arr[0], NULL, ERR_ISDIR, 0);
+	else if (access(cmd->arr[0], X_OK) == -1 || (access(cmd->arr[0], X_OK) == 0 && S_ISDIR(statbuf.st_mode)))
+	{
+		print_error(shell, cmd->arr[0], NULL, ERR_NOCMD, 0);
+		exit(127);
+	}
+	else if (access(cmd->arr[0], F_OK))
+	{
+		print_error(shell, cmd->arr[0], NULL, ERR_NODIR, 0);
+		exit(127);
+	}
+	exit(126);
+}
 
 int child_process(t_shell *shell, t_cmd *cmd)
 {
-	char *path;
-	int result;
-	struct stat *statbuf;
-	statbuf = (struct stat *)ft_calloc(1, sizeof(struct stat));
+	char		*path;
 
 	path = find_valid_path(cmd->arr[0], shell->env);
-	result = stat(cmd->arr[0], statbuf);
-	// printf("cmd->arr[0]: %s, access: %i\n", cmd->arr[0], access(cmd->arr[0], X_OK));
 	if (!path)
-	{
-		if(access(cmd->arr[0], X_OK) == -1 && access(cmd->arr[0], F_OK) == 0 && ft_strchr(cmd->arr[0], '/'))
-		{
-			ft_putendl_fd("Invalid permission", 2);
-			exit(126);
-		}
-		else if (S_ISDIR(statbuf->st_mode) && ft_strchr(cmd->arr[0], '/'))
-			ft_putendl_fd("Is a directory", 2);
-		else if (access(cmd->arr[0], X_OK) == -1 || (access(cmd->arr[0], X_OK) == 0 && S_ISDIR(statbuf->st_mode)))
-		{
-			ft_putendl_fd("No command", 2);
-			exit(127);
-		}
-		else if (access(cmd->arr[0], F_OK))
-		{
-			ft_putendl_fd("No such file or directory", 2);
-			exit(127);
-		}
-		else
-			ft_putendl_fd("Invalid permission", 2);
-		exit(126);
-	}
-	//printf("cmd->arr[0]: %s, stat: %d\n", cmd->arr[0], S_ISDIR(statbuf->st_mode));
-
-	// if (access(cmd->arr[0], X_OK) == -1)
-	// {
-	// 	ft_putendl_fd("Invalid permission", 2);
-	// 	exit(126);
-	// }
+		handle_cmd_errors(shell, cmd);
 	if (!cmd->arr[0][0])
 		exit(0);
-	result = execve(path, cmd->arr, shell->envp);
-	if (result == -1)
-	{
-		perror("hello");
-	}
+	execve(path, cmd->arr, shell->envp);
 	exit(1);
 }
 

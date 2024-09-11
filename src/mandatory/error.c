@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/10 23:04:42 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:21:38 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)
 {
 	*(shell->last_exit_status) = 1;
+	ft_putstr_fd("RaRe: ", 2);
 	if (mode == ERR_ENVNAME)
 	{
-		ft_putstr_fd("RaRe: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": `", 2);
 		ft_putstr_fd(str, 2);
@@ -32,18 +32,17 @@ void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)
 	}
 	else if (mode == ERR_NODIR)
 	{
-		ft_putstr_fd("RaRe: ", 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": no such file or directory\n", 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 	}
 	else if (mode == ERR_CD_PWD)
 	{
-		ft_putstr_fd("RaRe: cd: string not in pwd: ", 2);
+		ft_putstr_fd("cd: string not in pwd: ", 2);
 		ft_putendl_fd(str, 2);
 	}
 	else if (mode == ERR_NOCMD)
 	{
-		ft_putstr_fd("RaRe: command not found: ", 2);
+		ft_putstr_fd("Command not found: ", 2);
 		ft_putendl_fd (str, 2);
 	}
 	else if (mode == ERR_EXCBUFF)
@@ -55,12 +54,15 @@ void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)
 		*(shell->last_exit_status) = 2;
 		ft_putstr_fd("Input nonnumeric\n", 2);
 	}
-	else if (mode == ERR_NOREAD)
+	else if (mode == ERR_NOPERM)
 	{
-		ft_putstr_fd("RaRe: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": cannot read file: ", 2);
-		ft_putendl_fd(str, 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": Invalid permission\n", 2);
+	}
+	else if (mode == ERR_ISDIR)
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": Is directory\n", 2);
 	}
 	if (exits)
 		exit(*(shell->last_exit_status));
