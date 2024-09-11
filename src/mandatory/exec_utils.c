@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:21:13 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:30:15 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:02:25 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include "libft.h"
 #include <unistd.h>
 
-char	*make_path(char *uncompleted_path, char *cmd)
+char	*make_path(t_shell *shell, char *uncompleted_path, char *cmd)
 {
 	char	*path_part;
 	char	*valid_path;
 
 	path_part = ft_strjoin(uncompleted_path, "/");
 	if (!path_part)
-		ft_exit(-1);
+		ft_exit(shell, -1);
 	valid_path = ft_strjoin(path_part, cmd);
 	free(path_part);
 	if (access(valid_path, F_OK) < 0)
@@ -29,7 +29,7 @@ char	*make_path(char *uncompleted_path, char *cmd)
 	return (valid_path);
 }
 
-char	*find_valid_path(char *cmd, t_env *envp)
+char	*find_valid_path(t_shell *shell, char *cmd, t_env *envp)
 {
 	int i;
 	char **paths;
@@ -41,11 +41,11 @@ char	*find_valid_path(char *cmd, t_env *envp)
 		env_tmp = env_tmp->next;
 	paths = ft_split(env_tmp->value, ':');
 	if (!paths || !*paths)
-		ft_exit(-1);
+		ft_exit(shell, -1);
 	i = 0;
 	while (paths[i])
 	{
-		valid_path = make_path(paths[i++], cmd);
+		valid_path = make_path(shell, paths[i++], cmd);
 		if (valid_path != NULL)
 			break ;
 	}

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:24:09 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:08:12 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 	if (cmd->arr[2])
 		print_error(shell, "too many args", "cd", -1, 0);
 	tmp = shell->env;
-	cwd = (char *)malloc(sizeof(char) * PATH_SIZE);
+	cwd = (char *)ft_calloc(sizeof(char), PATH_SIZE);
 	if (!cwd)
 		return ;
 	getcwd(cwd, PATH_SIZE - 1);
@@ -123,14 +123,14 @@ void	handle_builtins_main(t_shell *shell, t_cmd *cmd)
 	if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
 	{
 		if (!cmd->arr[1])
-			ft_exit(*shell->last_exit_status);
+			ft_exit(shell, *shell->last_exit_status);
 		else if (!arg_numeric(shell, cmd->arr[1]))
 			print_error(shell, NULL, "exit", ERR_NONNUM, 0);
 		else if (cmd->arr[2])
 			print_error(shell, "too many args", "exit", -1, 0);
 		else if (cmd->arr[1])
 			*shell->last_exit_status = ft_atoi(cmd->arr[1]);
-		ft_exit(*shell->last_exit_status);
+		ft_exit(shell, *shell->last_exit_status);
 	}
 	else if (ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)
 		ft_cd(shell, cmd);

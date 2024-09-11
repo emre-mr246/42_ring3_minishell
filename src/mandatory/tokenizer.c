@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 15:50:35 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:08:28 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	get_indexes(char *input)
 	int	i;
 
 	min_i = INT_MAX;
-	indexes = (int *)malloc(sizeof(int) * 7);
+	indexes = (int *)ft_calloc(sizeof(int), 7);
 	if (!indexes)
 		return (-1);
 	indexes[0] = ft_find_index(input, "&&");
@@ -175,7 +175,6 @@ t_tokens	*tokenizer(char *input, t_env *env)
 {
 	char		*res;
 	t_tokens	*tokens;
-
 
 	tokens = NULL;
 	while (input && *input && env)

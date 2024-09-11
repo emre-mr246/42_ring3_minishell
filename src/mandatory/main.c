@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:32:13 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:22:34 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
-void	ft_exit(int exit_code)
+void	ft_exit(t_shell *shell, int exit_code)
 {
 	rl_clear_history();
+	free_all(shell);
 	exit(exit_code);
 }
 
@@ -113,7 +114,11 @@ void	parse_cmd(t_shell *shell, t_cmd *cmd)
 		}
 		i++;
 	}
-	cmd->arr[j] = NULL;
+	cmd->arr[j++] = NULL;
+	while (cmd->arr[j])
+	{
+		free(cmd->arr[j++]);
+	}
 }
 
 char	*parse_file(t_shell *shell, t_cmd *cmd, char *file)
@@ -187,7 +192,7 @@ int	main(int ac, char **av, char **env)
 		return (-1);
 	// while (1)
 	main_loop(shell, 0, NULL, NULL);
-	ft_exit(*(shell->last_exit_status));
+	ft_exit(shell, *(shell->last_exit_status));
 }
 
 // int main(int argc, char **argv, char **envp)

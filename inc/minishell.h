@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:06:15 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:23:54 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <signal.h>
 # include <stdbool.h>
+
+#include <stdio.h>
 
 # define SA_RESTART 0x10000000
 # define PATH_SIZE 512
@@ -118,7 +120,7 @@ int						higher_len(char *str1, char *str2);
 
 // SIGNAL
 void					handle_sigint(int signo);
-void					handle_sigquit(int signo);
+void	handle_sigquit(int signo);
 
 char					*get_special_char(char *input);
 
@@ -137,16 +139,17 @@ bool					key_exists(t_env *env, char *key);
 void					print_cmd(t_shell *shell);
 char					*get_env_value(t_env *env, char *key);
 
-void					ft_exit(int exit_code);
+void					ft_exit(t_shell *shell, int exit_code);
 
-void					child_signal_handler(int signum);
+void	child_signal_handler(int signum);
 
 // UTILS
 void					execute(char *argv, char **envp);
-char					*find_valid_path(char *cmd, t_env *envp);
-char					*make_path(char *uncompleted_path, char *cmd);
+char	*find_valid_path(t_shell *shell, char *cmd, t_env *envp);
+char	*make_path(t_shell *shell, char *uncompleted_path, char *cmd);
 void					free_array(char **array);
 
+void free_all(t_shell *shell);
 // ERROR
 void					input_error(void);
 void					error(char *error_message);
@@ -154,8 +157,7 @@ void					error(char *error_message);
 void					execute_cmd(t_shell *shell);
 int						cmd_len(t_cmd *cmd);
 
-char					*make_path(char *uncompleted_path, char *cmd);
-char					*find_valid_path(char *cmd, t_env *envp);
+char					*find_valid_path(t_shell *shell, char *cmd, t_env *envp);
 
 void					remove_redirs(t_shell *shell, t_cmd *cmd);
 int						open_outfile(t_shell *shell, t_cmd *cmd);

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:31:04 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:04:01 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,27 @@ static void	handle_cmd_errors(t_shell *shell, t_cmd *cmd)
 			&& S_ISDIR(statbuf.st_mode)))
 	{
 		print_error(shell, cmd->arr[0], NULL, ERR_NOCMD, 0);
-		exit(127);
+		ft_exit(shell, 127);
 	}
 	else if (access(cmd->arr[0], F_OK))
 	{
 		print_error(shell, cmd->arr[0], NULL, ERR_NODIR, 0);
-		exit(127);
+		ft_exit(shell, 127);
 	}
-	exit(126);
+	ft_exit(shell, 126);
 }
 
 int	child_process(t_shell *shell, t_cmd *cmd)
 {
 	char	*path;
 
-	path = find_valid_path(cmd->arr[0], shell->env);
+	path = find_valid_path(shell, cmd->arr[0], shell->env);
 	if (!path)
 		handle_cmd_errors(shell, cmd);
 	if (!cmd->arr[0][0])
-		exit(0);
+		ft_exit(shell, 0);
 	execve(path, cmd->arr, shell->envp);
-	exit(1);
+	ft_exit(shell, 1);
 }
 
 static bool	get_cond(int i, int j, int cmd_i, int cmdlen)
@@ -207,15 +207,15 @@ int	is_main_builtin(t_shell *shell, t_cmd *cmd)
 static void child(t_shell *shell, t_cmd *cmd, int fd[][2], int cmdlen, int *i)
 {
 	init_signal(SIGINT, child_signal_handler, &shell->sigint);
-	init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
+	init_signal(SIGQUIT, handle_sigquit, (void *)shell);
 	redirect_pipes(cmd, fd, cmdlen, *i);
 	redirect_files(shell, cmd);
 	if (is_main_builtin(shell, cmd))
-		exit(*shell->last_exit_status);
+		ft_exit(shell, *shell->last_exit_status);
 	handle_builtins(shell, cmd);
 	if (!cmd->is_builtin)
 		child_process(shell, cmd);
-	exit(0);
+	ft_exit(shell, 0);
 }
 
 void	handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
@@ -228,7 +228,7 @@ void	handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 	while (i < cmdlen)
 	{
 		if (!cmd->arr[0])
-			exit(0);
+			ft_exit(shell, 0);
 		init_signal(SIGINT, NULL, &shell->sigint);
 		if (cmdlen == 1)
 			handle_builtins_main(shell, cmd);

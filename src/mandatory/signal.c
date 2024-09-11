@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:08:48 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:34:56 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:07:18 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_sigint(int signo)
 void	handle_sigquit(int signo)
 {
 	if (signo == SIGQUIT)
-		ft_exit(131);
+		exit(131);
 }
 
 void	child_signal_handler(int signum)

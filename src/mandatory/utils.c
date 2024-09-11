@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:35:47 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:37:35 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,47 @@ int	higher_len(char *str1, char *str2)
 		return (len1);
 	else
 		return (len2);
+}
+
+void free_array(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+void free_all(t_shell *shell)
+{
+	t_cmd	*tmp_cmd;
+	t_tokens	*tmp_tokens;
+
+	while (shell->cmd)
+	{
+		tmp_cmd = shell->cmd;
+		shell->cmd = shell->cmd->next;
+		free_array(tmp_cmd->arr);
+		free(tmp_cmd);
+	}
+	while (shell->tokens)
+	{
+		tmp_tokens = shell->tokens;
+		shell->tokens = shell->tokens->next;
+		free(tmp_tokens->token);
+		free(tmp_tokens);
+	}
+	while (shell->env)
+	{
+		free(shell->env->key);
+		free(shell->env->value);
+		free(shell->env);
+		shell->env = shell->env->next;
+	}
+	if (shell)
+		free(shell);
 }
