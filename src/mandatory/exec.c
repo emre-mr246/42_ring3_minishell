@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/10 23:52:04 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 12:55:18 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,39 @@ int child_process(t_shell *shell, t_cmd *cmd)
 
 	path = find_valid_path(cmd->arr[0], shell->env);
 	result = stat(cmd->arr[0], statbuf);
-	printf("cmd->arr[0]: %s, stat: %d\n", cmd->arr[0], S_ISDIR(statbuf->st_mode));
-	if (S_ISDIR(statbuf->st_mode))
+	// printf("cmd->arr[0]: %s, access: %i\n", cmd->arr[0], access(cmd->arr[0], X_OK));
+	if (!path)
 	{
-		ft_putendl_fd("Is a directory", 2);
+		if(access(cmd->arr[0], X_OK) == -1 && access(cmd->arr[0], F_OK) == 0 && ft_strchr(cmd->arr[0], '/'))
+		{
+			ft_putendl_fd("Invalid permission", 2);
+			exit(126);
+		}
+		else if (S_ISDIR(statbuf->st_mode) && ft_strchr(cmd->arr[0], '/'))
+			ft_putendl_fd("Is a directory", 2);
+		else if (access(cmd->arr[0], X_OK) == -1 || (access(cmd->arr[0], X_OK) == 0 && S_ISDIR(statbuf->st_mode)))
+		{
+			ft_putendl_fd("No command", 2);
+			exit(127);
+		}
+		else if (access(cmd->arr[0], F_OK))
+		{
+			ft_putendl_fd("No such file or directory", 2);
+			exit(127);
+		}
+		else
+			ft_putendl_fd("Invalid permission", 2);
 		exit(126);
 	}
+	//printf("cmd->arr[0]: %s, stat: %d\n", cmd->arr[0], S_ISDIR(statbuf->st_mode));
+
+	// if (access(cmd->arr[0], X_OK) == -1)
+	// {
+	// 	ft_putendl_fd("Invalid permission", 2);
+	// 	exit(126);
+	// }
+	if (!cmd->arr[0][0])
+		exit(0);
 	result = execve(path, cmd->arr, shell->envp);
 	if (result == -1)
 	{
@@ -197,6 +224,8 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 	i = 0;
 	while (i < cmdlen)
 	{
+		if (!cmd->arr[0])
+			exit(0);
 		init_signal(SIGINT, NULL, &shell->sigint);
 		if (cmdlen == 1)
 			handle_builtins_main(shell, cmd);

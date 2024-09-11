@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/10 23:21:44 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 12:18:35 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,16 +101,23 @@ char *parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 void parse_cmd(t_shell *shell, t_cmd *cmd)
 {
 	int i;
+	int j;
 	char *new;
 
 	i = 0;
+	j = 0;
 	while (cmd->arr[i])
 	{
 		new = parse_cmd_loop(cmd, shell, &i);
-		free(cmd->arr[i]);
-		cmd->arr[i] = ft_strdup(new);
+		if (new[0] != '\0')
+		{
+			free(cmd->arr[j]);
+			cmd->arr[j] = ft_strdup(new);
+			j++;
+		}
 		i++;
 	}
+	cmd->arr[j] = NULL;
 }
 
 char *parse_file(t_shell *shell, t_cmd *cmd, char *file)
