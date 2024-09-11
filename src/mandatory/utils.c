@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:33:42 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:34:07 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_find_index(char *haystack, char *needle)
 
 	needle_len = ft_strlen(needle);
 	i = 0;
-	while (haystack[i])
+	while (haystack[i]) 
 	{
 		tmp = i;
 		j = 0;
