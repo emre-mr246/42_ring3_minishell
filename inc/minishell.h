@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:29:53 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:35:08 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ typedef struct s_shell
 //BUILTINS
 void					handle_builtins(t_shell *shell, t_cmd *cmd);
 void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
+void					ft_export(t_shell *shell, t_cmd *cmd);
+void					ft_unset(t_shell *shell, t_cmd *cmd);
 
 t_env					*get_env(char **env);
 t_shell					*init_shell(char **env);
@@ -153,8 +155,6 @@ int						cmd_len(t_cmd *cmd);
 char					*make_path(char *uncompleted_path, char *cmd);
 char					*find_valid_path(char *cmd, t_env *envp);
 
-void					ft_export(t_shell *shell, t_cmd *cmd);
-void					ft_unset(t_shell *shell, t_cmd *cmd);
 
 void					remove_redirs(t_shell *shell, t_cmd *cmd);
 int						open_outfile(t_shell *shell, t_cmd *cmd);
