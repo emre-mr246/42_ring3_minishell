@@ -6,18 +6,12 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:28:16 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:24:43 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../lib/libft/libft.h"
-#include <fcntl.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "minishell.h"
+#include "libft.h"
 
 t_cmd	*init_cmd(void)
 {
@@ -88,7 +82,7 @@ t_cmd	*new_cmd(char **cmd)
 	return (cmds);
 }
 
-void	check_odd_quotes(char *token)
+static void	check_odd_quotes(t_shell *shell, char *token)
 {
 	int		single_quote_num;
 	int		double_quote_num;
@@ -98,8 +92,6 @@ void	check_odd_quotes(char *token)
 
 	single_quote_num = 0;
 	double_quote_num = 0;
-	// bool false olarak init ediliyormuş diye buraya açık açık "= false" yazmadık
-	// ama kontrol et
 	i = -1;
 	while (token[++i])
 	{
@@ -115,41 +107,44 @@ void	check_odd_quotes(char *token)
 		}
 	}
 	if (double_quote_num % 2 != 0 || single_quote_num % 2 != 0)
+		print_error(shell, NULL, NULL, ERR_QUOTES, 1);
+}
+
+static void	*create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
+{
+	int		special_char;
+	
+	special_char = get_special_char_enum(token->token);
+	if (special_char)
 	{
-		ft_putendl_fd("Odd number of quotes", 2);
-		exit(1);
+		(*cmd)->special_char = special_char;
+		lstadd_back_cmd(cmd, new_cmd(NULL));
+		*cmd = (*cmd)->next;
+		*i = 0;
+	}
+	else
+	{
+		check_odd_quotes(shell, token->token);
+		(*cmd)->arr[*i] = ft_strdup(token->token);
+		(*i)++;
 	}
 }
 
-t_cmd	*create_cmd(t_tokens token)
+t_cmd	*create_cmds(t_shell *shell, t_tokens *token)
 {
 	t_cmd	*cmd;
 	t_cmd	*cmd_tmp;
 	int		i;
-	int		special_char;
 
 	i = 0;
 	cmd = new_cmd(NULL);
 	cmd_tmp = cmd;
 	while (1)
 	{
-		special_char = get_special_char_enum(token.token);
-		if (special_char)
-		{
-			cmd->special_char = special_char;
-			lstadd_back_cmd(&cmd, new_cmd(NULL));
-			cmd = cmd->next;
-			i = 0;
-		}
-		else
-		{
-			check_odd_quotes(token.token);
-			cmd->arr[i] = ft_strdup(token.token);
-			i++;
-		}
+		create_cmd(shell, &cmd, token, &i);
 		cmd->arr[i] = NULL;
-		if (token.next)
-			token = *token.next;
+		if (token->next)
+			token = token->next;
 		else
 			break ;
 	}

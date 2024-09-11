@@ -6,18 +6,13 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:30:09 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:32:37 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../lib/libft/libft.h"
+#include "minishell.h"
+#include "libft.h"
 #include <fcntl.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/wait.h>
 #include <unistd.h>
 
 static int	get_redirection(char *s)
@@ -39,7 +34,7 @@ int	open_outfile(t_shell *shell, t_cmd *cmd)
 
 	if ((cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT)
 		&& access(cmd->outfile, R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
-		print_error(shell, cmd->outfile, NULL, ERR_NOREAD, 1);
+		print_error(shell, cmd->outfile, NULL, ERR_NOPERM, 1);
 	if (cmd->out_redir == REDIRECT_OUTPUT)
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (cmd->out_redir == APPEND_OUTPUT)
@@ -103,7 +98,7 @@ int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 		}
 		else if (access(cmd->infile, R_OK))
 		{
-			print_error(shell, parsed, NULL, ERR_NOREAD, 0);
+			print_error(shell, parsed, NULL, ERR_NOPERM, 0);
 			return (1);
 		}
 		if (cmd->arr[*i + 1] && cmd->arr[*i + 2])

@@ -6,18 +6,14 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:27:44 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:31:04 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../lib/libft/libft.h"
-#include "readline/history.h"
+#include "minishell.h"
+#include "libft.h"
 #include "readline/readline.h"
 #include <fcntl.h>
-#include <limits.h>
-#include <linux/limits.h>
-#include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -139,6 +135,20 @@ void	heredoc(t_cmd *cmd)
 	close(tmpfd);
 }
 
+static void redir_heredoc(t_shell *shell, t_cmd *cmd)
+{
+	int	infd;
+	
+	heredoc(cmd);
+	infd = open(HEREDOC_TMP_PATH, O_RDONLY, 0777);
+	if (infd != -1)
+	{
+		dup2(infd, STDIN_FILENO);
+		close(infd);
+		unlink(HEREDOC_TMP_PATH);
+	}
+}
+
 void	redirect_files(t_shell *shell, t_cmd *cmd)
 {
 	int	outfd;
@@ -149,8 +159,7 @@ void	redirect_files(t_shell *shell, t_cmd *cmd)
 		infd = open_infile(shell, cmd);
 	else
 		infd = -1;
-	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT
-			|| cmd->out_redir == APPEND_OUTPUT))
+	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT))
 	{
 		dup2(outfd, STDOUT_FILENO);
 		close(outfd);
@@ -161,16 +170,7 @@ void	redirect_files(t_shell *shell, t_cmd *cmd)
 		close(infd);
 	}
 	if (cmd->in_redir == HERE_DOC)
-	{
-		heredoc(cmd);
-		infd = open(HEREDOC_TMP_PATH, O_RDONLY, 0777);
-		if (infd != -1)
-		{
-			dup2(infd, STDIN_FILENO);
-			close(infd);
-			unlink(HEREDOC_TMP_PATH);
-		}
-	}
+		redir_heredoc(shell, cmd);
 }
 
 static void	wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
@@ -204,6 +204,20 @@ int	is_main_builtin(t_shell *shell, t_cmd *cmd)
 		return (0);
 }
 
+static void child(t_shell *shell, t_cmd *cmd, int fd[][2], int cmdlen, int *i)
+{
+	init_signal(SIGINT, child_signal_handler, &shell->sigint);
+	init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
+	redirect_pipes(cmd, fd, cmdlen, *i);
+	redirect_files(shell, cmd);
+	if (is_main_builtin(shell, cmd))
+		exit(*shell->last_exit_status);
+	handle_builtins(shell, cmd);
+	if (!cmd->is_builtin)
+		child_process(shell, cmd);
+	exit(0);
+}
+
 void	handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 {
 	int		i;
@@ -220,18 +234,7 @@ void	handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 			handle_builtins_main(shell, cmd);
 		pid[i] = fork();
 		if (pid[i] == 0)
-		{
-			init_signal(SIGINT, child_signal_handler, &shell->sigint);
-			init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
-			redirect_pipes(cmd, fd, cmdlen, i);
-			redirect_files(shell, cmd);
-			if (is_main_builtin(shell, cmd))
-				exit(*shell->last_exit_status);
-			handle_builtins(shell, cmd);
-			if (!cmd->is_builtin)
-				child_process(shell, cmd);
-			exit(0);
-		}
+			child(shell, cmd, fd, cmdlen, &i);
 		i++;
 		cmd = cmd->next;
 	}

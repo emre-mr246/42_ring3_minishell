@@ -6,17 +6,13 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:24:29 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:28:41 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:31:46 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../lib/libft/libft.h"
-#include <bits/sigaction.h>
-#include <fcntl.h>
-#include <stdarg.h>
+#include "minishell.h"
+#include "libft.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
 
 void	init_signal(int signo, void (*handler)(int), struct sigaction *sa)

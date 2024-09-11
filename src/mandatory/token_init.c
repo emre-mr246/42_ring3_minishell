@@ -6,22 +6,18 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:40:37 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:29:00 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:33:25 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../lib/libft/libft.h"
-#include <readline/readline.h>
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "minishell.h"
+#include "libft.h"
 
 t_tokens	*new_token(char *token)
 {
 	t_tokens	*tokens;
 
-	tokens = (t_tokens *)malloc(sizeof(t_tokens));
+	tokens = (t_tokens *)ft_calloc(sizeof(t_tokens) + 1, 1);
 	if (!tokens)
 		return (NULL);
 	tokens->next = NULL;

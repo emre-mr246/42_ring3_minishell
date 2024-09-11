@@ -6,15 +6,13 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:08:48 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:28:58 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:32:52 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../lib/libft/libft.h"
+#include "minishell.h"
+#include "libft.h"
 #include <readline/readline.h>
-#include <signal.h>
-#include <stdio.h>
 #include <unistd.h>
 
 void	handle_sigint(int signo)

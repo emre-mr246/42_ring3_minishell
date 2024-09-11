@@ -6,19 +6,14 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:28:43 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:32:13 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../lib/libft/libft.h"
-#include <fcntl.h>
+#include "minishell.h"
+#include "libft.h"
 #include <readline/history.h>
 #include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
 void	ft_exit(int exit_code)
 {
@@ -88,8 +83,7 @@ char	*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 			quote[1] = !quote[1];
 		else if (quote[0] && cmd->arr[*i][j] != '\'')
 			new[k++] = cmd->arr[*i][j];
-		else if ((!quote[0] && !quote[1]) || (quote[1]
-				&& cmd->arr[*i][j] != '"'))
+		else if ((!quote[0] && !quote[1]) || cmd->arr[*i][j] != '"')
 		{
 			if (cmd->arr[*i][j] != '$')
 				new[k++] = cmd->arr[*i][j];
@@ -176,7 +170,7 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	shell->tokens = tokenizer(shell->line, shell->env);
 	if (!shell->tokens)
 		return ;
-	shell->cmd = create_cmd(*(shell->tokens));
+	shell->cmd = create_cmds(shell, shell->tokens);
 	parse_cmds(shell);
 	// print_cmd(shell);
 	// printf("MUZMUZ\n");
@@ -205,8 +199,8 @@ int	main(int ac, char **av, char **env)
 // 	shell = init_shell(envp);
 // 	if (!shell)
 // 		return (-1);
-// 	if (argc == 3 && ft_strncmp(argv[1], "-c", higher_len(argv[1], "-c")) == 0
-		&& argv[2])
+// // 	if (argc == 3 && ft_strncmp(argv[1], "-c", higher_len(argv[1], "-c")) == 0
+// 		&& argv[2])
 // 	{
 // 		arg_input = ft_split(argv[2], ';');
 // 		if (!arg_input)

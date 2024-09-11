@@ -6,19 +6,12 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:28:33 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:25:48 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../lib/libft/libft.h"
-#include <fcntl.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <unistd.h>
+#include "minishell.h"
+#include "libft.h"
 
 void	update_value(t_env *env, char *key, char *value)
 {
@@ -81,35 +74,3 @@ char	*get_env_value(t_env *env, char *key)
 	}
 	return (NULL);
 }
-
-// char *exchange_variable(char *str, t_shell *shell)
-// {
-// 	int i;
-// 	char *key;
-// 	char *value;
-// 	char *res;
-
-// 	res = (char *)malloc(sizeof(char) * 4096);
-// 	if (!res)
-// 		return (NULL);
-// 	i = 0;
-// 	while (str && *str)
-// 	{
-// 		if (*str == '$')
-// 		{
-// 			key = get_env_key(&str);
-// 			if (!key)
-// 				return (NULL);
-// 			if (ft_strncmp(key, "?", higher_len(key, "?")) == 0)
-// 				value = ft_itoa(*shell->last_exit_status);
-// 			else
-// 				value = get_env_value(shell->env, key);
-// 			ft_strlcpy(res + i, value, ft_strlen(value) + 1);
-// 			i += ft_strlen(value);
-// 		}
-// 		else
-// 			res[i++] = *str++;
-// 	}
-// 	res[i] = '\0';
-// 	return (res);
-// }

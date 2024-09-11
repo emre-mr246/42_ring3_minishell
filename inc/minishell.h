@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:35:08 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:06:15 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ enum					e_error
 	ERR_MEMALLOC,
 	ERR_NONNUM,
 	ERR_NOPERM,
-	ERR_ISDIR
+	ERR_ISDIR,
+	ERR_QUOTES
 };
 
 enum					e_redirection
@@ -94,11 +95,16 @@ typedef struct s_shell
 	int					*last_exit_status;
 }						t_shell;
 
-//BUILTINS
+// BUILTINS
 void					handle_builtins(t_shell *shell, t_cmd *cmd);
 void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
 void					ft_export(t_shell *shell, t_cmd *cmd);
 void					ft_unset(t_shell *shell, t_cmd *cmd);
+
+// CMD
+t_cmd					*create_cmds(t_shell *shell, t_tokens *token);
+t_cmd					*new_cmd(char **cmd);
+void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 
 t_env					*get_env(char **env);
 t_shell					*init_shell(char **env);
@@ -108,8 +114,6 @@ t_tokens				*tokenizer(char *input, t_env *env);
 t_tokens				*new_token(char *token);
 void					lstadd_back_token(t_tokens **lst, t_tokens *new);
 int						ft_find_index(char *haystack, char *needle);
-t_cmd					*new_cmd(char **cmd);
-void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 int						higher_len(char *str1, char *str2);
 
 // SIGNAL
@@ -117,8 +121,6 @@ void					handle_sigint(int signo);
 void					handle_sigquit(int signo);
 
 char					*get_special_char(char *input);
-
-t_cmd					*create_cmd(t_tokens token);
 
 void					execute_cmd(t_shell *shell);
 
@@ -154,7 +156,6 @@ int						cmd_len(t_cmd *cmd);
 
 char					*make_path(char *uncompleted_path, char *cmd);
 char					*find_valid_path(char *cmd, t_env *envp);
-
 
 void					remove_redirs(t_shell *shell, t_cmd *cmd);
 int						open_outfile(t_shell *shell, t_cmd *cmd);

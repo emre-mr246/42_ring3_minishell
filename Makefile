@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+         #
+#    By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/08/15 22:04:10 by mitasci          ###   ########.fr        #
+#    Updated: 2024/09/11 14:23:35 by emgul            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ NAME				= minishell
 BONUS_NAME			= minishell_bonus
 
 CC					= gcc
-CCFLAGS				= -lreadline #-Wall -Wextra -Werror
+CCFLAGS				= -lreadline -I ./lib/libft/inc/ -I ./inc/ #-Wall -Wextra -Werror
 MAKEFLAGS			= --no-print-directory
 RM					= rm -rf
 
@@ -66,7 +66,7 @@ clean:
 	@$(RM) $(BONUS_OBJS)
 	@echo "$(YELLOW)-== all object files deleted! ==-$(DEFAULT)"
 
-fclean: clean libclean
+fclean: clean
 	@$(RM) $(NAME)
 	@$(RM) $(BONUS_NAME)
 	@$(RM) $(OBJ_DIR)

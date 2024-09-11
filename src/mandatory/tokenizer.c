@@ -6,16 +6,13 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:29:02 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:33:36 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../lib/libft/libft.h"
+#include "minishell.h"
+#include "libft.h"
 #include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 char	*handle_comment(char *str)
 {

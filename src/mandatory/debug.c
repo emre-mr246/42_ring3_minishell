@@ -6,18 +6,13 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:54:12 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:28:29 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:25:45 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../lib/libft/libft.h"
-#include <fcntl.h>
-#include <readline/history.h>
-#include <readline/readline.h>
+#include "minishell.h"
+#include "libft.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 void	print_cmd(t_shell *shell)
 {

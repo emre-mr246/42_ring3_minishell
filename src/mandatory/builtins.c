@@ -6,18 +6,12 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:32:10 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:24:09 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../lib/libft/libft.h"
-#include <errno.h>
-#include <fcntl.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "minishell.h"
+#include "libft.h"
 #include <unistd.h>
 
 void	ft_env(t_shell *shell, t_cmd *cmd)
