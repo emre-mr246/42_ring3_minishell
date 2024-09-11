@@ -3,40 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/15 21:47:09 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/11 13:29:03 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include <unistd.h>
-#include <stdlib.h>
 #include "../../lib/libft/libft.h"
-
-
-
-
+#include <stdlib.h>
+#include <unistd.h>
 
 int	ft_find_index(char *haystack, char *needle)
 {
 	int	i;
 	int	j;
 	int	tmp;
-	int needle_len;
+	int	needle_len;
 
 	needle_len = ft_strlen(needle);
 	i = 0;
 	while (haystack[i])
 	{
-    	tmp = i;
-        j = 0;
+		tmp = i;
+		j = 0;
 		while (haystack[tmp] == needle[j])
 		{
 			if (j + 1 == needle_len)
 				return (i);
-            tmp++;
+			tmp++;
 			j++;
 		}
 		i++;
@@ -44,7 +40,7 @@ int	ft_find_index(char *haystack, char *needle)
 	return (-1);
 }
 
-int higher_len(char *str1, char *str2)
+int	higher_len(char *str1, char *str2)
 {
 	int len1;
 	int len2;

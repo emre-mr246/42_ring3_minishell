@@ -6,32 +6,33 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:22:02 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:28:43 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
+#include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/wait.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-void ft_exit(int exit_code)
+void	ft_exit(int exit_code)
 {
 	rl_clear_history();
 	exit(exit_code);
 }
 
-static char *create_prompt(t_shell *shell)
+static char	*create_prompt(t_shell *shell)
 {
 	char	*prompt;
 	char	*tmp;
 
-	prompt = ft_strjoin("\033[1;31mRaRe\033[0m:\033[1;34m", get_env_value(shell->env, "PWD"));
+	prompt = ft_strjoin("\033[1;31mRaRe\033[0m:\033[1;34m",
+			get_env_value(shell->env, "PWD"));
 	tmp = prompt;
 	prompt = ft_strjoin(tmp, "\033[0m$ ");
 	free(tmp);
@@ -40,9 +41,9 @@ static char *create_prompt(t_shell *shell)
 
 void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
 {
-	char *key;
-	char *value;
-	
+	char	*key;
+	char	*value;
+
 	key = get_env_key(str + *j);
 	if (!key)
 		return ;
@@ -59,9 +60,9 @@ void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
 	*j += ft_strlen(key);
 }
 
-char *allocate_str(t_shell *shell, int buff_size)
+char	*allocate_str(t_shell *shell, int buff_size)
 {
-	char *new;
+	char	*new;
 
 	new = (char *)ft_calloc(sizeof(char), buff_size);
 	if (!new)
@@ -69,11 +70,11 @@ char *allocate_str(t_shell *shell, int buff_size)
 	return (new);
 }
 
-char *parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
+char	*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 {
-	bool quote[2];
-	int j;
-	int k;
+	bool	quote[2];
+	int		j;
+	int		k;
 	char	*new;
 
 	new = allocate_str(shell, BUFFER_SIZE);
@@ -87,7 +88,8 @@ char *parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 			quote[1] = !quote[1];
 		else if (quote[0] && cmd->arr[*i][j] != '\'')
 			new[k++] = cmd->arr[*i][j];
-		else if ((!quote[0] && !quote[1]) || (quote[1] && cmd->arr[*i][j] != '"'))
+		else if ((!quote[0] && !quote[1]) || (quote[1]
+				&& cmd->arr[*i][j] != '"'))
 		{
 			if (cmd->arr[*i][j] != '$')
 				new[k++] = cmd->arr[*i][j];
@@ -98,11 +100,11 @@ char *parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 	return (new);
 }
 
-void parse_cmd(t_shell *shell, t_cmd *cmd)
+void	parse_cmd(t_shell *shell, t_cmd *cmd)
 {
-	int i;
-	int j;
-	char *new;
+	int		i;
+	int		j;
+	char	*new;
 
 	i = 0;
 	j = 0;
@@ -120,11 +122,11 @@ void parse_cmd(t_shell *shell, t_cmd *cmd)
 	cmd->arr[j] = NULL;
 }
 
-char *parse_file(t_shell *shell, t_cmd *cmd, char *file)
+char	*parse_file(t_shell *shell, t_cmd *cmd, char *file)
 {
-	bool quote[2];
-	int i;
-	int j;
+	bool	quote[2];
+	int		i;
+	int		j;
 	char	*new;
 
 	new = allocate_str(shell, BUFFER_SIZE);
@@ -136,16 +138,17 @@ char *parse_file(t_shell *shell, t_cmd *cmd, char *file)
 			quote[0] = !quote[0];
 		else if (file[i] == '"' && !quote[0])
 			quote[1] = !quote[1];
-		else if ((quote[0] && file[i] != '\'') || (quote[1] && file[i] != '"') || (!quote[0] && !quote[1]))
+		else if ((quote[0] && file[i] != '\'') || (quote[1] && file[i] != '"')
+				|| (!quote[0] && !quote[1]))
 			new[j++] = file[i];
 		i++;
 	}
 	return (new);
 }
 
-void parse_cmds(t_shell *shell)
+void	parse_cmds(t_shell *shell)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = shell->cmd;
 	while (cmd)
@@ -183,13 +186,13 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 
 int	main(int ac, char **av, char **env)
 {
-	t_shell		*shell;
+	t_shell	*shell;
 
 	shell = init_shell(env);
 	if (!shell)
 		return (-1);
 	// while (1)
-		main_loop(shell, 0, NULL, NULL);
+	main_loop(shell, 0, NULL, NULL);
 	ft_exit(*(shell->last_exit_status));
 }
 
@@ -202,7 +205,8 @@ int	main(int ac, char **av, char **env)
 // 	shell = init_shell(envp);
 // 	if (!shell)
 // 		return (-1);
-// 	if (argc == 3 && ft_strncmp(argv[1], "-c", higher_len(argv[1], "-c")) == 0 && argv[2])
+// 	if (argc == 3 && ft_strncmp(argv[1], "-c", higher_len(argv[1], "-c")) == 0
+		&& argv[2])
 // 	{
 // 		arg_input = ft_split(argv[2], ';');
 // 		if (!arg_input)

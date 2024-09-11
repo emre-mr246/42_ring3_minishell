@@ -6,16 +6,16 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:08:48 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/13 23:04:47 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:28:58 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <unistd.h>
-#include <readline/readline.h>
-#include <stdio.h>
 #include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
+#include <readline/readline.h>
+#include <signal.h>
+#include <stdio.h>
+#include <unistd.h>
 
 void	handle_sigint(int signo)
 {

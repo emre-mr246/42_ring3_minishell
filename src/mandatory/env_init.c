@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:35:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:58:34 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:28:31 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	env_lstadd_back(t_env **lst, t_env *new)
 	return ;
 }
 
-t_env *new_env(char *key, char *value)
+t_env	*new_env(char *key, char *value)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (!tmp)
@@ -44,10 +44,10 @@ t_env *new_env(char *key, char *value)
 	return (tmp);
 }
 
-static void get_key(char *str, t_env *vars)
+static void	get_key(char *str, t_env *vars)
 {
-	int i;
-	char *key;
+	int		i;
+	char	*key;
 
 	i = 0;
 	while (ft_strchr(str, '=') && str[i] && str[i] != '=')
@@ -59,7 +59,7 @@ static void get_key(char *str, t_env *vars)
 	vars->key = key;
 }
 
-void get_value(char *str, t_env *vars)
+void	get_value(char *str, t_env *vars)
 {
 	str = ft_strchr(str, '=') + 1;
 	if (!str)
@@ -67,10 +67,10 @@ void get_value(char *str, t_env *vars)
 	vars->value = ft_strdup(str);
 }
 
-t_env *get_env(char **env)
+t_env	*get_env(char **env)
 {
-	t_env *vars;
-	t_env *tmp;
+	t_env	*vars;
+	t_env	*tmp;
 
 	if (!env || !*env)
 		return (NULL);

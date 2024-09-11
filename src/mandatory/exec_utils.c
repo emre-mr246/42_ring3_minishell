@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:21:13 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/08 13:21:29 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:28:37 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #include "readline/history.h"
 #include "readline/readline.h"
 #include <fcntl.h>
+#include <limits.h>
+#include <linux/limits.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <limits.h>
-#include <linux/limits.h>
 
 char	*make_path(char *uncompleted_path, char *cmd)
 {
@@ -38,9 +38,9 @@ char	*make_path(char *uncompleted_path, char *cmd)
 
 char	*find_valid_path(char *cmd, t_env *envp)
 {
-	int		i;
-	char	**paths;
-	char	*valid_path;
+	int i;
+	char **paths;
+	char *valid_path;
 	t_env *env_tmp;
 
 	env_tmp = envp;

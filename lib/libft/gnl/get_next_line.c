@@ -6,19 +6,19 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:01:08 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/06 13:34:27 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:29:16 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-#include <unistd.h>
-#include <stdlib.h>
-
 #include <stdio.h>
-static char *malloc_null()
+#include <stdlib.h>
+#include <unistd.h>
+
+static char	*malloc_null(void)
 {
-	char *input_str;
-	
+	char	*input_str;
+
 	input_str = malloc(1);
 	if (!input_str)
 		return (NULL);
@@ -26,31 +26,31 @@ static char *malloc_null()
 	return (input_str);
 }
 
-char *ft_append_to_left(int fd, char *input_str)
+char	*ft_append_to_left(int fd, char *input_str)
 {
-    char buffer[BUFFER_SIZE + 1];
-    int bytes_read;
-    char *tmp;
-    char *new_str;
+	char	buffer[BUFFER_SIZE + 1];
+	int		bytes_read;
+	char	*tmp;
+	char	*new_str;
 
-    if (!input_str) 
-        input_str = malloc_null();
-    while (!ft_strchr(input_str, '\n')) 
+	if (!input_str)
+		input_str = malloc_null();
+	while (!ft_strchr(input_str, '\n'))
 	{
-        bytes_read = read(fd, buffer, BUFFER_SIZE);
-        if (bytes_read == -1) 
-            return (free(input_str), NULL);
-        if (bytes_read == 0)
-            break;
-        buffer[bytes_read] = '\0';
-        tmp = input_str;
-        new_str = ft_strjoin(tmp, buffer);
-        if (!new_str)
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == -1)
+			return (free(input_str), NULL);
+		if (bytes_read == 0)
+			break ;
+		buffer[bytes_read] = '\0';
+		tmp = input_str;
+		new_str = ft_strjoin(tmp, buffer);
+		if (!new_str)
 			return (free(tmp), NULL);
-	    free(tmp);
-        input_str = new_str;
-    }
-    return (input_str);
+		free(tmp);
+		input_str = new_str;
+	}
+	return (input_str);
 }
 
 static char	*ft_get_line(char *input_str)

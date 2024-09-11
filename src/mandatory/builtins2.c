@@ -6,22 +6,22 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/22 23:04:57 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:28:24 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
+#include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-static int env_search_export(t_shell *shell, int j)
+static int	env_search_export(t_shell *shell, int j)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (shell->cmd->arr[j][i])
@@ -31,11 +31,11 @@ static int env_search_export(t_shell *shell, int j)
 		i++;
 	}
 	if (i == 0)
-		print_error(shell, shell->cmd->arr[j], "export", ERR_ENVNAME, 0);	
+		print_error(shell, shell->cmd->arr[j], "export", ERR_ENVNAME, 0);
 	return (i);
 }
 
-static void key_valid(t_shell *shell, char *key)
+static void	key_valid(t_shell *shell, char *key)
 {
 	int	i;
 
@@ -50,11 +50,11 @@ static void key_valid(t_shell *shell, char *key)
 	}
 }
 
-static char *get_export_key(t_shell *shell, int *j)
+static char	*get_export_key(t_shell *shell, int *j)
 {
-	int i;
-	char *key;
-	
+	int		i;
+	char	*key;
+
 	i = env_search_export(shell, *j);
 	if (i == 0)
 		return (NULL);
@@ -63,16 +63,16 @@ static char *get_export_key(t_shell *shell, int *j)
 	return (key);
 }
 
-void ft_export(t_shell *shell, t_cmd *cmd)
+void	ft_export(t_shell *shell, t_cmd *cmd)
 {
-	int i;
-	int j;
-	char *key;
-	char *value;
+	int		i;
+	int		j;
+	char	*key;
+	char	*value;
 
 	cmd->is_builtin = true;
 	j = 1;
-	while(cmd->arr[j])
+	while (cmd->arr[j])
 	{
 		key = get_export_key(shell, &j);
 		if (!key)
@@ -87,15 +87,17 @@ void ft_export(t_shell *shell, t_cmd *cmd)
 	}
 }
 
-static t_env *get_prev_node(t_env *env, char *key)
+static t_env	*get_prev_node(t_env *env, char *key)
 {
-	t_env *tmp;
-	int i = 0;
+	t_env	*tmp;
+	int		i;
 
+	i = 0;
 	tmp = env;
 	while (tmp->next)
 	{
-		if (ft_strncmp(tmp->next->key, key, higher_len(tmp->next->key, key)) == 0)
+		if (ft_strncmp(tmp->next->key, key, higher_len(tmp->next->key,
+					key)) == 0)
 			break ;
 		tmp = tmp->next;
 		i++;
@@ -103,12 +105,12 @@ static t_env *get_prev_node(t_env *env, char *key)
 	return (tmp);
 }
 
-static void ft_unset_key(t_shell *shell, char *key)
+static void	ft_unset_key(t_shell *shell, char *key)
 {
-	t_env *node;
-	t_env *prev_node;
-	t_env *next_node;
-	
+	t_env	*node;
+	t_env	*prev_node;
+	t_env	*next_node;
+
 	next_node = NULL;
 	prev_node = NULL;
 	node = NULL;
@@ -132,9 +134,9 @@ static void ft_unset_key(t_shell *shell, char *key)
 	prev_node->next = next_node;
 }
 
-void ft_unset(t_shell *shell, t_cmd *cmd)
+void	ft_unset(t_shell *shell, t_cmd *cmd)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	cmd->is_builtin = true;

@@ -6,18 +6,18 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:21:38 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:28:35 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
+#include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)
 {
@@ -43,7 +43,7 @@ void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)
 	else if (mode == ERR_NOCMD)
 	{
 		ft_putstr_fd("Command not found: ", 2);
-		ft_putendl_fd (str, 2);
+		ft_putendl_fd(str, 2);
 	}
 	else if (mode == ERR_EXCBUFF)
 		ft_putstr_fd("Exceeded buffer size\n", 2);

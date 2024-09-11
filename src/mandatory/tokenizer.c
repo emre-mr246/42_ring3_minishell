@@ -6,16 +6,16 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/22 23:57:32 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:29:02 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
 #include <limits.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <stdio.h>
 
 char	*handle_comment(char *str)
 {
@@ -32,8 +32,8 @@ char	*handle_quote(char **str, char quote)
 	i = 1;
 	while ((*str)[i])
 	{
-		if ((*str)[i] == quote && ((*str)[i + 1] == ' '
-			|| (*str)[i + 1] == '\0' || (*str)[i + 1] >= 8 && (*str)[i + 1] <= 13))
+		if ((*str)[i] == quote && ((*str)[i + 1] == ' ' || (*str)[i + 1] == '\0'
+				|| (*str)[i + 1] >= 8 && (*str)[i + 1] <= 13))
 		{
 			res = ft_substr(*str, 0, i + 1);
 			*str += i + 1;
@@ -44,11 +44,11 @@ char	*handle_quote(char **str, char quote)
 	return (NULL);
 }
 
-int skip_whitespaces(char **str, int *i)
+int	skip_whitespaces(char **str, int *i)
 {
 	while ((*str)[*i] == ' ' || ((*str)[*i] >= 8 && (*str)[*i] <= 13)
 		|| ((*str)[*i] == '\\'))
-	(*i)++;
+		(*i)++;
 	return (*i);
 }
 
@@ -56,7 +56,7 @@ char	*handle_space(char **str, t_env *env)
 {
 	int		i;
 	char	*res;
-	char c;
+	char	c;
 
 	i = 0;
 	i = skip_whitespaces(str, &i);
@@ -69,7 +69,8 @@ char	*handle_space(char **str, t_env *env)
 			while ((*str)[i] != c)
 				i++;
 		}
-		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13) || (*str)[i] == '\\')
+		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
+			|| (*str)[i] == '\\')
 		{
 			res = ft_substr(*str, 0, i);
 			*str += i;

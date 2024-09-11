@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:54:12 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/11 23:43:06 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/11 13:28:29 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
+#include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-void print_cmd(t_shell *shell)
+void	print_cmd(t_shell *shell)
 {
-	t_cmd *cmd;
-	int i;
-	int j;
-	
+	t_cmd	*cmd;
+	int		i;
+	int		j;
+
 	j = 0;
 	cmd = shell->cmd;
 	while (cmd)
@@ -39,8 +39,9 @@ void print_cmd(t_shell *shell)
 		if (cmd->infile && cmd->in_redir)
 			printf("INFILE: %s, IN_REDIR: %i\n", cmd->infile, cmd->in_redir);
 		if (cmd->outfile && cmd->out_redir)
-			printf("OUTFILE: %s, OUT_REDIR: %i\n", cmd->outfile, cmd->out_redir);
-		cmd = cmd->next;	
+			printf("OUTFILE: %s, OUT_REDIR: %i\n", cmd->outfile,
+				cmd->out_redir);
+		cmd = cmd->next;
 		j++;
 	}
 }

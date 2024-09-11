@@ -6,21 +6,21 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/10 23:18:46 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:30:09 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
+#include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/wait.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-static int get_redirection(char *s)
+static int	get_redirection(char *s)
 {
 	if (ft_strncmp(s, ">", higher_len(s, ">")) == 0)
 		return (REDIRECT_OUTPUT);
@@ -33,11 +33,12 @@ static int get_redirection(char *s)
 	return (NONE_REDIR);
 }
 
-int open_outfile(t_shell *shell, t_cmd *cmd)
+int	open_outfile(t_shell *shell, t_cmd *cmd)
 {
-	int fd;
+	int	fd;
 
-	if ((cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT) && access(cmd->outfile, R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
+	if ((cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT)
+		&& access(cmd->outfile, R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
 		print_error(shell, cmd->outfile, NULL, ERR_NOREAD, 1);
 	if (cmd->out_redir == REDIRECT_OUTPUT)
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -48,9 +49,9 @@ int open_outfile(t_shell *shell, t_cmd *cmd)
 	return (fd);
 }
 
-int open_infile(t_shell *shell, t_cmd *cmd)
+int	open_infile(t_shell *shell, t_cmd *cmd)
 {
-	int fd;
+	int	fd;
 
 	if (cmd->in_redir == REDIRECT_INPUT && access(cmd->infile, F_OK))
 		exit(1);
@@ -63,16 +64,17 @@ int open_infile(t_shell *shell, t_cmd *cmd)
 
 int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 {
-	char *parsed;
-	int fd;
-	
-	parsed = parse_file(shell, cmd, cmd->arr[*i + 1]);
+	char	*parsed;
+	int		fd;
 
+	parsed = parse_file(shell, cmd, cmd->arr[*i + 1]);
 	if (mode_in_out == 0)
 	{
 		cmd->outfile = parsed;
 		cmd->out_redir = get_redirection(cmd->arr[*i]);
-		if ((cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT) && access(cmd->outfile, R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
+		if ((cmd->out_redir == REDIRECT_OUTPUT
+				|| cmd->out_redir == APPEND_OUTPUT) && access(cmd->outfile,
+				R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
 		{
 			return (1);
 		}
@@ -114,11 +116,11 @@ int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 	return (0);
 }
 
-static void remove_redir(t_shell *shell, t_cmd *cmd, char **arr)
+static void	remove_redir(t_shell *shell, t_cmd *cmd, char **arr)
 {
-	int i;
-	int j;
-	
+	int	i;
+	int	j;
+
 	i = 0;
 	j = 0;
 	while (cmd->arr[i])
@@ -142,11 +144,11 @@ static void remove_redir(t_shell *shell, t_cmd *cmd, char **arr)
 	arr[j] = NULL;
 }
 
-void remove_redirs(t_shell *shell, t_cmd *cmd)
+void	remove_redirs(t_shell *shell, t_cmd *cmd)
 {
-	int		i;
-	int		j;
-	char	**arr;
+	int i;
+	int j;
+	char **arr;
 
 	arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
 	if (!arr)

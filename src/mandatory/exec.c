@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:26:14 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:27:44 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,25 @@
 #include "readline/history.h"
 #include "readline/readline.h"
 #include <fcntl.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <unistd.h>
 #include <limits.h>
 #include <linux/limits.h>
+#include <stdlib.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-static void handle_cmd_errors(t_shell *shell, t_cmd *cmd)
+static void	handle_cmd_errors(t_shell *shell, t_cmd *cmd)
 {
 	struct stat	statbuf;
-	
+
 	stat(cmd->arr[0], &statbuf);
-	if(access(cmd->arr[0], X_OK) == -1 && access(cmd->arr[0], F_OK) == 0 && ft_strchr(cmd->arr[0], '/'))
+	if (access(cmd->arr[0], X_OK) == -1 && access(cmd->arr[0], F_OK) == 0
+		&& ft_strchr(cmd->arr[0], '/'))
 		print_error(shell, cmd->arr[0], NULL, ERR_NOPERM, 0);
 	else if (S_ISDIR(statbuf.st_mode) && ft_strchr(cmd->arr[0], '/'))
 		print_error(shell, cmd->arr[0], NULL, ERR_ISDIR, 0);
-	else if (access(cmd->arr[0], X_OK) == -1 || (access(cmd->arr[0], X_OK) == 0 && S_ISDIR(statbuf.st_mode)))
+	else if (access(cmd->arr[0], X_OK) == -1 || (access(cmd->arr[0], X_OK) == 0
+			&& S_ISDIR(statbuf.st_mode)))
 	{
 		print_error(shell, cmd->arr[0], NULL, ERR_NOCMD, 0);
 		exit(127);
@@ -44,9 +46,9 @@ static void handle_cmd_errors(t_shell *shell, t_cmd *cmd)
 	exit(126);
 }
 
-int child_process(t_shell *shell, t_cmd *cmd)
+int	child_process(t_shell *shell, t_cmd *cmd)
 {
-	char		*path;
+	char	*path;
 
 	path = find_valid_path(cmd->arr[0], shell->env);
 	if (!path)
@@ -57,7 +59,7 @@ int child_process(t_shell *shell, t_cmd *cmd)
 	exit(1);
 }
 
-static bool get_cond(int i, int j, int cmd_i, int cmdlen)
+static bool	get_cond(int i, int j, int cmd_i, int cmdlen)
 {
 	if (cmd_i == 0)
 		return (!(i == 0 && j == 1));
@@ -67,10 +69,10 @@ static bool get_cond(int i, int j, int cmd_i, int cmdlen)
 		return (!(i == cmd_i - 1 && j == 0) && !(i == cmd_i && j == 1));
 }
 
-void close_fds(int fd[][2], int cmdlen, int cmd_i)
+void	close_fds(int fd[][2], int cmdlen, int cmd_i)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < cmdlen - 1)
@@ -86,7 +88,7 @@ void close_fds(int fd[][2], int cmdlen, int cmd_i)
 	}
 }
 
-void redirect_pipes(t_cmd *cmd, int fd[][2], int cmdlen, int i)
+void	redirect_pipes(t_cmd *cmd, int fd[][2], int cmdlen, int i)
 {
 	close_fds(fd, cmdlen, i);
 	if (i != cmdlen - 1)
@@ -97,24 +99,24 @@ void redirect_pipes(t_cmd *cmd, int fd[][2], int cmdlen, int i)
 	if (i != 0)
 	{
 		dup2(fd[i - 1][0], STDIN_FILENO);
-		close(fd[i - 1][0]);		
+		close(fd[i - 1][0]);
 	}
 }
 
-void close_all_fds(int fd[][2], int cmdlen)
+void	close_all_fds(int fd[][2], int cmdlen)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (i < cmdlen - 1)
-    {
-        close(fd[i][0]);
-        close(fd[i][1]);
+	{
+		close(fd[i][0]);
+		close(fd[i][1]);
 		i++;
-    }
+	}
 }
 
-void heredoc(t_cmd *cmd)
+void	heredoc(t_cmd *cmd)
 {
 	char	*line;
 	char	*delim;
@@ -137,9 +139,9 @@ void heredoc(t_cmd *cmd)
 	close(tmpfd);
 }
 
-void redirect_files(t_shell *shell, t_cmd *cmd)
+void	redirect_files(t_shell *shell, t_cmd *cmd)
 {
-	int outfd;
+	int	outfd;
 	int	infd;
 
 	outfd = open_outfile(shell, cmd);
@@ -147,7 +149,8 @@ void redirect_files(t_shell *shell, t_cmd *cmd)
 		infd = open_infile(shell, cmd);
 	else
 		infd = -1;
-	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT))
+	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT
+			|| cmd->out_redir == APPEND_OUTPUT))
 	{
 		dup2(outfd, STDOUT_FILENO);
 		close(outfd);
@@ -170,40 +173,42 @@ void redirect_files(t_shell *shell, t_cmd *cmd)
 	}
 }
 
-static void wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
+static void	wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
 {
-	int exit_status;
-	int i;
+	int	exit_status;
+	int	i;
 
 	i = 0;
-    while (i < cmdlen)
-    {
-        waitpid(pid[i], &exit_status, 0);
+	while (i < cmdlen)
+	{
+		waitpid(pid[i], &exit_status, 0);
 		if (WIFEXITED(exit_status))
 			*shell->last_exit_status = WEXITSTATUS(exit_status);
-        i++;
-    }
+		i++;
+	}
 }
 
-int is_main_builtin(t_shell *shell, t_cmd *cmd)
+int	is_main_builtin(t_shell *shell, t_cmd *cmd)
 {
-	if(ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
+	if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
 		return (1);
-	else if(ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)
+	else if (ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)
 		return (1);
-	else if(ft_strncmp(cmd->arr[0], "export", higher_len(cmd->arr[0], "export")) == 0)
+	else if (ft_strncmp(cmd->arr[0], "export", higher_len(cmd->arr[0],
+				"export")) == 0)
 		return (1);
-	else if(ft_strncmp(cmd->arr[0], "unset", higher_len(cmd->arr[0], "unset")) == 0)
+	else if (ft_strncmp(cmd->arr[0], "unset", higher_len(cmd->arr[0],
+				"unset")) == 0)
 		return (1);
 	else
 		return (0);
 }
 
-void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
+void	handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 {
-	int	i;
+	int		i;
 	t_cmd	*cmd;
-	
+
 	cmd = shell->cmd;
 	i = 0;
 	while (i < cmdlen)
@@ -221,7 +226,7 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 			redirect_pipes(cmd, fd, cmdlen, i);
 			redirect_files(shell, cmd);
 			if (is_main_builtin(shell, cmd))
-				exit(*shell->last_exit_status) ;
+				exit(*shell->last_exit_status);
 			handle_builtins(shell, cmd);
 			if (!cmd->is_builtin)
 				child_process(shell, cmd);
@@ -230,17 +235,18 @@ void handle_pipes(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 		i++;
 		cmd = cmd->next;
 	}
-	close_all_fds(fd, cmdlen);	
+	close_all_fds(fd, cmdlen);
 	wait_for_pids(shell, pid, cmdlen);
 }
 
-void execute_cmd(t_shell *shell)
+void	execute_cmd(t_shell *shell)
 {
-	int fd[100][2];
-	int cmdlen;
-	int i;
+	int		fd[100][2];
+	int		cmdlen;
+	int		i;
 	t_cmd	*cmd;
-	pid_t *pid;
+	pid_t	*pid;
+
 	cmdlen = cmd_len(shell->cmd);
 	pid = (pid_t *)ft_calloc(sizeof(pid_t), cmdlen);
 	if (!pid)

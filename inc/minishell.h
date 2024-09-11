@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 13:19:05 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 13:29:53 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,10 @@ typedef struct s_shell
 	int					*last_exit_status;
 }						t_shell;
 
+//BUILTINS
+void					handle_builtins(t_shell *shell, t_cmd *cmd);
+void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
+
 t_env					*get_env(char **env);
 t_shell					*init_shell(char **env);
 t_tokens				*tokenizer(char *input, t_env *env);
@@ -116,7 +120,8 @@ t_cmd					*create_cmd(t_tokens token);
 
 void					execute_cmd(t_shell *shell);
 
-void					init_signal(int signo, void (*handler)(int), struct sigaction *sa);
+void					init_signal(int signo, void (*handler)(int),
+							struct sigaction *sa);
 void					redirect_files(t_shell *shell, t_cmd *cmd);
 void					update_value(t_env *env, char *key, char *value);
 t_env					*new_env(char *key, char *value);
@@ -127,9 +132,6 @@ bool					key_exists(t_env *env, char *key);
 
 void					print_cmd(t_shell *shell);
 char					*get_env_value(t_env *env, char *key);
-
-void 					handle_builtins(t_shell *shell, t_cmd *cmd);
-void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
 
 void					ft_exit(int exit_code);
 
@@ -158,9 +160,10 @@ void					remove_redirs(t_shell *shell, t_cmd *cmd);
 int						open_outfile(t_shell *shell, t_cmd *cmd);
 int						open_infile(t_shell *shell, t_cmd *cmd);
 
-void					print_error(t_shell *shell, char *str, char *cmd, int mode, int exits);
+void					print_error(t_shell *shell, char *str, char *cmd,
+							int mode, int exits);
 void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
-char *parse_file(t_shell *shell, t_cmd *cmd, char *file);
+char					*parse_file(t_shell *shell, t_cmd *cmd, char *file);
 
-char *get_env_key(char *str);
+char					*get_env_key(char *str);
 #endif

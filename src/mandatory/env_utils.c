@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/08/15 21:47:10 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/11 13:28:33 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../lib/libft/libft.h"
+#include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/wait.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-void update_value(t_env *env, char *key, char *value)
+void	update_value(t_env *env, char *key, char *value)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = env;
 	while (tmp)
@@ -37,9 +37,9 @@ void update_value(t_env *env, char *key, char *value)
 	tmp->value = ft_strdup(value);
 }
 
-bool key_exists(t_env *env, char *key)
+bool	key_exists(t_env *env, char *key)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = env;
 	while (tmp)
@@ -51,25 +51,26 @@ bool key_exists(t_env *env, char *key)
 	return (false);
 }
 
-char *get_env_key(char *str)
+char	*get_env_key(char *str)
 {
-	int i;
-	char *res;
+	int		i;
+	char	*res;
 
 	i = 1;
 	if (str[i] == '?')
-		return ft_strdup("?");
-	while (str[i] && str[i] != '$' && str[i] != '"' && str[i] != '\'' && str[i] != ' ')
+		return (ft_strdup("?"));
+	while (str[i] && str[i] != '$' && str[i] != '"' && str[i] != '\''
+		&& str[i] != ' ')
 		i++;
 	if (i == 1)
-		return ft_strdup("$");
+		return (ft_strdup("$"));
 	res = ft_substr(str, 1, i - 1);
 	return (res);
 }
 
-char *get_env_value(t_env *env, char *key)
+char	*get_env_value(t_env *env, char *key)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = env;
 	while (tmp)
@@ -112,5 +113,3 @@ char *get_env_value(t_env *env, char *key)
 // 	res[i] = '\0';
 // 	return (res);
 // }
-
-
