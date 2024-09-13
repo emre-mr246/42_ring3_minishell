@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 12:11:20 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 14:04:18 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_cmd	*new_cmd(char **cmd)
 		return (NULL);
 	if (!cmd)
 	{
-		cmds->arr = (char **)ft_calloc(1, ARG_MAX);
+		cmds->arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
 		if (!cmds->arr)
 			return (NULL);
 	}
@@ -117,6 +117,8 @@ static void	*create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
 	special_char = get_special_char_enum(token->token);
 	if (special_char)
 	{
+		//printf("i: %i\n", *i);
+		(*cmd)->arr[*i] = NULL;
 		(*cmd)->special_char = special_char;
 		lstadd_back_cmd(cmd, new_cmd(NULL));
 		*cmd = (*cmd)->next;
@@ -142,11 +144,13 @@ t_cmd	*create_cmds(t_shell *shell, t_tokens *token)
 	while (1)
 	{
 		create_cmd(shell, &cmd, token, &i);
-		cmd->arr[i] = NULL;
+		if (token->token)
+			free(token->token);
 		if (token->next)
 			token = token->next;
 		else
 			break ;
 	}
+	free(token);
 	return (cmd_tmp);
 }

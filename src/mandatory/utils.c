@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 12:11:14 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 13:40:24 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,6 @@ void	free_all(t_shell *shell)
 		free_array(tmp_cmd->arr);
 		shell->cmd = shell->cmd->next;
 		free(tmp_cmd);
-	}
-	while (shell->tokens)
-	{
-		tmp_tokens = shell->tokens;
-		shell->tokens = shell->tokens->next;
-		free(tmp_tokens->token);
-		free(tmp_tokens);
 	}
 	while (shell->env)
 	{

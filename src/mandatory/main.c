@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 12:11:16 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 14:06:36 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,13 @@ char	*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 		else if ((!quote[0] && !quote[1]) || cmd->arr[*i][j] != '"')
 		{
 			if (cmd->arr[*i][j] != '$')
+			{
 				new[k++] = cmd->arr[*i][j];
+			}
 			if (cmd->arr[*i][j] == '$')
+			{
 				exchange_var(cmd->arr[*i], &(j), new, &(k), shell);
+			}
 		}
 	}
 	return (new);
@@ -182,7 +186,6 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	shell->cmd = create_cmds(shell, shell->tokens);
 	parse_cmds(shell);
 	// print_cmd(shell);
-	// printf("MUZMUZ\n");
 	execute_cmd(shell);
 	shell->cmd->is_builtin = false;
 }

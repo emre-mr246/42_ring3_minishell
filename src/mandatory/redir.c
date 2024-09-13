@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 12:46:44 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 14:08:55 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,9 @@ int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 			return (1);
 	}
 	if (cmd->arr[*i + 2])
+	{
 		*i += 2;
+	}
 	else
 		return (1);
 	return (0);
@@ -152,5 +154,6 @@ void	remove_redirs(t_shell *shell, t_cmd *cmd)
 	if (!arr)
 		return ;
 	remove_redir(shell, cmd, arr);
+	free_array(cmd->arr);
 	cmd->arr = arr;
 }
