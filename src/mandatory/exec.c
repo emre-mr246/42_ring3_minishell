@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 16:49:33 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 12:11:18 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,5 +266,6 @@ void	execute_cmd(t_shell *shell)
 		i++;
 	}
 	handle_pipes(shell, fd, cmdlen, pid);
+	free(pid);
 	init_signal(SIGINT, handle_sigint, &shell->sigint);
 }

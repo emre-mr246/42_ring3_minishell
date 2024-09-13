@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 16:08:28 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 12:11:15 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int	get_indexes(char *input)
 			min_i = indexes[i];
 		i++;
 	}
+	free(indexes);
 	return (min_i);
 }
 
@@ -186,7 +187,7 @@ t_tokens	*tokenizer(char *input, t_env *env)
 			res = handle_special_char(&input);
 		if (input && !res)
 			res = handle_space(&input);
-		if (input && res && ft_strtrim(res, " ") != NULL)
+		if (input && res)
 		{
 			lstadd_back_token(&tokens, new_token(ft_strtrim(res, "\n\t ")));
 			free(res);

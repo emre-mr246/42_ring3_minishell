@@ -1,3 +1,4 @@
 .obj
 tester
 .vscode
+*.supp

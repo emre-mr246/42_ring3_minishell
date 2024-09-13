@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 16:50:29 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 12:11:16 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	parse_cmd(t_shell *shell, t_cmd *cmd)
 			cmd->arr[j] = ft_strdup(new);
 			j++;
 		}
+		free(new);
 		i++;
 	}
 	cmd->arr[j++] = NULL;
@@ -161,10 +162,14 @@ void	parse_cmds(t_shell *shell)
 }
 
 void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
-{
+{	
+	char	*prompt;
+	
+	prompt = create_prompt(shell);
 	if (!tester)
 	{
-		shell->line = readline(create_prompt(shell));
+		shell->line = readline(prompt);
+		free(prompt);
 		if (!shell->line)
 			return ;
 		add_history(shell->line);
@@ -190,37 +195,6 @@ int	main(int ac, char **av, char **env)
 	if (!shell)
 		return (-1);
 	// while (1)
-	main_loop(shell, 0, NULL, NULL);
+		main_loop(shell, 0, NULL, NULL);
 	ft_exit(shell, *(shell->last_exit_status));
 }
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_shell		*shell;
-// 	char	**arg_input;
-// 	int		i;
-
-// 	shell = init_shell(envp);
-// 	if (!shell)
-// 		return (-1);
-// // 	if (argc == 3 && ft_strncmp(argv[1], "-c", higher_len(argv[1], "-c")) == 0
-// 		&& argv[2])
-// 	{
-// 		arg_input = ft_split(argv[2], ';');
-// 		if (!arg_input)
-// 			exit(1);
-// 		i = 0;
-// 		while (arg_input[i])
-// 		{
-// 			main_loop(shell, 1, arg_input, &i);
-// 			i++;
-// 		}
-// 	}
-// 	else
-// 	{
-// 		//while (1)
-// 			main_loop(shell, 0, NULL, NULL);
-// 	}
-// 	// Free data and exit minishell when done
-
-// }

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:32:37 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 12:46:44 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,57 +57,61 @@ int	open_infile(t_shell *shell, t_cmd *cmd)
 	return (fd);
 }
 
+int	outfile_controls(t_shell *shell, t_cmd *cmd)
+{
+	int fd;
+	
+	if ((cmd->out_redir == REDIRECT_OUTPUT
+			|| cmd->out_redir == APPEND_OUTPUT) && access(cmd->outfile,
+			R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
+		return (1);
+	else if (access(cmd->outfile, F_OK) == -1)
+	{
+		fd = open_outfile(shell, cmd);
+		if (fd != -1)
+			close(fd);
+	}
+	return (0);
+}
+
+int	infile_controls(t_shell *shell, t_cmd *cmd)
+{
+	if (access(cmd->infile, F_OK))
+	{
+		print_error(shell, cmd->infile, NULL, ERR_NODIR, 0);
+		return (1);
+	}
+	else if (access(cmd->infile, R_OK))
+	{
+		print_error(shell, cmd->infile, NULL, ERR_NOPERM, 0);
+		return (1);
+	}
+	return (0);
+}
+
 int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 {
 	char	*parsed;
-	int		fd;
 
 	parsed = parse_file(shell, cmd, cmd->arr[*i + 1]);
 	if (mode_in_out == 0)
 	{
 		cmd->outfile = parsed;
 		cmd->out_redir = get_redirection(cmd->arr[*i]);
-		if ((cmd->out_redir == REDIRECT_OUTPUT
-				|| cmd->out_redir == APPEND_OUTPUT) && access(cmd->outfile,
-				R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
-		{
-			return (1);
-		}
-		else if (access(cmd->outfile, F_OK) == -1)
-		{
-			fd = open_outfile(shell, cmd);
-			if (fd != -1)
-				close(fd);
-		}
-		if (cmd->arr[*i + 1] && cmd->arr[*i + 2])
-		{
-			// free(cmd->arr[*i]);
-			*i += 2;
-		}
-		else
+		if (outfile_controls(shell, cmd))
 			return (1);
 	}
 	if (mode_in_out == 1)
 	{
 		cmd->infile = parsed;
 		cmd->in_redir = get_redirection(cmd->arr[*i]);
-		if (access(cmd->infile, F_OK))
-		{
-			print_error(shell, parsed, NULL, ERR_NODIR, 0);
-			return (1);
-		}
-		else if (access(cmd->infile, R_OK))
-		{
-			print_error(shell, parsed, NULL, ERR_NOPERM, 0);
-			return (1);
-		}
-		if (cmd->arr[*i + 1] && cmd->arr[*i + 2])
-		{
-			*i += 2;
-		}
-		else
+		if (infile_controls(shell, cmd))
 			return (1);
 	}
+	if (cmd->arr[*i + 2])
+		*i += 2;
+	else
+		return (1);
 	return (0);
 }
 
@@ -132,8 +136,7 @@ static void	remove_redir(t_shell *shell, t_cmd *cmd, char **arr)
 		}
 		else
 		{
-			arr[j++] = ft_strdup(cmd->arr[i]);
-			i++;
+			arr[j++] = ft_strdup(cmd->arr[i++]);
 		}
 	}
 	arr[j] = NULL;
@@ -149,8 +152,5 @@ void	remove_redirs(t_shell *shell, t_cmd *cmd)
 	if (!arr)
 		return ;
 	remove_redir(shell, cmd, arr);
-	if (!*arr)
-		free(arr);
-	free(cmd->arr);
 	cmd->arr = arr;
 }
