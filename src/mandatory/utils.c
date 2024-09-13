@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 13:40:24 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 14:43:04 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ void	free_all(t_shell *shell)
 	{
 		tmp_cmd = shell->cmd;
 		free_array(tmp_cmd->arr);
+		if (tmp_cmd->infile)
+			free(tmp_cmd->infile);
+		if (tmp_cmd->outfile)
+			free(tmp_cmd->outfile);
 		shell->cmd = shell->cmd->next;
 		free(tmp_cmd);
 	}

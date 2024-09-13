@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 14:16:59 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 14:46:12 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ char	*handle_special_char(char **input)
 	int		i;
 	char	*res;
 	char	*tmp;
+	char *trimmed;
 
 	i = get_indexes(*input);
 	if (i == -1)
@@ -164,9 +165,12 @@ char	*handle_special_char(char **input)
 	else
 	{
 		res = ft_substr(*input, 0, i);
-		tmp = ft_strdup(ft_strtrim(res, " "));
+		trimmed = ft_strtrim(res, " ");
+		tmp = ft_strdup(trimmed);
+		free(trimmed);
 		if (ft_strchr(tmp, ' '))
 			return (NULL);
+		free(tmp);
 		*input += i;
 		return (res);
 	}

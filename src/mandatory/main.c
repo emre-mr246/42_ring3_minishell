@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 14:06:36 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 14:37:07 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ char	*parse_file(t_shell *shell, t_cmd *cmd, char *file)
 	int		j;
 	char	*new;
 
+	quote[0] = false;
+	quote[1] = false;
 	new = allocate_str(shell, BUFFER_SIZE);
 	i = 0;
 	j = 0;
