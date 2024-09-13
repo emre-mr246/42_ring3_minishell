@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 16:23:54 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 14:21:57 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,4 +169,6 @@ void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
 char					*parse_file(t_shell *shell, t_cmd *cmd, char *file);
 
 char					*get_env_key(char *str);
+
+void free_token(t_tokens *token);
 #endif

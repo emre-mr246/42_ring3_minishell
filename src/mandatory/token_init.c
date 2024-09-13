@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:40:37 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:33:25 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 14:21:18 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,17 @@ void	lstadd_back_token(t_tokens **lst, t_tokens *new)
 		tmp = tmp->next;
 	tmp->next = new;
 	return ;
+}
+
+void free_token(t_tokens *token)
+{
+	t_tokens	*tmp;
+
+	while (token)
+	{
+		tmp = token->next;
+		free(token->token);
+		free(token);
+		token = tmp;
+	}
 }

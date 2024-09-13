@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 14:04:18 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/13 14:22:35 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ static void	*create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
 	special_char = get_special_char_enum(token->token);
 	if (special_char)
 	{
-		//printf("i: %i\n", *i);
 		(*cmd)->arr[*i] = NULL;
 		(*cmd)->special_char = special_char;
 		lstadd_back_cmd(cmd, new_cmd(NULL));
@@ -136,21 +135,21 @@ t_cmd	*create_cmds(t_shell *shell, t_tokens *token)
 {
 	t_cmd	*cmd;
 	t_cmd	*cmd_tmp;
+	t_tokens	*token_tmp;
 	int		i;
 
 	i = 0;
 	cmd = new_cmd(NULL);
 	cmd_tmp = cmd;
+	token_tmp = token;
 	while (1)
 	{
 		create_cmd(shell, &cmd, token, &i);
-		if (token->token)
-			free(token->token);
 		if (token->next)
 			token = token->next;
 		else
 			break ;
 	}
-	free(token);
+	free_token(token_tmp);
 	return (cmd_tmp);
 }
