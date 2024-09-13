@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+         #
+#    By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/09/13 11:28:17 by emgul            ###   ########.fr        #
+#    Updated: 2024/09/13 15:00:15 by mitasci          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ NAME				= minishell
 BONUS_NAME			= minishell_bonus
 
 CC					= gcc
-CCFLAGS				= -lreadline -I ./lib/libft/inc/ -I ./inc/ -g #-Wall -Wextra -Werror 
+CCFLAGS				= -I /opt/homebrew/opt/readline/include -L /opt/homebrew/opt/readline/lib -lreadline -I ./lib/libft/inc/ -I ./inc/ -g #-Wall -Wextra -Werror 
 MAKEFLAGS			= --no-print-directory
 RM					= rm -rf
 
