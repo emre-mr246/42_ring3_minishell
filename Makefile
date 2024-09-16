@@ -1,16 +1,5 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/04/11 07:09:36 by emgul             #+#    #+#              #
-#    Updated: 2024/09/13 15:00:15 by mitasci          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
-FILES				= main utils cmd_init cmd_utils tokenizer token_init signal init exec env_utils env_init builtins builtins2 debug exec_utils redir error
+FILES				= main utils cmd_init cmd_utils tokenizer token_init token_utils signal init exec env_utils env_init builtins builtins2 builtins3 debug exec_utils redir redir2 redir3 error parse_cmd
 
 BONUS_FILES			= 
 
@@ -18,7 +7,7 @@ NAME				= minishell
 BONUS_NAME			= minishell_bonus
 
 CC					= gcc
-CCFLAGS				= -I /opt/homebrew/opt/readline/include -L /opt/homebrew/opt/readline/lib -lreadline -I ./lib/libft/inc/ -I ./inc/ -g #-Wall -Wextra -Werror 
+CCFLAGS				= -I /opt/homebrew/opt/readline/include -I ./lib/libft/inc/ -I ./inc/ -g #-fsanitize=address #-Wall -Wextra -Werror 
 MAKEFLAGS			= --no-print-directory
 RM					= rm -rf
 
@@ -42,7 +31,7 @@ all: $(NAME)
 bonus: $(BONUS_NAME)
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS)
-	@$(CC) $(OBJS) $(LIBFT) $(CCFLAGS) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBFT) -L /opt/homebrew/opt/readline/lib -lreadline $(CCFLAGS) -o $(NAME)
 	@echo "$(GREEN)-== $(NAME) created! ==-$(DEFAULT)"
 
 $(BONUS_NAME): $(LIBFT) $(OBJ_DIR) $(BONUS_OBJS)

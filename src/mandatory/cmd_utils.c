@@ -3,15 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:17 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:24:58 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/16 15:08:49 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
+
+void	check_odd_quotes(t_shell *shell, char *token)
+{
+	int		single_quote_num;
+	int		double_quote_num;
+	bool	single_quote;
+	bool	double_quote;
+	int		i;
+
+	single_quote_num = 0;
+	double_quote_num = 0;
+	i = -1;
+	while (token[++i])
+	{
+		if (token[i] == '\"' && !single_quote)
+		{
+			double_quote = !double_quote;
+			double_quote_num++;
+		}
+		if (token[i] == '\'' && !double_quote)
+		{
+			single_quote = !single_quote;
+			single_quote_num++;
+		}
+	}
+	if (double_quote_num % 2 != 0 || single_quote_num % 2 != 0)
+		print_error(shell, NULL, NULL, ERR_QUOTES, 1);
+}
+
+int	get_special_char_enum(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (*input == '&' && *(input + 1) == '&')
+			return (AND);
+		else if (*input == '|' && *(input + 1) == '|')
+			return (OR);
+		else if (*input == '|')
+			return (PIPE);
+		i++;
+	}
+	return (NONE);
+}
 
 int	cmd_len(t_cmd *cmd)
 {

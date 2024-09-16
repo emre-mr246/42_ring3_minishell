@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:08:48 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 14:53:22 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:39:16 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ void	handle_sigint(int signo)
 
 void	handle_sigquit(int signo)
 {
+	printf("sigint\n");
 	if (signo == SIGQUIT)
 		exit(131);
 }
 
 void	child_signal_handler(int signum)
 {
+	printf("child signal handler\n");
 	if (signum == SIGINT)
 		exit(130);
 	else if (signum == SIGQUIT)

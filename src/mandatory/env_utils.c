@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:25:48 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/16 15:09:46 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ void	update_value(t_env *env, char *key, char *value)
 	}
 	if (!tmp)
 		return ;
-	free(tmp->value);
-	tmp->value = ft_strdup(value);
+	
+	if (tmp->value)
+	{
+		tmp->value = ft_strdup(value);
+	}
 }
 
 bool	key_exists(t_env *env, char *key)

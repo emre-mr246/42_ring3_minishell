@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 14:43:04 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/16 15:43:00 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	free_all(t_shell *shell)
 	while (shell->cmd)
 	{
 		tmp_cmd = shell->cmd;
-		free_array(tmp_cmd->arr);
+		//free_array(tmp_cmd->arr);
 		if (tmp_cmd->infile)
 			free(tmp_cmd->infile);
 		if (tmp_cmd->outfile)
@@ -93,4 +93,14 @@ void	free_all(t_shell *shell)
 		free(shell->last_exit_status);
 	if (shell)
 		free(shell);
+}
+
+char	*allocate_str(t_shell *shell, int buff_size)
+{
+	char	*new;
+
+	new = (char *)ft_calloc(sizeof(char), buff_size + 1);
+	if (!new)
+		print_error(shell, "HATA", NULL, ERR_MEMALLOC, 1);
+	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 14:50:23 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:39:57 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ enum					e_error
 	ERR_NONNUM,
 	ERR_NOPERM,
 	ERR_ISDIR,
-	ERR_QUOTES
+	ERR_QUOTES,
+	ERR_MANYARGS
 };
 
 enum					e_redirection
@@ -101,11 +102,17 @@ void					handle_builtins(t_shell *shell, t_cmd *cmd);
 void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
 void					ft_export(t_shell *shell, t_cmd *cmd);
 void					ft_unset(t_shell *shell, t_cmd *cmd);
+void					ft_cd(t_shell *shell, t_cmd *cmd);
 
 // CMD
 t_cmd					*create_cmds(t_shell *shell, t_tokens *token);
 t_cmd					*new_cmd(char **cmd);
 void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
+void					check_odd_quotes(t_shell *shell, char *token);
+int						get_special_char_enum(char *input);
+
+//EXEC
+void	handle_cmd_errors(t_shell *shell, t_cmd *cmd);
 
 t_env					*get_env(char **env);
 t_shell					*init_shell(char **env);
@@ -170,4 +177,31 @@ char					*parse_file(t_shell *shell, t_cmd *cmd, char *file);
 char					*get_env_key(char *str);
 
 void free_token(t_tokens *token);
+void	redirect_pipes(t_cmd *cmd, int fd[][2], int cmdlen, int i);
+void	close_all_fds(int fd[][2], int cmdlen);
+int	is_main_builtin(t_shell *shell, t_cmd *cmd);
+void	close_fds(int fd[][2], int cmdlen, int cmd_i);
+
+void redir_heredoc(t_shell *shell, t_cmd *cmd);
+void	heredoc(t_cmd *cmd);
+void	remove_redirs(t_shell *shell, t_cmd *cmd);
+void	remove_redir(t_shell *shell, t_cmd *cmd, char **arr);
+int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out);
+
+int	infile_controls(t_shell *shell, t_cmd *cmd);
+int	outfile_controls(t_shell *shell, t_cmd *cmd);
+int	open_infile(t_shell *shell, t_cmd *cmd);
+int	open_outfile(t_shell *shell, t_cmd *cmd);
+int	get_redirection(char *s);
+
+void	parse_cmds(t_shell *shell);
+char	*allocate_str(t_shell *shell, int buff_size);
+
+void skip_quotes(char **str, int *i);
+void	skip_whitespaces(char **str, int *i);
+char	*handle_quote(char **str, char quote);
+char	*handle_comment(char *str);
+
+
+
 #endif

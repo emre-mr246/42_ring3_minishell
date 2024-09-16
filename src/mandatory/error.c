@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:25:58 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/16 14:56:03 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void error2(t_shell *shell, char *str, char *cmd, int mode)
 		ft_putstr_fd("Cannot allocate memory\n", 2);
 	else if (mode == ERR_NONNUM)
 	{
-		*(shell->last_exit_status) = 2;
+		*(shell->last_exit_status) = 255;
 		ft_putstr_fd("Input nonnumeric\n", 2);
 	}
 	else if (mode == ERR_NOPERM)
@@ -62,6 +62,8 @@ static void error2(t_shell *shell, char *str, char *cmd, int mode)
 	}
 	else if (mode == ERR_QUOTES)
 		ft_putendl_fd("Odd number of quotes", 2);
+	else if (mode == ERR_MANYARGS)
+		ft_putendl_fd("Too many arguments", 2);
 }
 
 void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)

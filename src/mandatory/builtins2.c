@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 14:24:25 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/16 15:43:13 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,62 +81,18 @@ void	ft_export(t_shell *shell, t_cmd *cmd)
 	}
 }
 
-static t_env	*get_prev_node(t_env *env, char *key)
+int	is_main_builtin(t_shell *shell, t_cmd *cmd)
 {
-	t_env	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = env;
-	while (tmp->next)
-	{
-		if (ft_strncmp(tmp->next->key, key, higher_len(tmp->next->key,
-					key)) == 0)
-			break ;
-		tmp = tmp->next;
-		i++;
-	}
-	return (tmp);
-}
-
-static void	ft_unset_key(t_shell *shell, char *key)
-{
-	t_env	*node;
-	t_env	*prev_node;
-	t_env	*next_node;
-
-	next_node = NULL;
-	prev_node = NULL;
-	node = NULL;
-	if (ft_strncmp(shell->env->key, key, higher_len(shell->env->key, key) == 0))
-	{
-		next_node = shell->env->next;
-		free(shell->env->key);
-		free(shell->env->value);
-		free(shell->env);
-		shell->env = next_node;
-		return ;
-	}
-	prev_node = get_prev_node(shell->env, key);
-	node = prev_node->next;
-	if (!node)
-		return ;
-	next_node = node->next;
-	free(node->key);
-	free(node->value);
-	free(node);
-	prev_node->next = next_node;
-}
-
-void	ft_unset(t_shell *shell, t_cmd *cmd)
-{
-	int	i;
-
-	i = 1;
-	cmd->is_builtin = true;
-	while (cmd->arr[i])
-	{
-		ft_unset_key(shell, cmd->arr[i]);
-		i++;
-	}
+	if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
+		return (1);
+	else if (ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)
+		return (1);
+	else if (ft_strncmp(cmd->arr[0], "export", higher_len(cmd->arr[0],
+				"export")) == 0)
+		return (1);
+	else if (ft_strncmp(cmd->arr[0], "unset", higher_len(cmd->arr[0],
+				"unset")) == 0)
+		return (1);
+	else
+		return (0);
 }

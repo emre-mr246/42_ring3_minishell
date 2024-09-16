@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:21:13 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 16:02:25 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/16 15:20:56 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 #include <unistd.h>
+#include <sys/stat.h>
 
 char	*make_path(t_shell *shell, char *uncompleted_path, char *cmd)
 {
@@ -50,4 +51,57 @@ char	*find_valid_path(t_shell *shell, char *cmd, t_env *envp)
 			break ;
 	}
 	return (valid_path);
+}
+
+static bool	get_cond(int i, int j, int cmd_i, int cmdlen)
+{
+	if (cmd_i == 0)
+		return (!(i == 0 && j == 1));
+	else if (cmd_i == cmdlen - 1)
+		return (!(i == cmdlen - 2 && j == 0));
+	else
+		return (!(i == cmd_i - 1 && j == 0) && !(i == cmd_i && j == 1));
+}
+
+void	close_fds(int fd[][2], int cmdlen, int cmd_i)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < cmdlen - 1)
+	{
+		j = 0;
+		while (j < 2)
+		{
+			if (get_cond(i, j, cmd_i, cmdlen))
+				close(fd[i][j]);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	handle_cmd_errors(t_shell *shell, t_cmd *cmd)
+{
+	struct stat	statbuf;
+
+	stat(cmd->arr[0], &statbuf);
+	if (access(cmd->arr[0], X_OK) == -1 && access(cmd->arr[0], F_OK) == 0
+		&& ft_strchr(cmd->arr[0], '/'))
+		print_error(shell, cmd->arr[0], NULL, ERR_NOPERM, 0);
+	else if (S_ISDIR(statbuf.st_mode) && ft_strchr(cmd->arr[0], '/'))
+		print_error(shell, cmd->arr[0], NULL, ERR_ISDIR, 0);
+	else if (access(cmd->arr[0], X_OK) == -1 || (access(cmd->arr[0], X_OK) == 0
+			&& S_ISDIR(statbuf.st_mode)))
+	{
+		print_error(shell, cmd->arr[0], NULL, ERR_NOCMD, 0);
+		ft_exit(shell, 127);
+	}
+	else if (access(cmd->arr[0], F_OK))
+	{
+		print_error(shell, cmd->arr[0], NULL, ERR_NODIR, 0);
+		ft_exit(shell, 127);
+	}
+	ft_exit(shell, 126);
 }

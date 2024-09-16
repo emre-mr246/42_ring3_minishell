@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/11 16:08:12 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/16 15:32:17 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 #include <unistd.h>
+#include <readline/history.h>
+#include <readline/readline.h>
 
 void	ft_env(t_shell *shell, t_cmd *cmd)
 {
@@ -61,7 +63,7 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 	*(shell->last_exit_status) = 0;
 	cmd->is_builtin = true;
 	if (cmd->arr[2])
-		print_error(shell, "too many args", "cd", -1, 0);
+		print_error(shell, "too many args", "cd", ERR_MANYARGS, 0);
 	tmp = shell->env;
 	cwd = (char *)ft_calloc(sizeof(char), PATH_SIZE);
 	if (!cwd)
@@ -98,48 +100,9 @@ void	handle_builtins(t_shell *shell, t_cmd *cmd)
 		return ;
 }
 
-static int	arg_numeric(t_shell *shell, char *arg)
+void	ft_exit(t_shell *shell, int exit_code)
 {
-	int	i;
-
-	i = 0;
-	while (arg[i])
-	{
-		if ((i == 0 && arg[i] == '+') || (i == 0 && arg[i] == '-')
-			|| arg[i] == '"' || arg[i] == '\'')
-		{
-			i++;
-			continue ;
-		}
-		if (!ft_isdigit(arg[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void	handle_builtins_main(t_shell *shell, t_cmd *cmd)
-{
-	if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
-	{
-		if (!cmd->arr[1])
-			ft_exit(shell, *shell->last_exit_status);
-		else if (!arg_numeric(shell, cmd->arr[1]))
-			print_error(shell, NULL, "exit", ERR_NONNUM, 0);
-		else if (cmd->arr[2])
-			print_error(shell, "too many args", "exit", -1, 0);
-		else if (cmd->arr[1])
-			*shell->last_exit_status = ft_atoi(cmd->arr[1]);
-		ft_exit(shell, *shell->last_exit_status);
-	}
-	else if (ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)
-		ft_cd(shell, cmd);
-	else if (ft_strncmp(cmd->arr[0], "export", higher_len(cmd->arr[0],
-				"export")) == 0)
-		ft_export(shell, cmd);
-	else if (ft_strncmp(cmd->arr[0], "unset", higher_len(cmd->arr[0],
-				"unset")) == 0)
-		ft_unset(shell, cmd);
-	else
-		return ;
+	rl_clear_history();
+	free_all(shell);
+	exit(exit_code);
 }
