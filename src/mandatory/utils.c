@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:43:00 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:57:50 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ char	*allocate_str(t_shell *shell, int buff_size)
 
 	new = (char *)ft_calloc(sizeof(char), buff_size + 1);
 	if (!new)
-		print_error(shell, "HATA", NULL, ERR_MEMALLOC, 1);
+		print_error(shell, "HATA", ERR_MEMALLOC, 1);
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:39:57 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:56:32 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void					remove_redirs(t_shell *shell, t_cmd *cmd);
 int						open_outfile(t_shell *shell, t_cmd *cmd);
 int						open_infile(t_shell *shell, t_cmd *cmd);
 
-void					print_error(t_shell *shell, char *str, char *cmd,
+void					print_error(t_shell *shell, char *str,
 							int mode, int exits);
 void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
 char					*parse_file(t_shell *shell, t_cmd *cmd, char *file);
@@ -201,7 +201,5 @@ void skip_quotes(char **str, int *i);
 void	skip_whitespaces(char **str, int *i);
 char	*handle_quote(char **str, char quote);
 char	*handle_comment(char *str);
-
-
 
 #endif

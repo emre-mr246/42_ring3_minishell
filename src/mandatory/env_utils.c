@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:09:46 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:52:49 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	update_value(t_env *env, char *key, char *value)
 	}
 	if (!tmp)
 		return ;
-	
 	if (tmp->value)
 	{
 		tmp->value = ft_strdup(value);

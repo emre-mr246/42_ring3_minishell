@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:00:05 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/16 15:03:32 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:57:13 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ void	handle_builtins_main(t_shell *shell, t_cmd *cmd)
 		if (!cmd->arr[1])
 			ft_exit(shell, *shell->last_exit_status);
 		else if (!arg_numeric(shell, cmd->arr[1]))
-			print_error(shell, NULL, "exit", ERR_NONNUM, 0);
+			print_error(shell, NULL, ERR_NONNUM, 0);
 		else if (cmd->arr[2])
-			print_error(shell, "too many args", "exit", ERR_MANYARGS, 0);
+			print_error(shell, "too many args", ERR_MANYARGS, 0);
 		else if (cmd->arr[1])
 			*shell->last_exit_status = ft_atoi(cmd->arr[1]);
 		ft_exit(shell, *shell->last_exit_status);

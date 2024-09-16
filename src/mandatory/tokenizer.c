@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:38:35 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:51:41 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,19 +102,16 @@ char	*handle_special_char(char **input)
 	int		i;
 	char	*res;
 	char	*tmp;
-	char *trimmed;
+	char	*trimmed;
 
 	i = get_indexes(*input);
-	if (i == -1)
+	if (i == -1 || i == INT_MAX)
 		return (NULL);
 	else if (i == 0)
 	{
 		res = get_special_char(*input);
 		*input += ft_strlen(res);
-		return (res);
 	}
-	else if (i == INT_MAX)
-		return (NULL);
 	else
 	{
 		res = ft_substr(*input, 0, i);
@@ -125,8 +122,8 @@ char	*handle_special_char(char **input)
 			return (NULL);
 		free(tmp);
 		*input += i;
-		return (res);
 	}
+	return (res);
 }
 
 t_tokens	*tokenizer(char *input, t_env *env)

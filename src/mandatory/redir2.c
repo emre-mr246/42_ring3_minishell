@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:08 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/16 15:30:29 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:57:39 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	open_outfile(t_shell *shell, t_cmd *cmd)
 
 	if ((cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT)
 		&& access(cmd->outfile, R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
-		print_error(shell, cmd->outfile, NULL, ERR_NOPERM, 1);
+		print_error(shell, cmd->outfile, ERR_NOPERM, 1);
 	if (cmd->out_redir == REDIRECT_OUTPUT)
 		fd = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (cmd->out_redir == APPEND_OUTPUT)
@@ -79,12 +79,12 @@ int	infile_controls(t_shell *shell, t_cmd *cmd)
 {
 	if (access(cmd->infile, F_OK))
 	{
-		print_error(shell, cmd->infile, NULL, ERR_NODIR, 0);
+		print_error(shell, cmd->infile, ERR_NODIR, 0);
 		return (1);
 	}
 	else if (access(cmd->infile, R_OK))
 	{
-		print_error(shell, cmd->infile, NULL, ERR_NOPERM, 0);
+		print_error(shell, cmd->infile, ERR_NOPERM, 0);
 		return (1);
 	}
 	return (0);

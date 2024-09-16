@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:43:13 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:57:06 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	env_search_export(t_shell *shell, int j)
 		i++;
 	}
 	if (i == 0)
-		print_error(shell, shell->cmd->arr[j], "export", ERR_ENVNAME, 0);
+		print_error(shell, shell->cmd->arr[j], ERR_ENVNAME, 0);
 	return (i);
 }
 
@@ -34,12 +34,12 @@ static void	key_valid(t_shell *shell, char *key)
 	int	i;
 
 	if (ft_isdigit(key[0]))
-		print_error(shell, key, "export", ERR_ENVNAME, 0);
+		print_error(shell, key, ERR_ENVNAME, 0);
 	i = 0;
 	while (key[i])
 	{
 		if (!(ft_isalnum(key[i]) || key[i] == '_'))
-			print_error(shell, key, "export", ERR_ENVNAME, 0);
+			print_error(shell, key, ERR_ENVNAME, 0);
 		i++;
 	}
 }

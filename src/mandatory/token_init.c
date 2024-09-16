@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:40:37 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 14:21:18 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/16 15:54:06 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_tokens	*new_token(char *token)
 
 void	lstadd_back_token(t_tokens **lst, t_tokens *new)
 {
-	t_tokens *tmp;
+	t_tokens	*tmp;
 
 	if (!new)
 		return ;
@@ -46,7 +46,7 @@ void	lstadd_back_token(t_tokens **lst, t_tokens *new)
 	return ;
 }
 
-void free_token(t_tokens *token)
+void	free_token(t_tokens *token)
 {
 	t_tokens	*tmp;
 

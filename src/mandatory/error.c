@@ -6,19 +6,18 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 14:56:03 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:55:28 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static void error1(t_shell *shell, char *str, char *cmd, int mode)
+static void	error1(t_shell *shell, char *str, int mode)
 {
 	if (mode == ERR_ENVNAME)
 	{
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": `", 2);
+		ft_putstr_fd("\'", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd("\': not a valid identifier\n", 2);
 	}
@@ -39,7 +38,7 @@ static void error1(t_shell *shell, char *str, char *cmd, int mode)
 	}
 }
 
-static void error2(t_shell *shell, char *str, char *cmd, int mode)
+static void	error2(t_shell *shell, char *str, int mode)
 {
 	if (mode == ERR_EXCBUFF)
 		ft_putstr_fd("Exceeded buffer size\n", 2);
@@ -66,12 +65,12 @@ static void error2(t_shell *shell, char *str, char *cmd, int mode)
 		ft_putendl_fd("Too many arguments", 2);
 }
 
-void	print_error(t_shell *shell, char *str, char *cmd, int mode, int exits)
+void	print_error(t_shell *shell, char *str, int mode, int exits)
 {
 	*(shell->last_exit_status) = 1;
 	ft_putstr_fd("RaRe: ", 2);
-	error1(shell, str, cmd, mode);
-	error2(shell, str, cmd, mode);
+	error1(shell, str, mode);
+	error2(shell, str, mode);
 	if (exits)
 		exit(*(shell->last_exit_status));
 	else

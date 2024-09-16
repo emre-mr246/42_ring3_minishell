@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:17 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:08:49 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:57:18 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	check_odd_quotes(t_shell *shell, char *token)
 		}
 	}
 	if (double_quote_num % 2 != 0 || single_quote_num % 2 != 0)
-		print_error(shell, NULL, NULL, ERR_QUOTES, 1);
+		print_error(shell, NULL, ERR_QUOTES, 1);
 }
 
 int	get_special_char_enum(char *input)

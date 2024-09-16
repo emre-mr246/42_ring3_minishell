@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:32:17 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:56:54 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 	*(shell->last_exit_status) = 0;
 	cmd->is_builtin = true;
 	if (cmd->arr[2])
-		print_error(shell, "too many args", "cd", ERR_MANYARGS, 0);
+		print_error(shell, "too many args", ERR_MANYARGS, 0);
 	tmp = shell->env;
 	cwd = (char *)ft_calloc(sizeof(char), PATH_SIZE);
 	if (!cwd)
@@ -75,7 +75,7 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 		env_lstadd_back(&tmp, new_env("OLDPWD", cwd));
 	if (chdir(cmd->arr[1]) == -1)
 	{
-		print_error(shell, cmd->arr[1], "cd", ERR_NODIR, 0);
+		print_error(shell, cmd->arr[1], ERR_NODIR, 0);
 		return ;
 	}
 	free(cwd);

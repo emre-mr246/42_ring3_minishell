@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:14 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/16 15:28:06 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/16 15:53:51 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	remove_redir(t_shell *shell, t_cmd *cmd, char **arr)
 
 void	remove_redirs(t_shell *shell, t_cmd *cmd)
 {
-	int i;
-	int j;
-	char **arr;
+	int		i;
+	int		j;
+	char	**arr;
 
 	arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
 	if (!arr)
@@ -108,10 +108,10 @@ void	heredoc(t_cmd *cmd)
 	close(tmpfd);
 }
 
-void redir_heredoc(t_shell *shell, t_cmd *cmd)
+void	redir_heredoc(t_shell *shell, t_cmd *cmd)
 {
 	int	infd;
-	
+
 	heredoc(cmd);
 	infd = open(HEREDOC_TMP_PATH, O_RDONLY, 0777);
 	if (infd != -1)
