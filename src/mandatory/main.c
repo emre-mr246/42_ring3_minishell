@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:22:57 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 14:28:10 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	shell->cmd = create_cmds(shell, shell->tokens);
 	parse_cmds(shell);
 	//print_cmd(shell);
+	
 	execute_cmd(shell);
 	shell->cmd->is_builtin = false;
 }

@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:57:50 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 14:41:33 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	free_array(char **arr)
 		free(arr[i]);
 		i++;
 	}
-	free(arr);
+	if (arr)
+		free(arr);
 }
 
 void	free_all(t_shell *shell)
@@ -73,7 +74,7 @@ void	free_all(t_shell *shell)
 	while (shell->cmd)
 	{
 		tmp_cmd = shell->cmd;
-		//free_array(tmp_cmd->arr);
+		free_array(tmp_cmd->arr);
 		if (tmp_cmd->infile)
 			free(tmp_cmd->infile);
 		if (tmp_cmd->outfile)

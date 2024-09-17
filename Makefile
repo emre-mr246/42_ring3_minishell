@@ -7,7 +7,7 @@ NAME				= minishell
 BONUS_NAME			= minishell_bonus
 
 CC					= gcc
-CCFLAGS				= -I /opt/homebrew/opt/readline/include -I ./lib/libft/inc/ -I ./inc/ -g #-fsanitize=address #-Wall -Wextra -Werror 
+CCFLAGS				= -I /usr/local/opt/readline/include -I ./lib/libft/inc/ -I ./inc/ -g #-fsanitize=address #-Wall -Wextra -Werror 
 MAKEFLAGS			= --no-print-directory
 RM					= rm -rf
 
@@ -31,7 +31,7 @@ all: $(NAME)
 bonus: $(BONUS_NAME)
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS)
-	@$(CC) $(OBJS) $(LIBFT) -L /opt/homebrew/opt/readline/lib -lreadline $(CCFLAGS) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBFT) -L /usr/local/opt/readline/lib -lreadline $(CCFLAGS) -o $(NAME)
 	@echo "$(GREEN)-== $(NAME) created! ==-$(DEFAULT)"
 
 $(BONUS_NAME): $(LIBFT) $(OBJ_DIR) $(BONUS_OBJS)
@@ -65,11 +65,18 @@ libclean:
 	@make $(MAKEFLAGS) -C $(LIBFT_PATH) fclean
 	@echo "$(BLUE)-== all object files deleted in libraries! ==-$(DEFAULT)"
 
+
 re: fclean all
 
 re-bonus: fclean bonus
 
-.PHONY: all bonus clean fclean libclean re re-bonus check-norm
+leak: re
+	valgrind --suppressions=misra.supp --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell
+
+test:
+	make re && cd tester && ./tester
+
+.PHONY: all bonus clean fclean libclean re re-bonus check-norm leak test
 
 # ANSI COLOR CODES
 DEFAULT = \033[0m
@@ -78,3 +85,7 @@ YELLOW  = \033[1;33m
 GREEN   = \033[1;32m
 BLUE    = \033[1;36m
 ORANGE  = \033[38;5;208m
+
+#suppresssion dosyası oluşturma
+#valgrind --gen-suppressions=all --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell 2> valgrind_output.txt
+#awk '/^{/{f=1} f; /^}/{f=0}' valgrind_output.txt > misra.supp

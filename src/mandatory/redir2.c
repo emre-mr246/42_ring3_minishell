@@ -6,15 +6,15 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:08 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/16 15:57:39 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 13:27:54 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
+#include "readline/readline.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include "readline/readline.h"
 
 int	get_redirection(char *s)
 {
@@ -60,11 +60,10 @@ int	open_infile(t_shell *shell, t_cmd *cmd)
 
 int	outfile_controls(t_shell *shell, t_cmd *cmd)
 {
-	int fd;
-	
-	if ((cmd->out_redir == REDIRECT_OUTPUT
-			|| cmd->out_redir == APPEND_OUTPUT) && access(cmd->outfile,
-			R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
+	int	fd;
+
+	if ((cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT)
+		&& access(cmd->outfile, R_OK) == -1 && access(cmd->outfile, F_OK) == 0)
 		return (1);
 	else if (access(cmd->outfile, F_OK) == -1)
 	{
