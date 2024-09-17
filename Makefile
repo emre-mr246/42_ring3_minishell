@@ -71,7 +71,7 @@ re: fclean all
 re-bonus: fclean bonus
 
 leak: re
-	valgrind --suppressions=misra.supp --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell
+	valgrind --suppressions=misra.supp --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell && rm -rf outfiles/*
 
 test:
 	make re && cd tester && ./tester
