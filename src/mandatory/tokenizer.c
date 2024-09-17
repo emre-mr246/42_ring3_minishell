@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 16:11:30 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 17:55:27 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,22 @@ char	*handle_special_char(char **input)
 	return (res);
 }
 
-t_tokens	*tokenizer(char *input, t_env *env)
+void	check_syntax(t_shell *shell, t_tokens *token)
+{
+	t_tokens *tmp;
+	
+	tmp = token;
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	if (ft_strncmp(tmp->token, "|", higher_len(tmp->token, "|")) == 0)
+		print_error(shell, NULL, ERR_SYNTAX, 1);
+	if (ft_strncmp(tmp->token, "<", higher_len(tmp->token, "<")) == 0)
+		print_error(shell, NULL, ERR_SYNTAX, 1);
+	if (ft_strncmp(tmp->token, ">", higher_len(tmp->token, ">")) == 0)
+		print_error(shell, NULL, ERR_SYNTAX, 1);
+}
+
+t_tokens	*tokenizer(t_shell *shell, char *input, t_env *env)
 {
 	char		*res;
 	t_tokens	*tokens;
@@ -155,5 +170,6 @@ t_tokens	*tokenizer(char *input, t_env *env)
 		while (*input == ' ')
 			input++;
 	}
+	check_syntax(shell, tokens);
 	return (tokens);
 }

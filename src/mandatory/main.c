@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 16:21:43 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 17:57:46 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,15 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	{
 		shell->line = readline(prompt);
 		free(prompt);
-		if (!shell->line)
+		if (!shell->line || !*shell->line)
 			return ;
 		add_history(shell->line);
 	}
 	else
 		shell->line = arg_input[*i];
-	shell->tokens = tokenizer(shell->line, shell->env);
+	if (!shell->line || !*shell->line)
+		return ;
+	shell->tokens = tokenizer(shell, shell->line, shell->env);
 	if (!shell->tokens)
 		return ;
 	shell->cmd = create_cmds(shell, shell->tokens);

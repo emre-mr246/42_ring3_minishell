@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:56:32 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 17:50:10 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ enum					e_error
 	ERR_NOPERM,
 	ERR_ISDIR,
 	ERR_QUOTES,
-	ERR_MANYARGS
+	ERR_MANYARGS,
+	ERR_SYNTAX
 };
 
 enum					e_redirection
@@ -116,7 +117,7 @@ void	handle_cmd_errors(t_shell *shell, t_cmd *cmd);
 
 t_env					*get_env(char **env);
 t_shell					*init_shell(char **env);
-t_tokens				*tokenizer(char *input, t_env *env);
+t_tokens				*tokenizer(t_shell *shell, char *input, t_env *env);
 
 // UTILS
 t_tokens				*new_token(char *token);
@@ -201,5 +202,6 @@ void skip_quotes(char **str, int *i);
 void	skip_whitespaces(char **str, int *i);
 char	*handle_quote(char **str, char quote);
 char	*handle_comment(char *str);
+void	print_token(t_tokens *token);
 
 #endif
