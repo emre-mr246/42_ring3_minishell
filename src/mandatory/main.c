@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 14:28:10 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:21:43 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ static char	*create_prompt(t_shell *shell)
 {
 	char	*prompt;
 	char	*tmp;
+	char	*value;
 
-	prompt = ft_strjoin("\033[1;31mRaRe\033[0m:\033[1;34m",
-			get_env_value(shell->env, "PWD"));
+	value = get_env_value(shell->env, "PWD");
+	prompt = ft_strjoin("\033[1;31mRaRe\033[0m:\033[1;34m", value);
 	tmp = prompt;
 	prompt = ft_strjoin(tmp, "\033[0m$ ");
+	free(value);
 	free(tmp);
 	return (prompt);
 }

@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:51:41 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:11:30 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,11 @@ char	*handle_special_char(char **input)
 		tmp = ft_strdup(trimmed);
 		free(trimmed);
 		if (ft_strchr(tmp, ' '))
+		{
+			free(res);
+			free(tmp);
 			return (NULL);
+		}
 		free(tmp);
 		*input += i;
 	}

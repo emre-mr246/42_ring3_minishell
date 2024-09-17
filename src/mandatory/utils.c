@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 14:41:33 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:32:43 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	higher_len(char *str1, char *str2)
 	int	len1;
 	int	len2;
 
+	if (!str1 || !str2)
+		return (-1);
 	len1 = ft_strlen(str1);
 	len2 = ft_strlen(str2);
 	if (len1 > len2)

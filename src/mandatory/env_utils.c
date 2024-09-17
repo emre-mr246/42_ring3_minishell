@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 14:30:27 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:35:02 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	update_value(t_env *env, char *key, char *value)
 	t_env	*tmp;
 
 	tmp = env;
+	if (!key || !value)
+		return ;
 	while (tmp)
 	{
 		if (ft_strncmp(tmp->key, key, higher_len(tmp->key, key)) == 0)
@@ -38,6 +40,8 @@ bool	key_exists(t_env *env, char *key)
 	t_env	*tmp;
 
 	tmp = env;
+	if (!key)
+		return (false);
 	while (tmp)
 	{
 		if (ft_strncmp(tmp->key, key, higher_len(tmp->key, key)) == 0)
@@ -72,7 +76,7 @@ char	*get_env_value(t_env *env, char *key)
 	while (tmp)
 	{
 		if (ft_strncmp(tmp->key, key, higher_len(tmp->key, key)) == 0)
-			return (tmp->value);
+			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}
 	return (NULL);

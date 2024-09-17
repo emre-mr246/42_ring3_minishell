@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 15:31:53 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 15:51:47 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 			handle_builtins_main(shell, cmd);
 		pid[i] = fork();
 		if (pid[i] == 0)
+		{
+			free(pid);
 			child(shell, cmd, fd, cmdlen, &i);
+		}
 		i++;
 		cmd = cmd->next;
 	}

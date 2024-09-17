@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:22:24 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/17 15:19:12 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:24:53 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,13 @@ void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
 		value = get_env_value(shell->env, key);
 	ft_strlcpy(new + *k, value, ft_strlen(value) + 1);
 	*k += ft_strlen(value);
+	if (value)
+		free(value);
 	if (ft_strncmp(key, "$", higher_len(key, "$")) == 0)
+	{
+		free(key);
 		return ;
+	}
 	*j += ft_strlen(key);
 	free(key);
 }
