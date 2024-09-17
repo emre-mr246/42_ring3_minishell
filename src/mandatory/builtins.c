@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 15:00:45 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:41:52 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 		if (chdir(cmd->arr[1]) == -1)
 		{
 			print_error(shell, cmd->arr[1], ERR_NODIR, 0);
+			free(cwd);
 			return ;
 		}	
 	}

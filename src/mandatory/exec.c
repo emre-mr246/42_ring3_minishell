@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 15:51:47 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:57:42 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	child_process(t_shell *shell, t_cmd *cmd)
 	if (!cmd->arr[0][0])
 		ft_exit(shell, 0);
 	execve(path, cmd->arr, shell->envp);
+	free(path);
 	ft_exit(shell, 1);
 	return (1);
 }
@@ -71,15 +72,20 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 
 	cmd = shell->cmd;
 	i = 0;
-	if (!pid)
-		return ;
 	while (i < cmdlen)
 	{
 		if (!cmd->arr[0])
+		{
+			free(pid);
 			ft_exit(shell, 0);
+		}
 		init_signal(SIGINT, NULL, &shell->sigint);
 		if (cmdlen == 1)
+		{
+			if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
+				free(pid);
 			handle_builtins_main(shell, cmd);
+		}
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{

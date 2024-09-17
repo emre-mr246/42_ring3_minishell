@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:14 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/17 14:57:16 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 17:08:02 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@ int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 	parsed = parse_file(shell, cmd, cmd->arr[*i + 1]);
 	if (mode_in_out == 0)
 	{
-		cmd->outfile = parsed;
+		cmd->outfile = ft_strdup(parsed);
+		free(parsed);
 		cmd->out_redir = get_redirection(cmd->arr[*i]);
 		if (outfile_controls(shell, cmd))
 			return (1);
 	}
-	if (mode_in_out == 1)
+	else if (mode_in_out == 1)
 	{
-		cmd->infile = parsed;
+		cmd->infile = ft_strdup(parsed);
+		free(parsed);
 		cmd->in_redir = get_redirection(cmd->arr[*i]);
 		if (infile_controls(shell, cmd))
 			return (1);
 	}
 	if (cmd->arr[*i + 2])
-	{
 		*i += 2;
-	}
 	else
 		return (1);
 	return (0);
