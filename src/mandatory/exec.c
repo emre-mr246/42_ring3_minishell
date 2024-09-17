@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 14:20:20 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 15:31:53 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,16 @@ static void	wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
 {
 	int	exit_status;
 	int	i;
+	// int pid_tmp[42];
 
+	// i = 0;
+	// while (pid[i])
+	// 	pid_tmp[i] = pid[i];
+	// free(pid);
 	i = 0;
 	while (i < cmdlen)
 	{
-		waitpid(pid[i], &exit_status, 0);
+		waitpid(pid[i], &exit_status, 0); //pid_tmp[i]
 		if (WIFEXITED(exit_status))
 			*shell->last_exit_status = WEXITSTATUS(exit_status);
 		i++;
@@ -66,6 +71,8 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 
 	cmd = shell->cmd;
 	i = 0;
+	if (!pid)
+		return ;
 	while (i < cmdlen)
 	{
 		if (!cmd->arr[0])
@@ -107,6 +114,7 @@ void	execute_cmd(t_shell *shell)
 		i++;
 	}
 	run_cmds(shell, fd, cmdlen, pid);
-	free(pid);
+	if (pid)
+		free(pid);
 	init_signal(SIGINT, handle_sigint, &shell->sigint);
 }

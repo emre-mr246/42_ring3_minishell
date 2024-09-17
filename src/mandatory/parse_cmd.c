@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:22:24 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/17 14:33:22 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 15:19:12 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 	char	*new;
 
 	new = allocate_str(shell, BUFFER_SIZE);
+	if (!new)
+		return (NULL);
 	j = -1;
 	k = 0;
 	quote[0] = false;
@@ -77,7 +79,7 @@ void	parse_cmd(t_shell *shell, t_cmd *cmd)
 	while (cmd->arr[i])
 	{
 		new = parse_cmd_loop(cmd, shell, &i);
-		if (new[0] != '\0')
+		if (new && new[0])
 		{
 			free(cmd->arr[j]);
 			cmd->arr[j] = ft_strdup(new);
@@ -86,6 +88,8 @@ void	parse_cmd(t_shell *shell, t_cmd *cmd)
 		free(new);
 		i++;
 	}
+	if (cmd->arr[j])
+		free(cmd->arr[j]);
 	cmd->arr[j++] = NULL;
 	while (cmd->arr[j])
 		free(cmd->arr[j++]);

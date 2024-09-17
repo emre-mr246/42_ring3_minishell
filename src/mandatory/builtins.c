@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 14:42:48 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 15:00:45 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,13 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 		update_value(shell->env, "OLDPWD", cwd);
 	else
 		env_lstadd_back(&tmp, new_env("OLDPWD", cwd));
-	if (chdir(cmd->arr[1]) == -1)
+	if (cmd->arr[1])
 	{
-		print_error(shell, cmd->arr[1], ERR_NODIR, 0);
-		return ;
+		if (chdir(cmd->arr[1]) == -1)
+		{
+			print_error(shell, cmd->arr[1], ERR_NODIR, 0);
+			return ;
+		}	
 	}
 	getcwd(cwd, PATH_SIZE - 1);
 	update_value(shell->env, "PWD", cwd);

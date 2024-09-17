@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:17 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:57:18 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 14:59:26 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	check_odd_quotes(t_shell *shell, char *token)
 
 	single_quote_num = 0;
 	double_quote_num = 0;
+	single_quote = false;
+	double_quote = false;
 	i = -1;
 	while (token[++i])
 	{
