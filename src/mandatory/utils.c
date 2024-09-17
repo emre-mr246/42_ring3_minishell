@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 16:43:04 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 18:19:07 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void	free_array(char **arr)
 void	free_all(t_shell *shell)
 {
 	t_cmd		*tmp_cmd;
-	t_tokens	*tmp_tokens;
 	t_env		*tmp_env;
 
+	free_token(shell->tokens);
 	while (shell->cmd)
 	{
 		tmp_cmd = shell->cmd;

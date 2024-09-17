@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:40:37 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:54:06 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 18:33:44 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_tokens	*new_token(char *token)
 {
 	t_tokens	*tokens;
 
-	tokens = (t_tokens *)ft_calloc(sizeof(t_tokens) + 1, 1);
+	tokens = (t_tokens *)ft_calloc(sizeof(t_tokens), 1);
 	if (!tokens)
 		return (NULL);
 	tokens->next = NULL;

@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:08:35 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 18:18:17 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,5 @@ t_cmd	*create_cmds(t_shell *shell, t_tokens *token)
 		else
 			break ;
 	}
-	free_token(token_tmp);
 	return (cmd_tmp);
 }
