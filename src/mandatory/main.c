@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 17:57:46 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 18:12:12 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	if (!shell->line || !*shell->line)
 		return ;
 	shell->tokens = tokenizer(shell, shell->line, shell->env);
+	//print_token(shell->tokens);
 	if (!shell->tokens)
 		return ;
 	shell->cmd = create_cmds(shell, shell->tokens);

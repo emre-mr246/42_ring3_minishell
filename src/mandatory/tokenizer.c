@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 17:55:27 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 18:12:00 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,18 +130,27 @@ char	*handle_special_char(char **input)
 	return (res);
 }
 
+
 void	check_syntax(t_shell *shell, t_tokens *token)
 {
 	t_tokens *tmp;
 	
 	tmp = token;
+	if (ft_strncmp(tmp->token, "|", 1) == 0)
+		print_error(shell, NULL, ERR_SYNTAX, 1);
 	while (tmp && tmp->next)
+	{
+		if (ft_strncmp(tmp->token, "<", 1) == 0 && ft_strncmp(tmp->next->token, "|", 1) == 0)
+			print_error(shell, NULL, ERR_SYNTAX, 1);
+		if (ft_strncmp(tmp->token, ">", 1) == 0 && ft_strncmp(tmp->next->token, "|", 1) == 0)
+			print_error(shell, NULL, ERR_SYNTAX, 1);
 		tmp = tmp->next;
-	if (ft_strncmp(tmp->token, "|", higher_len(tmp->token, "|")) == 0)
+	}
+	if (ft_strncmp(tmp->token, "|", 1) == 0)
 		print_error(shell, NULL, ERR_SYNTAX, 1);
-	if (ft_strncmp(tmp->token, "<", higher_len(tmp->token, "<")) == 0)
+	if (ft_strncmp(tmp->token, "<", 1) == 0)
 		print_error(shell, NULL, ERR_SYNTAX, 1);
-	if (ft_strncmp(tmp->token, ">", higher_len(tmp->token, ">")) == 0)
+	if (ft_strncmp(tmp->token, ">", 1) == 0)
 		print_error(shell, NULL, ERR_SYNTAX, 1);
 }
 
