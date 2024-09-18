@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 18:12:12 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:51:11 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	
 	execute_cmd(shell);
 	shell->cmd->is_builtin = false;
+	free_cmds(shell);
+	free_token(shell->tokens);
 }
 
 int	main(int ac, char **av, char **env)
@@ -66,7 +68,7 @@ int	main(int ac, char **av, char **env)
 	shell = init_shell(env);
 	if (!shell)
 		return (-1);
-	// while (1)
+	//while (1)
 		main_loop(shell, 0, NULL, NULL);
 	ft_exit(shell, *(shell->last_exit_status));
 }

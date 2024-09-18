@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 16:41:52 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 12:47:54 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,17 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 
 void	handle_builtins(t_shell *shell, t_cmd *cmd)
 {
+	char *val;
+	
 	if (ft_strncmp(cmd->arr[0], "echo", higher_len(cmd->arr[0], "echo")) == 0)
 		ft_echo(shell, cmd);
 	else if (ft_strncmp(cmd->arr[0], "pwd", higher_len(cmd->arr[0],
 				"pwd")) == 0)
 	{
 		cmd->is_builtin = true;
-		ft_printf("%s\n", get_env_value(shell->env, "PWD"));
+		val = get_env_value(shell->env, "PWD");
+		ft_printf("%s\n", val);
+		free(val);
 	}
 	else if (ft_strncmp(cmd->arr[0], "env", higher_len(cmd->arr[0],
 				"env")) == 0)
