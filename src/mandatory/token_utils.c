@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:37:30 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/16 15:39:00 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:22:20 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ char	*handle_comment(char *str)
 	return (str);
 }
 
-char	*handle_quote(char **str, char quote)
+int	handle_quote(char **res, char **str, char quote)
 {
 	int		i;
-	char	*res;
 
 	i = 1;
 	while ((*str)[i])
@@ -32,13 +31,14 @@ char	*handle_quote(char **str, char quote)
 		if ((*str)[i] == quote && ((*str)[i + 1] == ' ' || (*str)[i + 1] == '\0'
 				|| (*str)[i + 1] >= 8 && (*str)[i + 1] <= 13))
 		{
-			res = ft_substr(*str, 0, i + 1);
+			ft_strlcpy(*res, *str, i + 2);
+			*res += i + 1;
 			*str += i + 1;
-			return (res);
+			return (0);
 		}
 		i++;
 	}
-	return (NULL);
+	return (1);
 }
 
 void	skip_whitespaces(char **str, int *i)

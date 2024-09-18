@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 12:44:49 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:19:03 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ char	*allocate_str(t_shell *shell, int buff_size);
 
 void skip_quotes(char **str, int *i);
 void	skip_whitespaces(char **str, int *i);
-char	*handle_quote(char **str, char quote);
+int	handle_quote(char **res, char **str, char quote);
 char	*handle_comment(char *str);
 void	print_token(t_tokens *token);
 void	free_cmds(t_shell *shell);

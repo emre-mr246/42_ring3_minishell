@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 18:35:25 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:21:27 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 #include "libft.h"
 #include <limits.h>
 
-char	*handle_space(char **str)
+int	is_sp(char c)
+{
+	return (c == '<' || c == '>' || c == '|');
+}
+
+void handle_space(char **res, char **str)
 {
 	int		i;
-	char	*res;
 
 	i = 0;
 	skip_whitespaces(str, &i);
@@ -25,22 +29,23 @@ char	*handle_space(char **str)
 	{
 		skip_quotes(str, &i);
 		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
-			|| (*str)[i] == '\\')
+			|| (*str)[i] == '\\' || is_sp((*str)[i]))
 		{
-			res = ft_substr(*str, 0, i);
+			ft_strlcpy(*res, *str, i + 1);
+			*res += i;
 			*str += i;
-			return (res);
+			return ;
 		}
 		i++;
 	}
 	if ((*str)[i] == '\0')
 	{
-		res = ft_substr(*str, 0, i);
+		ft_strlcpy(*res, *str, i + 1);
+		*res += i;
 		*str += i;
-		return (res);
+		return ;
 	}
 	*str += i;
-	return (NULL);
 }
 
 char	*get_special_char(char *input)
@@ -97,38 +102,27 @@ int	get_indexes(char *input)
 	return (min_i);
 }
 
-char	*handle_special_char(char **input)
+int handle_special_char(char **res, char **input)
 {
 	int		i;
-	char	*res;
-	char	*tmp;
+	char	*sp_char;
+	char	*sub;
 	char	*trimmed;
 
 	i = get_indexes(*input);
 	if (i == -1 || i == INT_MAX)
-		return (NULL);
+		return (i);
 	else if (i == 0)
 	{
-		res = get_special_char(*input);
-		*input += ft_strlen(res);
+		sp_char = get_special_char(*input);
+		ft_strlcpy(*res, sp_char, ft_strlen(sp_char) + 1);
+		free(sp_char);
+		*res += ft_strlen(sp_char);
+		*input += ft_strlen(sp_char);
 	}
-	else
-	{
-		res = ft_substr(*input, 0, i);
-		trimmed = ft_strtrim(res, " ");
-		tmp = ft_strdup(trimmed);
-		free(trimmed);
-		if (ft_strchr(tmp, ' '))
-		{
-			free(res);
-			free(tmp);
-			return (NULL);
-		}
-		free(tmp);
-		*input += i;
-	}
-	return (res);
+	return (i);
 }
+
 
 
 void	check_syntax(t_shell *shell, t_tokens *token)
@@ -157,24 +151,30 @@ void	check_syntax(t_shell *shell, t_tokens *token)
 t_tokens	*tokenizer(t_shell *shell, char *input, t_env *env)
 {
 	char		*res;
+	char		*res_tmp;
 	t_tokens	*tokens;
+	int			res_i;
 
 	tokens = NULL;
 	while (input && *input && env)
 	{
-		res = NULL;
+		while (*input == ' ')
+			input++;
+		res = (char *)ft_calloc(sizeof(char), BUFFER_SIZE);
+		if (!res)
+			return (NULL);
+		res_i = 1;
+		res_tmp = res;
 		if ((*input == '\'' || *input == '\"') && input)
-			res = handle_quote(&input, *input);
-		if (input && !res)
-			res = handle_special_char(&input);
-		if (input && !res)
-			res = handle_space(&input);
+			res_i = handle_quote(&res_tmp, &input, *input);
+		if (input && res_i)
+			res_i = handle_special_char(&res_tmp, &input);
+		if (input && res_i)
+			handle_space(&res_tmp, &input);
+		*res_tmp = '\0';
 		if (input && res)
-		{
-			lstadd_back_token(&tokens, new_token(ft_strtrim(res, "\n\t ")));
-			free(res);
-		}
-		if (input && !res)
+			lstadd_back_token(&tokens, new_token(res));
+		else
 			input++;
 		while (*input == ' ')
 			input++;

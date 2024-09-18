@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 12:51:11 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 15:22:32 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*create_prompt(t_shell *shell)
 
 	value = get_env_value(shell->env, "PWD");
 	prompt = ft_strjoin("\033[1;31mRaRe\033[0m:\033[1;34m", value);
-	tmp = prompt;
+	tmp = ft_strdup(prompt);
 	prompt = ft_strjoin(tmp, "\033[0m$ ");
 	free(value);
 	free(tmp);
@@ -39,18 +39,30 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 	{
 		shell->line = readline(prompt);
 		free(prompt);
-		if (!shell->line || !*shell->line)
+		if (!shell->line)
 			return ;
+		if (!*shell->line)
+		{
+			free(shell->line);
+			return ;
+		}
 		add_history(shell->line);
 	}
 	else
-		shell->line = arg_input[*i];
-	if (!shell->line || !*shell->line)
+		shell->line = ft_strdup(arg_input[*i]);
+	if (!shell->line)
 		return ;
+	if (!*shell->line)
+	{
+		free(shell->line);
+		return ;
+	}
 	shell->tokens = tokenizer(shell, shell->line, shell->env);
 	//print_token(shell->tokens);
+	free(shell->line);
 	if (!shell->tokens)
 		return ;
+	//exit(0);
 	shell->cmd = create_cmds(shell, shell->tokens);
 	parse_cmds(shell);
 	//print_cmd(shell);
