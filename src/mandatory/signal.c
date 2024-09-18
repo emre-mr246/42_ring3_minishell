@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:08:48 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 12:39:16 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:46 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
-#include <unistd.h>
+#include "minishell.h"
 #include <readline/readline.h>
+#include <unistd.h>
 
 void	handle_sigint(int signo)
 {

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:22:24 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/18 15:38:21 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:38 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 
 void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
 {
@@ -84,7 +84,7 @@ void	parse_cmd(t_shell *shell, t_cmd *cmd)
 	while (cmd->arr[i])
 	{
 		new = parse_cmd_loop(cmd, shell, &i);
-		if (new && new[0])
+		if (new &&new[0])
 		{
 			free(cmd->arr[j]);
 			cmd->arr[j] = ft_strdup(new);

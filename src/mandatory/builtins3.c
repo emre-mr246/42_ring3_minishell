@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:00:05 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/16 15:57:13 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:13 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 
 static t_env	*get_prev_node(t_env *env, char *key)
 {

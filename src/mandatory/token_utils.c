@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:37:30 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/18 15:22:20 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:51 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
-#include <limits.h>
+#include "minishell.h"
 
 char	*handle_comment(char *str)
 {
@@ -23,7 +22,7 @@ char	*handle_comment(char *str)
 
 int	handle_quote(char **res, char **str, char quote)
 {
-	int		i;
+	int	i;
 
 	i = 1;
 	while ((*str)[i])
@@ -48,10 +47,10 @@ void	skip_whitespaces(char **str, int *i)
 		(*i)++;
 }
 
-void skip_quotes(char **str, int *i)
+void	skip_quotes(char **str, int *i)
 {
-	char c;
-	
+	char	c;
+
 	if ((*str)[*i] == '"' || (*str)[*i] == '\'')
 	{
 		c = (*str)[*i];
@@ -60,4 +59,3 @@ void skip_quotes(char **str, int *i)
 			(*i)++;
 	}
 }
-

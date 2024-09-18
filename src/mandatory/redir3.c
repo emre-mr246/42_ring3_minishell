@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   redir3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:14 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/18 15:31:14 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:45 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
+#include "readline/readline.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include "readline/readline.h"
 
 int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 {

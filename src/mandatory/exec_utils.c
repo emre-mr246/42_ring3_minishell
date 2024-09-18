@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:21:13 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:57:30 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:28 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
-#include <unistd.h>
+#include "minishell.h"
 #include <sys/stat.h>
+#include <unistd.h>
 
 char	*make_path(t_shell *shell, char *uncompleted_path, char *cmd)
 {

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 16:35:02 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:24 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 
 void	update_value(t_env *env, char *key, char *value)
 {

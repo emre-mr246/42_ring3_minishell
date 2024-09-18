@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:24:29 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 14:41:05 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:39:18 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 #include <stdio.h>
 #include <unistd.h>
 
@@ -30,7 +30,7 @@ void	init_signal(int signo, void (*handler)(int), struct sigaction *sa)
 
 t_shell	*init_shell(char **env)
 {
-	t_shell *shell;
+	t_shell	*shell;
 
 	shell = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!shell)

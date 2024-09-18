@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:54:12 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 17:46:29 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:20 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 #include <stdio.h>
 
 void	print_cmd(t_shell *shell)
@@ -44,7 +44,7 @@ void	print_cmd(t_shell *shell)
 void	print_token(t_tokens *token)
 {
 	t_tokens *tmp;
-	
+
 	tmp = token;
 	int i = 0;
 	while (tmp)

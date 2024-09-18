@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 16:57:42 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:30 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -35,8 +35,8 @@ static void	wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
 {
 	int	exit_status;
 	int	i;
-	// int pid_tmp[42];
 
+	// int pid_tmp[42];
 	// i = 0;
 	// while (pid[i])
 	// 	pid_tmp[i] = pid[i];
@@ -44,14 +44,14 @@ static void	wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
 	i = 0;
 	while (i < cmdlen)
 	{
-		waitpid(pid[i], &exit_status, 0); //pid_tmp[i]
+		waitpid(pid[i], &exit_status, 0); // pid_tmp[i]
 		if (WIFEXITED(exit_status))
 			*shell->last_exit_status = WEXITSTATUS(exit_status);
 		i++;
 	}
 }
 
-static void child(t_shell *shell, t_cmd *cmd, int fd[][2], int cmdlen, int *i)
+static void	child(t_shell *shell, t_cmd *cmd, int fd[][2], int cmdlen, int *i)
 {
 	init_signal(SIGINT, child_signal_handler, &shell->sigint);
 	init_signal(SIGQUIT, handle_sigquit, (void *)shell);
@@ -82,7 +82,8 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 		init_signal(SIGINT, NULL, &shell->sigint);
 		if (cmdlen == 1)
 		{
-			if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
+			if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0],
+						"exit")) == 0)
 				free(pid);
 			handle_builtins_main(shell, cmd);
 		}

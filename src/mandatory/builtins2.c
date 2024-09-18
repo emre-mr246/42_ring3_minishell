@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/17 16:37:18 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:11 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 
 static int	env_search_export(t_shell *shell, int j)
 {
@@ -78,11 +78,10 @@ void	ft_export(t_shell *shell, t_cmd *cmd)
 		else
 			env_lstadd_back(&shell->env, new_env(key, value));
 		j++;
-	if (key)
-		free(key);
-	if (value)
-		free(value);
-
+		if (key)
+			free(key);
+		if (value)
+			free(value);
 	}
 }
 

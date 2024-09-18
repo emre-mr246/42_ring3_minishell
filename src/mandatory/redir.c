@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/16 15:26:30 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:40 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
-#include <fcntl.h>
+#include "minishell.h"
 #include <unistd.h>
-#include "readline/readline.h"
 
 void	redirect_files(t_shell *shell, t_cmd *cmd)
 {
@@ -26,7 +24,8 @@ void	redirect_files(t_shell *shell, t_cmd *cmd)
 		infd = open_infile(shell, cmd);
 	else
 		infd = -1;
-	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT))
+	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT
+			|| cmd->out_redir == APPEND_OUTPUT))
 	{
 		dup2(outfd, STDOUT_FILENO);
 		close(outfd);
