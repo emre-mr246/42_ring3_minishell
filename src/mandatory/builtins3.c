@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:00:05 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:13 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 13:08:06 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ static void	ft_unset_key(t_shell *shell, char *key)
 	if (ft_strncmp(shell->env->key, key, higher_len(shell->env->key, key) == 0))
 	{
 		next_node = shell->env->next;
-		free(shell->env->key);
-		free(shell->env->value);
-		free(shell->env);
+		free_env(shell->env);
 		shell->env = next_node;
 		return ;
 	}
@@ -54,9 +52,7 @@ static void	ft_unset_key(t_shell *shell, char *key)
 	if (!node)
 		return ;
 	next_node = node->next;
-	free(node->key);
-	free(node->value);
-	free(node);
+	free_env(node);
 	prev_node->next = next_node;
 }
 
@@ -93,19 +89,24 @@ static int	arg_numeric(t_shell *shell, char *arg)
 	return (1);
 }
 
+static void	print_exit_error(t_shell *shell, t_cmd *cmd)
+{
+	if (!arg_numeric(shell, cmd->arr[1]))
+		print_error(shell, NULL, ERR_NONNUM, 0);
+	else if (cmd->arr[2])
+		print_error(shell, "too many args", ERR_MANYARGS, 0);
+	else if (cmd->arr[1])
+		shell->last_exit_status = ft_atoi(cmd->arr[1]);
+}
+
 void	handle_builtins_main(t_shell *shell, t_cmd *cmd)
 {
 	if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
 	{
 		if (!cmd->arr[1])
-			ft_exit(shell, *shell->last_exit_status);
-		else if (!arg_numeric(shell, cmd->arr[1]))
-			print_error(shell, NULL, ERR_NONNUM, 0);
-		else if (cmd->arr[2])
-			print_error(shell, "too many args", ERR_MANYARGS, 0);
-		else if (cmd->arr[1])
-			*shell->last_exit_status = ft_atoi(cmd->arr[1]);
-		ft_exit(shell, *shell->last_exit_status);
+			ft_exit(shell, shell->last_exit_status);
+		print_exit_error(shell, cmd);
+		ft_exit(shell, shell->last_exit_status);
 	}
 	else if (ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)
 		ft_cd(shell, cmd);

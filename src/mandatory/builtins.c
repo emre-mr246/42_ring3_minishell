@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:09 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 13:07:39 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,20 @@ void	ft_echo(t_shell *shell, t_cmd *cmd)
 
 void	ft_cd(t_shell *shell, t_cmd *cmd)
 {
-	t_env	*tmp;
+	t_env	*env;
 	char	*cwd;
 
-	*(shell->last_exit_status) = 0;
+	shell->last_exit_status = 0;
 	cmd->is_builtin = true;
-	tmp = shell->env;
+	env = shell->env;
 	cwd = (char *)ft_calloc(sizeof(char), PATH_SIZE);
 	if (!cwd)
 		return ;
 	getcwd(cwd, PATH_SIZE - 1);
-	if (key_exists(tmp, "OLDPWD"))
+	if (key_exists(env, "OLDPWD"))
 		update_value(shell->env, "OLDPWD", cwd);
 	else
-		env_lstadd_back(&tmp, new_env("OLDPWD", cwd));
+		env_lstadd_back(&env, new_env("OLDPWD", cwd));
 	if (cmd->arr[1])
 	{
 		if (chdir(cmd->arr[1]) == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:11 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 12:37:12 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ void	ft_export(t_shell *shell, t_cmd *cmd)
 		else
 			env_lstadd_back(&shell->env, new_env(key, value));
 		j++;
-		if (key)
-			free(key);
+		free(key);
 		if (value)
 			free(value);
 	}

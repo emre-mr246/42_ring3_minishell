@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:21:13 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:28 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 12:47:26 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ char	*find_valid_path(t_shell *shell, char *cmd, t_env *envp)
 		env_tmp = env_tmp->next;
 	paths = ft_split(env_tmp->value, ':');
 	if (!paths || !*paths)
+	{
+		if (paths)
+			free(paths);
 		ft_exit(shell, -1);
+	}
 	i = 0;
 	while (paths[i])
 	{

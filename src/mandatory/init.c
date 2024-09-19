@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:24:29 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:39:18 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 13:06:29 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ t_shell	*init_shell(char **env)
 	shell->envp = env;
 	shell->tokens = NULL;
 	shell->cmd = NULL;
-	shell->last_exit_status = (int *)ft_calloc(1, sizeof(int));
-	*shell->last_exit_status = 0;
+	shell->last_exit_status = 0;
 	init_signal(SIGINT, handle_sigint, &shell->sigint);
 	init_signal(SIGQUIT, handle_sigquit, &shell->sigquit);
 	return (shell);

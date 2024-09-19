@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:29:56 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 13:06:32 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ typedef struct s_tokens
 {
 	char				*token;
 	struct s_tokens		*next;
-	bool				is_single_quote;
 }						t_tokens;
 
 typedef struct t_cmd
@@ -81,7 +80,6 @@ typedef struct t_cmd
 	char				*infile;
 	struct t_cmd		*next;
 	bool				is_builtin;
-	bool				is_single_quote;
 }						t_cmd;
 
 typedef struct s_shell
@@ -94,7 +92,7 @@ typedef struct s_shell
 	char				**envp;
 	struct sigaction	sigint;
 	struct sigaction	sigquit;
-	int					*last_exit_status;
+	int					last_exit_status;
 }						t_shell;
 
 // BUILTINS
@@ -221,6 +219,7 @@ char					*allocate_str(t_shell *shell, int buff_size);
 void					free_array(char **arr);
 void					free_cmds(t_shell *shell);
 void					free_all(t_shell *shell);
+void					free_env(t_env *env);
 
 // DEBUG
 void					print_cmd(t_shell *shell);

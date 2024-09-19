@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 21:27:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:32 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 13:06:49 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,31 @@ void	free_cmds(t_shell *shell)
 	}
 }
 
-void	free_all(t_shell *shell)
+void	free_env(t_env *env)
+{
+	free(env->key);
+	free(env->value);
+	free(env);
+}
+
+void	free_envs(t_shell *shell)
 {
 	t_env *tmp_env;
-
+	
 	while (shell->env)
 	{
 		tmp_env = shell->env;
 		shell->env = shell->env->next;
-		free(tmp_env->key);
-		free(tmp_env->value);
-		free(tmp_env);
+		free_env(tmp_env);
 	}
-	if (shell->last_exit_status)
-		free(shell->last_exit_status);
+}
+
+void	free_all(t_shell *shell)
+{
+	if (shell->cmd)
+		free_cmds(shell);
+	if (shell->env)
+		free_envs(shell);
 	if (shell)
 		free(shell);
 }

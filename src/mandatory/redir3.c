@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:14 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:45 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 12:45:00 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ void	remove_redir(t_shell *shell, t_cmd *cmd, char **arr)
 				break ;
 		}
 		else
-		{
 			arr[j++] = ft_strdup(cmd->arr[i++]);
-		}
 	}
 	arr[j] = NULL;
 }
@@ -93,7 +91,7 @@ void	heredoc(t_cmd *cmd)
 	char	*delim;
 	int		tmpfd;
 
-	tmpfd = open(HEREDOC_TMP_PATH, O_CREAT | O_RDWR, 0777);
+	tmpfd = open(HEREDOC_TMP_PATH, O_CREAT | O_RDWR, 0644);
 	delim = ft_strdup(cmd->infile);
 	line = NULL;
 	while (1)
@@ -115,7 +113,7 @@ void	redir_heredoc(t_shell *shell, t_cmd *cmd)
 	int	infd;
 
 	heredoc(cmd);
-	infd = open(HEREDOC_TMP_PATH, O_RDONLY, 0777);
+	infd = open(HEREDOC_TMP_PATH, O_RDONLY, 0644);
 	if (infd != -1)
 	{
 		dup2(infd, STDIN_FILENO);

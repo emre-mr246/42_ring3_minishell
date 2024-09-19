@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:30 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 13:10:27 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,12 @@ static void	wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
 	int	exit_status;
 	int	i;
 
-	// int pid_tmp[42];
-	// i = 0;
-	// while (pid[i])
-	// 	pid_tmp[i] = pid[i];
-	// free(pid);
 	i = 0;
 	while (i < cmdlen)
 	{
-		waitpid(pid[i], &exit_status, 0); // pid_tmp[i]
+		waitpid(pid[i], &exit_status, 0);
 		if (WIFEXITED(exit_status))
-			*shell->last_exit_status = WEXITSTATUS(exit_status);
+			shell->last_exit_status = (int)WEXITSTATUS(exit_status);
 		i++;
 	}
 }
@@ -58,7 +53,7 @@ static void	child(t_shell *shell, t_cmd *cmd, int fd[][2], int cmdlen, int *i)
 	redirect_pipes(cmd, fd, cmdlen, *i);
 	redirect_files(shell, cmd);
 	if (is_main_builtin(shell, cmd))
-		ft_exit(shell, *shell->last_exit_status);
+		ft_exit(shell, shell->last_exit_status);
 	handle_builtins(shell, cmd);
 	if (!cmd->is_builtin)
 		child_process(shell, cmd);
@@ -124,7 +119,5 @@ void	execute_cmd(t_shell *shell)
 		i++;
 	}
 	run_cmds(shell, fd, cmdlen, pid);
-	if (pid)
-		free(pid);
 	init_signal(SIGINT, handle_sigint, &shell->sigint);
 }
