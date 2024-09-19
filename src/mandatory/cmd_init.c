@@ -6,12 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 15:55:38 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:08:29 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
 
 t_cmd	*init_cmd(void)
 {
@@ -68,10 +68,11 @@ t_cmd	*new_cmd(char **cmd)
 	return (cmds);
 }
 
+
 static void	create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
 {
-	int	special_char;
-
+	int		special_char;
+	
 	special_char = get_special_char_enum(token->token);
 	if (special_char)
 	{
@@ -91,10 +92,10 @@ static void	create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
 
 t_cmd	*create_cmds(t_shell *shell, t_tokens *token)
 {
-	t_cmd		*cmd;
-	t_cmd		*cmd_tmp;
+	t_cmd	*cmd;
+	t_cmd	*cmd_tmp;
 	t_tokens	*token_tmp;
-	int			i;
+	int		i;
 
 	i = 0;
 	cmd = new_cmd(NULL);

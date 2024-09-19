@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 16:20:31 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:18:46 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,13 @@ typedef struct t_cmd
 typedef struct s_shell
 {
 	char				*line;
-	int					std_input;
 	t_cmd				*cmd;
 	t_tokens			*tokens;
 	t_env				*env;
 	char				**envp;
 	struct sigaction	sigint;
 	struct sigaction	sigquit;
-	int					last_exit_status;
+	int					*exit_status;
 }						t_shell;
 
 // BUILTINS
@@ -125,6 +124,7 @@ void					env_lstadd_back(t_env **lst, t_env *new);
 t_env					*new_env(char *key, char *value);
 void					get_value(char *str, t_env *vars);
 t_env					*get_env(char **env);
+
 
 // ENV_UTILS
 void					update_value(t_env *env, char *key, char *value);

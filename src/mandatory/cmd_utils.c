@@ -6,12 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:17 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 14:50:26 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 18:38:35 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
 
 void	check_odd_quotes(t_shell *shell, char *token)
 {

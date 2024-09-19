@@ -6,15 +6,15 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:14 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/19 15:38:36 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:09:12 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
-#include "readline/readline.h"
+#include "libft.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include "readline/readline.h"
 
 int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 {
@@ -66,7 +66,9 @@ void	remove_redir(t_shell *shell, t_cmd *cmd, char **arr)
 				break ;
 		}
 		else
+		{
 			arr[j++] = ft_strdup(cmd->arr[i++]);
+		}
 	}
 	arr[j] = NULL;
 }

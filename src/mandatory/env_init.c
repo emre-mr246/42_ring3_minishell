@@ -6,12 +6,12 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:35:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:22 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/11 14:21:52 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
 
 void	env_lstadd_back(t_env **lst, t_env *new)
 {

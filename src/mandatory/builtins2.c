@@ -6,12 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 14:52:58 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 18:56:13 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
 
 static int	env_search_export(t_shell *shell, int j)
 {
@@ -78,9 +78,10 @@ void	ft_export(t_shell *shell, t_cmd *cmd)
 		else
 			env_lstadd_back(&shell->env, new_env(key, value));
 		j++;
-		free(key);
-		if (value)
-			free(value);
+	free(key);
+	if (value)
+		free(value);
+
 	}
 }
 

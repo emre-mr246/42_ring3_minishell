@@ -6,14 +6,14 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:21:13 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 12:47:26 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:02:40 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
-#include <sys/stat.h>
+#include "libft.h"
 #include <unistd.h>
+#include <sys/stat.h>
 
 char	*make_path(t_shell *shell, char *uncompleted_path, char *cmd)
 {

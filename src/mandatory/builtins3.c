@@ -6,12 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:00:05 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/19 16:12:37 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:18:46 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
 
 static t_env	*get_prev_node(t_env *env, char *key)
 {
@@ -89,15 +89,14 @@ static int	arg_numeric(t_shell *shell, char *arg)
 	}
 	return (1);
 }
-
-static void	print_exit_error(t_shell *shell, t_cmd *cmd)
+void	print_exit_error(t_shell *shell, t_cmd *cmd)
 {
 	if (!arg_numeric(shell, cmd->arr[1]))
-		print_error(shell, NULL, ERR_NONNUM, 0);
+			print_error(shell, NULL, ERR_NONNUM, 0);
 	else if (cmd->arr[2])
 		print_error(shell, "too many args", ERR_MANYARGS, 0);
 	else if (cmd->arr[1])
-		shell->last_exit_status = ft_atoi(cmd->arr[1]);
+		*shell->exit_status = ft_atoi(cmd->arr[1]);
 }
 
 void	handle_builtins_main(t_shell *shell, t_cmd *cmd)
@@ -105,9 +104,9 @@ void	handle_builtins_main(t_shell *shell, t_cmd *cmd)
 	if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
 	{
 		if (!cmd->arr[1])
-			ft_exit(shell, shell->last_exit_status);
+			ft_exit(shell, *shell->exit_status);
 		print_exit_error(shell, cmd);
-		ft_exit(shell, shell->last_exit_status);
+		ft_exit(shell, *shell->exit_status);
 	}
 	else if (ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)
 		ft_cd(shell, cmd);

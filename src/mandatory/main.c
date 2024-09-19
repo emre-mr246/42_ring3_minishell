@@ -6,12 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 16:07:56 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:18:46 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
 #include <readline/history.h>
 #include <readline/readline.h>
 
@@ -32,9 +32,9 @@ static char	*create_prompt(t_shell *shell)
 }
 
 void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
-{
+{	
 	char	*prompt;
-
+	
 	prompt = create_prompt(shell);
 	if (!tester)
 	{
@@ -59,12 +59,12 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 		return ;
 	}
 	shell->tokens = tokenizer(shell, shell->line, shell->env);
-	// print_token(shell->tokens);
+	//print_token(shell->tokens);
 	free(shell->line);
 	shell->cmd = create_cmds(shell, shell->tokens);
 	free_token(shell->tokens);
 	parse_cmds(shell);
-	// print_cmd(shell);
+	//print_cmd(shell);
 	execute_cmd(shell);
 	shell->cmd->is_builtin = false;
 	free_cmds(shell);
@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **env)
 	shell = init_shell(env);
 	if (!shell)
 		return (-1);
-	//while (1)
+	// while (1)
 		main_loop(shell, 0, NULL, NULL);
-	ft_exit(shell, shell->last_exit_status);
+	ft_exit(shell, *(shell->exit_status));
 }

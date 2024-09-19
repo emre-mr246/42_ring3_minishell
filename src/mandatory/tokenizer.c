@@ -6,13 +6,47 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 15:36:43 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:09:39 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
 #include <limits.h>
+
+int	is_sp(char c)
+{
+	return (c == '<' || c == '>' || c == '|');
+}
+
+void handle_space(char **res, char **str)
+{
+	int		i;
+
+	i = 0;
+	skip_whitespaces(str, &i);
+	while ((*str)[i])
+	{
+		skip_quotes(str, &i);
+		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
+			|| (*str)[i] == '\\' || is_sp((*str)[i]))
+		{
+			ft_strlcpy(*res, *str, i + 1);
+			*res += i;
+			*str += i;
+			return ;
+		}
+		i++;
+	}
+	if ((*str)[i] == '\0')
+	{
+		ft_strlcpy(*res, *str, i + 1);
+		*res += i;
+		*str += i;
+		return ;
+	}
+	*str += i;
+}
 
 char	*get_special_char(char *input)
 {
@@ -40,7 +74,7 @@ char	*get_special_char(char *input)
 	return (NULL);
 }
 
-static int	get_indexes(char *input)
+int	get_indexes(char *input)
 {
 	int	*indexes;
 	int	min_i;
@@ -68,7 +102,7 @@ static int	get_indexes(char *input)
 	return (min_i);
 }
 
-int	handle_special_char(char **res, char **input)
+int handle_special_char(char **res, char **input)
 {
 	int		i;
 	char	*sp_char;
@@ -89,20 +123,20 @@ int	handle_special_char(char **res, char **input)
 	return (i);
 }
 
+
+
 void	check_syntax(t_shell *shell, t_tokens *token)
 {
-	t_tokens	*tmp;
-
+	t_tokens *tmp;
+	
 	tmp = token;
 	if (ft_strncmp(tmp->token, "|", 1) == 0)
 		print_error(shell, NULL, ERR_SYNTAX, 1);
 	while (tmp && tmp->next)
 	{
-		if (ft_strncmp(tmp->token, "<", 1) == 0 && ft_strncmp(tmp->next->token,
-				"|", 1) == 0)
+		if (ft_strncmp(tmp->token, "<", 1) == 0 && ft_strncmp(tmp->next->token, "|", 1) == 0)
 			print_error(shell, NULL, ERR_SYNTAX, 1);
-		if (ft_strncmp(tmp->token, ">", 1) == 0 && ft_strncmp(tmp->next->token,
-				"|", 1) == 0)
+		if (ft_strncmp(tmp->token, ">", 1) == 0 && ft_strncmp(tmp->next->token, "|", 1) == 0)
 			print_error(shell, NULL, ERR_SYNTAX, 1);
 		tmp = tmp->next;
 	}

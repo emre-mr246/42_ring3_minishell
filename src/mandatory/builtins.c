@@ -6,15 +6,15 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 13:07:39 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:18:46 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
+#include <unistd.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-#include <unistd.h>
 
 void	ft_env(t_shell *shell, t_cmd *cmd)
 {
@@ -60,7 +60,7 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 	t_env	*env;
 	char	*cwd;
 
-	shell->last_exit_status = 0;
+	*(shell->exit_status) = 0;
 	cmd->is_builtin = true;
 	env = shell->env;
 	cwd = (char *)ft_calloc(sizeof(char), PATH_SIZE);
@@ -78,7 +78,7 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 			print_error(shell, cmd->arr[1], ERR_NODIR, 0);
 			free(cwd);
 			return ;
-		}
+		}	
 	}
 	getcwd(cwd, PATH_SIZE - 1);
 	update_value(shell->env, "PWD", cwd);
@@ -87,8 +87,8 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 
 void	handle_builtins(t_shell *shell, t_cmd *cmd)
 {
-	char	*val;
-
+	char *val;
+	
 	if (ft_strncmp(cmd->arr[0], "echo", higher_len(cmd->arr[0], "echo")) == 0)
 		ft_echo(shell, cmd);
 	else if (ft_strncmp(cmd->arr[0], "pwd", higher_len(cmd->arr[0],

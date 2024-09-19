@@ -6,26 +6,27 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 15:56:28 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 18:36:39 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
+#include <fcntl.h>
 #include <unistd.h>
+#include "readline/readline.h"
 
 void	redirect_files(t_shell *shell, t_cmd *cmd)
 {
-	int infd;
-	int outfd;
-	
+	int	outfd;
+	int	infd;
+
 	outfd = open_outfile(shell, cmd);
 	if (cmd->in_redir != HERE_DOC)
 		infd = open_infile(shell, cmd);
 	else
 		infd = -1;
-	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT
-			|| cmd->out_redir == APPEND_OUTPUT))
+	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT))
 	{
 		dup2(outfd, STDOUT_FILENO);
 		close(outfd);

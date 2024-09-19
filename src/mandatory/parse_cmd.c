@@ -6,12 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:22:24 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/19 13:08:40 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:18:46 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
 
 void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
 {
@@ -24,7 +24,7 @@ void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
 	if (ft_strncmp(key, "$", higher_len(key, "$")) == 0)
 		value = ft_strdup("$");
 	else if (ft_strncmp(key, "?", 1) == 0)
-		value = ft_itoa(shell->last_exit_status);
+		value = ft_itoa(*(shell->exit_status));
 	else
 		value = get_env_value(shell->env, key);
 	ft_strlcpy(new + *k, value, ft_strlen(value) + 1);

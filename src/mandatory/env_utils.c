@@ -6,12 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:12:06 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 12:35:42 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/17 16:35:02 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
+#include "libft.h"
 
 void	update_value(t_env *env, char *key, char *value)
 {
