@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 13:10:27 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 13:13:58 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
 	}
 	close_all_fds(fd, cmdlen);
 	wait_for_pids(shell, pid, cmdlen);
+	free(pid);
 }
 
 void	execute_cmd(t_shell *shell)
