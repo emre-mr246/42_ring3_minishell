@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 14:56:04 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 16:10:05 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ static void	wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
 	while (i < cmdlen)
 	{
 		waitpid(pid[i], &exit_status, 0);
-		if (WIFEXITED(exit_status))
-			shell->last_exit_status = WEXITSTATUS(exit_status);
 		i++;
 	}
+	if (WIFEXITED(exit_status))
+		shell->last_exit_status = WEXITSTATUS(exit_status);
 }
 
 static void	child(t_shell *shell, t_cmd *cmd, int fd[][2], int cmdlen, int *i)
