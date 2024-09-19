@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 15:55:34 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 16:20:31 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,7 @@ void					handle_cmd_errors(t_shell *shell, t_cmd *cmd);
 
 // EXEC
 int						child_process(t_shell *shell, t_cmd *cmd);
-void					run_cmds(t_shell *shell, int fd[][2], int cmdlen,
-							pid_t *pid);
+void					run_cmds(t_shell *shell, int fd[][2], int cmdlen);
 void					execute_cmd(t_shell *shell);
 
 // INIT

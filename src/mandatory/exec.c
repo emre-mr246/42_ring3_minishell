@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 16:10:05 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 16:22:40 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,13 @@ int	child_process(t_shell *shell, t_cmd *cmd)
 	return (1);
 }
 
-static void	wait_for_pids(t_shell *shell, pid_t *pid, int cmdlen)
+static void	wait_for_pids(t_shell *shell, int cmdlen)
 {
 	int	exit_status;
-	int	i;
 
-	i = 0;
-	while (i < cmdlen)
-	{
-		waitpid(pid[i], &exit_status, 0);
-		i++;
-	}
+	while ((wait(&exit_status)) > 0) {
+		continue ;
+    }
 	if (WIFEXITED(exit_status))
 		shell->last_exit_status = WEXITSTATUS(exit_status);
 }
@@ -60,40 +56,29 @@ static void	child(t_shell *shell, t_cmd *cmd, int fd[][2], int cmdlen, int *i)
 	ft_exit(shell, 0);
 }
 
-void	run_cmds(t_shell *shell, int fd[][2], int cmdlen, pid_t *pid)
+void	run_cmds(t_shell *shell, int fd[][2], int cmdlen)
 {
 	int		i;
 	t_cmd	*cmd;
+	int 	pid;
 
 	cmd = shell->cmd;
 	i = 0;
 	while (i < cmdlen)
 	{
 		if (!cmd->arr[0])
-		{
-			free(pid);
-			ft_exit(shell, 0);
-		}
+			ft_exit(shell, shell->last_exit_status);
 		init_signal(SIGINT, NULL, &shell->sigint);
 		if (cmdlen == 1)
-		{
-			if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0],
-						"exit")) == 0)
-				free(pid);
 			handle_builtins_main(shell, cmd);
-		}
-		pid[i] = fork();
-		if (pid[i] == 0)
-		{
-			free(pid);
+		pid = fork();
+		if (pid == 0)
 			child(shell, cmd, fd, cmdlen, &i);
-		}
 		i++;
 		cmd = cmd->next;
 	}
 	close_all_fds(fd, cmdlen);
-	wait_for_pids(shell, pid, cmdlen);
-	free(pid);
+	wait_for_pids(shell, cmdlen);
 }
 
 void	execute_cmd(t_shell *shell)
@@ -102,23 +87,16 @@ void	execute_cmd(t_shell *shell)
 	int		cmdlen;
 	int		i;
 	t_cmd	*cmd;
-	pid_t	*pid;
 
 	cmdlen = cmd_len(shell->cmd);
-	pid = (pid_t *)ft_calloc(sizeof(pid_t), cmdlen);
-	if (!pid)
-		return ;
 	cmd = shell->cmd;
 	i = 0;
 	while (i < cmdlen - 1)
 	{
 		if (pipe(fd[i]) == -1)
-		{
-			free(pid);
 			return ;
-		}
 		i++;
 	}
-	run_cmds(shell, fd, cmdlen, pid);
+	run_cmds(shell, fd, cmdlen);
 	init_signal(SIGINT, handle_sigint, &shell->sigint);
 }
