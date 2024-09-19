@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:17 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:17 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 14:50:26 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,7 @@ int	get_special_char_enum(char *input)
 	i = 0;
 	while (input[i])
 	{
-		if (*input == '&' && *(input + 1) == '&')
-			return (AND);
-		else if (*input == '|' && *(input + 1) == '|')
-			return (OR);
-		else if (*input == '|')
+		if (*input == '|')
 			return (PIPE);
 		i++;
 	}

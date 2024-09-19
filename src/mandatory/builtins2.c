@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 12:37:12 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:52:58 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	env_search_export(t_shell *shell, int j)
 	return (i);
 }
 
-static void	key_valid(t_shell *shell, char *key)
+void	key_valid(t_shell *shell, char *key)
 {
 	int	i;
 

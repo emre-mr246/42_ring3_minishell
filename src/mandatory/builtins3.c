@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:00:05 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/19 13:08:06 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:52:43 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	ft_unset(t_shell *shell, t_cmd *cmd)
 	cmd->is_builtin = true;
 	while (cmd->arr[i])
 	{
+		key_valid(shell, cmd->arr[i]);
 		ft_unset_key(shell, cmd->arr[i]);
 		i++;
 	}

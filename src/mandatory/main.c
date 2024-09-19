@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 13:14:22 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:48:32 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **env)
 	shell = init_shell(env);
 	if (!shell)
 		return (-1);
-	while (1)
+	//while (1)
 		main_loop(shell, 0, NULL, NULL);
 	ft_exit(shell, shell->last_exit_status);
 }

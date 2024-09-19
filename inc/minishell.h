@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 13:06:32 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:53:10 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ enum					e_redirection
 enum					e_special_char
 {
 	NONE,
-	AND,
-	OR,
 	PIPE
 };
 
@@ -105,6 +103,7 @@ void					ft_exit(t_shell *shell, int exit_code);
 // BUILTINS2
 void					ft_export(t_shell *shell, t_cmd *cmd);
 int						is_main_builtin(t_shell *shell, t_cmd *cmd);
+void					key_valid(t_shell *shell, char *key);
 
 // BUILTINS3
 void					ft_unset(t_shell *shell, t_cmd *cmd);
