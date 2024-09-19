@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:53 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 15:36:43 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ int	handle_special_char(char **res, char **input)
 	{
 		sp_char = get_special_char(*input);
 		ft_strlcpy(*res, sp_char, ft_strlen(sp_char) + 1);
-		free(sp_char);
 		*res += ft_strlen(sp_char);
 		*input += ft_strlen(sp_char);
+		free(sp_char);
 	}
 	return (i);
 }

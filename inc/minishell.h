@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 14:53:10 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:55:34 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <stdbool.h>
 # include <stdio.h>
 
-# define PATH_SIZE 512
+# define PATH_SIZE 4096
 
-# define ARG_MAX 42
+# define ARG_MAX 128
 # define BUFFER_SIZE 4096
 
 # define HEREDOC_TMP_PATH ".heredoc_tmp_424242"

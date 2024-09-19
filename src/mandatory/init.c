@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:24:29 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 13:06:29 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:58:05 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ t_shell	*init_shell(char **env)
 	if (!shell)
 		return (NULL);
 	shell->line = (NULL);
-	shell->std_input = dup(0);
 	shell->env = get_env(env);
 	shell->envp = env;
 	shell->tokens = NULL;

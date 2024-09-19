@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:40 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 15:56:28 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 void	redirect_files(t_shell *shell, t_cmd *cmd)
 {
-	int	outfd;
-	int	infd;
-
+	int infd;
+	int outfd;
+	
 	outfd = open_outfile(shell, cmd);
 	if (cmd->in_redir != HERE_DOC)
 		infd = open_infile(shell, cmd);

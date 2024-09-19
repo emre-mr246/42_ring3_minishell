@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/18 21:36:15 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/19 15:55:38 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ t_cmd	*init_cmd(void)
 		return (NULL);
 	cmd->special_char = NONE;
 	cmd->is_builtin = false;
+	cmd->out_redir = NONE_REDIR;
+	cmd->in_redir = NONE_REDIR;
+	cmd->outfile = NULL;
+	cmd->infile = NULL;
 	return (cmd);
 }
 

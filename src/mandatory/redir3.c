@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:14 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/19 12:45:00 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:38:36 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	heredoc(t_cmd *cmd)
 		free(line);
 	}
 	free(line);
+	free(delim);
 	close(tmpfd);
 }
 

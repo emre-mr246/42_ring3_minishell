@@ -52,8 +52,8 @@ libre:
 re: fclean all
 
 leak: re
-	valgrind --suppressions=misra.supp --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell
-#--trace-children=yes --track-fds=yes
+	valgrind --suppressions=misra.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes ./minishell
+
 
 test:re
 	cd tester && ./tester
