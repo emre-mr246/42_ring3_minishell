@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:14 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/19 19:09:12 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:56:26 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "readline/readline.h"
+
+static void add_to_heredoc_arr(t_cmd *cmd, char *str)
+{
+	int i;
+
+	i = 0;
+	while (cmd->heredoc_arr && cmd->heredoc_arr[i])
+		i++;
+	printf("i: %i\n", i);
+	cmd->heredoc_arr[i] = ft_strdup(str);
+	i++;
+	cmd->heredoc_arr[i] = NULL;
+}
 
 int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 {
@@ -36,6 +49,8 @@ int	write_to_redir(t_shell *shell, t_cmd *cmd, int *i, int mode_in_out)
 			free(cmd->infile);
 		cmd->infile = parsed;
 		cmd->in_redir = get_redirection(cmd->arr[*i]);
+		if (cmd->in_redir == HERE_DOC)
+			add_to_heredoc_arr(cmd, parsed);
 		if (infile_controls(shell, cmd))
 			return (1);
 	}
@@ -75,14 +90,15 @@ void	remove_redir(t_shell *shell, t_cmd *cmd, char **arr)
 
 void	remove_redirs(t_shell *shell, t_cmd *cmd)
 {
-	int		i;
-	int		j;
 	char	**arr;
 
 	arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
 	if (!arr)
 		return ;
 	remove_redir(shell, cmd, arr);
+	int i = 0;
+	// while (cmd->heredoc_arr[i])
+	// 	printf("str: %s\n", cmd->heredoc_arr[i++]);
 	free_array(cmd->arr);
 	cmd->arr = arr;
 }
@@ -92,22 +108,30 @@ void	heredoc(t_cmd *cmd)
 	char	*line;
 	char	*delim;
 	int		tmpfd;
+	int		i;
 
 	tmpfd = open(HEREDOC_TMP_PATH, O_CREAT | O_RDWR, 0644);
-	delim = ft_strdup(cmd->infile);
+	i = 0;
 	line = NULL;
 	while (1)
 	{
+		delim = cmd->heredoc_arr[i];
 		line = readline(">");
 		if (!line)
+		{
+			close(tmpfd);
 			return ;
-		if (ft_strncmp(line, delim, higher_len(line, delim)) == 0)
+		}
+		if (!delim)
 			break ;
+		if (ft_strncmp(line, delim, higher_len(line, delim)) == 0)
+		{
+			i++;
+		}
 		ft_putendl_fd(line, tmpfd);
 		free(line);
 	}
 	free(line);
-	free(delim);
 	close(tmpfd);
 }
 

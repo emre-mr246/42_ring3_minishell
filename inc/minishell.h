@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 19:18:46 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 20:00:16 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct t_cmd
 	int					in_redir;
 	char				*outfile;
 	char				*infile;
+	char				**heredoc_arr;
 	struct t_cmd		*next;
 	bool				is_builtin;
 }						t_cmd;
@@ -109,7 +110,6 @@ void					ft_unset(t_shell *shell, t_cmd *cmd);
 void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
 
 // CMD_INIT
-t_cmd					*init_cmd(void);
 void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 t_cmd					*new_cmd(char **cmd);
 t_cmd					*create_cmds(t_shell *shell, t_tokens *token);

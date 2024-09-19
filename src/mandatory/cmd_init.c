@@ -6,31 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 19:08:29 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 20:00:03 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
-
-t_cmd	*init_cmd(void)
-{
-	t_cmd	*cmd;
-
-	cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
-	if (!cmd->arr)
-		return (NULL);
-	cmd->special_char = NONE;
-	cmd->is_builtin = false;
-	cmd->out_redir = NONE_REDIR;
-	cmd->in_redir = NONE_REDIR;
-	cmd->outfile = NULL;
-	cmd->infile = NULL;
-	return (cmd);
-}
 
 void	lstadd_back_cmd(t_cmd **lst, t_cmd *new)
 {
@@ -50,21 +31,30 @@ void	lstadd_back_cmd(t_cmd **lst, t_cmd *new)
 	return ;
 }
 
-t_cmd	*new_cmd(char **cmd)
+t_cmd	*new_cmd(char **arr)
 {
 	t_cmd	*cmds;
 
 	cmds = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
 	if (!cmds)
 		return (NULL);
-	if (!cmd)
+	if (!arr)
 	{
 		cmds->arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
 		if (!cmds->arr)
 			return (NULL);
 	}
 	else
-		cmds->arr = cmd;
+		cmds->arr = arr;
+	cmds->special_char = NONE;
+	cmds->is_builtin = false;
+	cmds->out_redir = NONE_REDIR;
+	cmds->in_redir = NONE_REDIR;
+	cmds->outfile = NULL;
+	cmds->infile = NULL;
+	cmds->heredoc_arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
+	if (!cmds->heredoc_arr)
+		return (NULL);
 	return (cmds);
 }
 
