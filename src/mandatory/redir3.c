@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:14 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/19 19:56:26 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 20:08:10 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ static void add_to_heredoc_arr(t_cmd *cmd, char *str)
 	int i;
 
 	i = 0;
-	while (cmd->heredoc_arr && cmd->heredoc_arr[i])
+	while (cmd->heredoc_arr[i])
 		i++;
-	printf("i: %i\n", i);
 	cmd->heredoc_arr[i] = ft_strdup(str);
 	i++;
 	cmd->heredoc_arr[i] = NULL;
@@ -127,6 +126,7 @@ void	heredoc(t_cmd *cmd)
 		if (ft_strncmp(line, delim, higher_len(line, delim)) == 0)
 		{
 			i++;
+			continue ;
 		}
 		ft_putendl_fd(line, tmpfd);
 		free(line);

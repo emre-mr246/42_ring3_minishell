@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:08 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/19 19:04:56 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/19 20:07:24 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	outfile_controls(t_shell *shell, t_cmd *cmd)
 
 int	infile_controls(t_shell *shell, t_cmd *cmd)
 {
+	if (cmd->in_redir == HERE_DOC)
+		return (0);
 	if (access(cmd->infile, F_OK))
 	{
 		print_error(shell, cmd->infile, ERR_NODIR, 0);
