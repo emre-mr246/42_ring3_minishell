@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:26:42 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 19:18:46 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:30:57 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,59 +53,6 @@ int	higher_len(char *str1, char *str2)
 		return (len2);
 }
 
-void	free_array(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	if (arr)
-		free(arr);
-}
-
-void	free_cmds(t_shell *shell)
-{
-	t_cmd		*tmp_cmd;
-	
-	while (shell->cmd)
-	{
-		tmp_cmd = shell->cmd;
-		free_array(tmp_cmd->arr);
-		if (tmp_cmd->infile)
-			free(tmp_cmd->infile);
-		if (tmp_cmd->outfile)
-			free(tmp_cmd->outfile);
-		shell->cmd = shell->cmd->next;
-		free(tmp_cmd);
-	}
-}
-void	free_env(t_env *env)
-{
-	free(env->key);
-	free(env->value);
-	free(env);
-}
-
-void	free_all(t_shell *shell)
-{
-	t_env		*tmp_env;
-
-	while (shell->env)
-	{
-		tmp_env = shell->env;
-		shell->env = shell->env->next;
-		free_env(tmp_env);
-	}
-	if (shell->exit_status)
-		free(shell->exit_status);
-	if (shell)
-		free(shell);
-}
-
 char	*allocate_str(t_shell *shell, int buff_size)
 {
 	char	*new;
@@ -114,4 +61,18 @@ char	*allocate_str(t_shell *shell, int buff_size)
 	if (!new)
 		print_error(shell, "HATA", ERR_MEMALLOC, 1);
 	return (new);
+}
+
+int	str_in_array(char **arr, char *str)
+{
+	int	i;
+	
+	i = 0;
+	while (arr[i])
+	{
+		if (ft_strncmp(arr[i], str, higher_len(arr[i], str)) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }

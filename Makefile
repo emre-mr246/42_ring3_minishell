@@ -1,5 +1,5 @@
 
-FILES				= main utils cmd_init cmd_utils tokenizer token_init token_utils signal init exec env_utils env_init builtins builtins2 builtins3 debug exec_utils redir redir2 redir3 error parse_cmd
+FILES				= main utils cmd_init cmd_utils tokenizer token_init token_utils free signal init exec env_utils env_init builtins builtins2 builtins3 debug exec_utils redir redir2 redir3 error parse_cmd
 
 BONUS_FILES			= 
 
@@ -61,10 +61,9 @@ fclean: clean
 	@$(RM) $(OBJ_DIR)
 	@echo "$(RED)-== all files deleted! ==-$(DEFAULT)"
 
-libclean:
-	@make $(MAKEFLAGS) -C $(LIBFT_PATH) fclean
+libre:
+	@make $(MAKEFLAGS) -C $(LIBFT_PATH) re
 	@echo "$(BLUE)-== all object files deleted in libraries! ==-$(DEFAULT)"
-
 
 re: fclean all
 

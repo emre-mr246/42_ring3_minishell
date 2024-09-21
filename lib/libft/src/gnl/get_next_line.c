@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:01:08 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/13 14:03:56 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/21 13:01:40 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static char	*ft_append_to_left(int fd, char *input_str)
 		input_str = (char *)malloc(1 * sizeof(char));
 		input_str[0] = '\0';
 	}
-	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buffer = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 	bytes_read = 42;
 	while (!ft_strchr(input_str, '\n') && bytes_read != 0)
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		bytes_read = read(fd, buffer, BUFF_SIZE);
 		if (bytes_read == -1)
 			break ;
 		buffer[bytes_read] = '\0';
@@ -92,7 +92,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*input_str[4096];
 
-	if (fd < 0 || fd > 10240 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > 10240 || BUFF_SIZE <= 0)
 		return (NULL);
 	input_str[fd] = ft_append_to_left(fd, input_str[fd]);
 	if (!input_str[fd])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 20:00:16 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/21 12:30:52 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ void					handle_space(char **res, char **str);
 int						ft_find_index(char *haystack, char *needle);
 int						higher_len(char *str1, char *str2);
 char					*allocate_str(t_shell *shell, int buff_size);
+int						str_in_array(char **arr, char *str);
 
 // FREE
 void					free_array(char **arr);

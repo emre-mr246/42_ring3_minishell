@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:14 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/19 20:08:10 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/21 13:44:03 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,23 +115,26 @@ void	heredoc(t_cmd *cmd)
 	while (1)
 	{
 		delim = cmd->heredoc_arr[i];
+		if (!delim)
+			break ;
 		line = readline(">");
+		printf("line: %s\n", line);
+		printf("delim: %s\n", delim);
 		if (!line)
 		{
 			close(tmpfd);
 			return ;
 		}
-		if (!delim)
-			break ;
 		if (ft_strncmp(line, delim, higher_len(line, delim)) == 0)
 		{
 			i++;
+			free(line);
 			continue ;
 		}
-		ft_putendl_fd(line, tmpfd);
+		if (!str_in_array(cmd->heredoc_arr, line))
+			ft_putendl_fd(line, tmpfd);
 		free(line);
 	}
-	free(line);
 	close(tmpfd);
 }
 
@@ -139,7 +142,6 @@ void	redir_heredoc(t_shell *shell, t_cmd *cmd)
 {
 	int	infd;
 
-	heredoc(cmd);
 	infd = open(HEREDOC_TMP_PATH, O_RDONLY, 0644);
 	if (infd != -1)
 	{
