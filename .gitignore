@@ -1,5 +1,4 @@
 .obj
-tester
 *.supp
 .vscode
 valgrind_output.txt

@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/21 13:41:18 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/21 14:44:55 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,17 @@ int	child_process(t_shell *shell, t_cmd *cmd)
 {
 	char	*path;
 
-	path = find_valid_path(shell, cmd->arr[0], shell->env);
+	if (access(cmd->arr[0], X_OK) == 0)
+		path = ft_strdup(cmd->arr[0]);
+	else
+		path = find_valid_path(shell, cmd->arr[0], shell->env);
 	if (!path)
 		handle_cmd_errors(shell, cmd);
 	if (!cmd->arr[0][0])
+	{
+		free(path);
 		ft_exit(shell, 0);
+	}
 	execve(path, cmd->arr, shell->envp);
 	free(path);
 	ft_exit(shell, 1);
@@ -67,7 +73,7 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen)
 	{
 		if (!cmd->arr[0])
 		{
-			ft_exit(shell, 0);
+			return ;
 		}
 		init_signal(SIGINT, NULL, &shell->sigint);
 		if (cmdlen == 1)

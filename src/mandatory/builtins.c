@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 19:18:46 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/21 14:30:54 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 {
 	t_env	*env;
 	char	*cwd;
+	char	*path;
 
 	*(shell->exit_status) = 0;
 	cmd->is_builtin = true;
@@ -66,22 +67,32 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 	cwd = (char *)ft_calloc(sizeof(char), PATH_SIZE);
 	if (!cwd)
 		return ;
+	if (cmd->arr[2])
+	{
+		print_error(shell, NULL, ERR_MANYARGS, 0);
+		return ;
+	}
 	getcwd(cwd, PATH_SIZE - 1);
 	if (key_exists(env, "OLDPWD"))
 		update_value(shell->env, "OLDPWD", cwd);
 	else
 		env_lstadd_back(&env, new_env("OLDPWD", cwd));
 	if (cmd->arr[1])
+		path = ft_strdup(cmd->arr[1]);
+	else
+		path = get_env_value(shell->env, "HOME");
+	if (path)
 	{
-		if (chdir(cmd->arr[1]) == -1)
+		if (chdir(path) == -1)
 		{
-			print_error(shell, cmd->arr[1], ERR_NODIR, 0);
+			print_error(shell, path, ERR_NODIR, 0);
 			free(cwd);
 			return ;
 		}	
 	}
 	getcwd(cwd, PATH_SIZE - 1);
 	update_value(shell->env, "PWD", cwd);
+	free(path);
 	free(cwd);
 }
 

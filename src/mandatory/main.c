@@ -6,7 +6,7 @@
 /*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/21 13:32:04 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/21 14:32:58 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,23 @@
 static char	*create_prompt(t_shell *shell)
 {
 	char	*prompt;
-	char	*tmp;
+	char	*tmp_prompt;
 	char	*value;
 
+	value = NULL;
+	prompt = (char *)ft_calloc(BUFFER_SIZE, 1);
+	tmp_prompt = prompt;
+	ft_strlcpy(tmp_prompt, "\033[1;31mRaRe\033[0m:\033[1;34m", 24);
+	tmp_prompt += 23;
 	value = get_env_value(shell->env, "PWD");
-	prompt = ft_strjoin("\033[1;31mRaRe\033[0m:\033[1;34m", value);
-	tmp = ft_strdup(prompt);
-	free(prompt);
-	prompt = ft_strjoin(tmp, "\033[0m$ ");
-	free(value);
-	free(tmp);
+	if (value)
+	{
+		ft_strlcpy(tmp_prompt, value, ft_strlen(value) + 1);
+		tmp_prompt += ft_strlen(value);
+	}
+	ft_strlcpy(tmp_prompt, "\033[0m$ ", 7);
+	if (value)
+		free(value);
 	return (prompt);
 }
 
@@ -77,7 +84,7 @@ int	main(int ac, char **av, char **env)
 	shell = init_shell(env);
 	if (!shell)
 		return (-1);
-	// while (1)
+	while (1)
 		main_loop(shell, 0, NULL, NULL);
 	ft_exit(shell, *(shell->exit_status));
 }

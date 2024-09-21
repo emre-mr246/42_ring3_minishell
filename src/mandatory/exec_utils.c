@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
+/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:21:13 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 19:02:40 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/21 14:43:42 by emgul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*make_path(t_shell *shell, char *uncompleted_path, char *cmd)
 
 	path_part = ft_strjoin(uncompleted_path, "/");
 	if (!path_part)
-		ft_exit(shell, -1);
+		return (NULL);
 	valid_path = ft_strjoin(path_part, cmd);
 	free(path_part);
 	if (access(valid_path, F_OK) < 0)
@@ -45,7 +45,7 @@ char	*find_valid_path(t_shell *shell, char *cmd, t_env *envp)
 	{
 		if (paths)
 			free(paths);
-		ft_exit(shell, -1);
+		return (NULL);
 	}
 	i = 0;
 	while (paths[i])
