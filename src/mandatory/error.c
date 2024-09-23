@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 15:07:43 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 15:11:08 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	error1(t_shell *shell, char *str, int mode)
 	}
 	else if (mode == ERR_NOCMD)
 	{
-		ft_putstr_fd("Command not found: ", 2);
+		ft_putstr_fd("command not found: ", 2);
 		ft_putendl_fd(str, 2);
 	}
 	else if (mode == ERR_SYNTAX)
@@ -52,7 +52,7 @@ static void	error2(t_shell *shell, char *str, int mode)
 	else if (mode == ERR_NONNUM)
 	{
 		*(shell->exit_status) = 255;
-		ft_putstr_fd("Input nonnumeric\n", 2);
+		ft_putstr_fd("numeric argument required\n", 2);
 	}
 	else if (mode == ERR_NOPERM)
 	{
@@ -68,7 +68,7 @@ static void	error2(t_shell *shell, char *str, int mode)
 	else if (mode == ERR_QUOTES)
 		ft_putendl_fd("Odd number of quotes", 2);
 	else if (mode == ERR_MANYARGS)
-		ft_putendl_fd("Too many arguments", 2);
+		ft_putendl_fd("too many arguments", 2);
 }
 
 void	print_error(t_shell *shell, char *str, int mode, int exits)
