@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/21 14:30:54 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/23 12:30:31 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 	cwd = (char *)ft_calloc(sizeof(char), PATH_SIZE);
 	if (!cwd)
 		return ;
-	if (cmd->arr[2])
-	{
-		print_error(shell, NULL, ERR_MANYARGS, 0);
-		return ;
-	}
+	// if (cmd->arr[2])
+	// {
+	// 	print_error(shell, NULL, ERR_MANYARGS, 0);
+	// 	return ;
+	// }
 	getcwd(cwd, PATH_SIZE - 1);
 	if (key_exists(env, "OLDPWD"))
 		update_value(shell->env, "OLDPWD", cwd);

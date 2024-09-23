@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:21:13 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/21 14:43:42 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/23 12:46:47 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	handle_cmd_errors(t_shell *shell, t_cmd *cmd)
 	struct stat	statbuf;
 
 	stat(cmd->arr[0], &statbuf);
+	 
 	if (access(cmd->arr[0], X_OK) == -1 && access(cmd->arr[0], F_OK) == 0
 		&& ft_strchr(cmd->arr[0], '/'))
 		print_error(shell, cmd->arr[0], ERR_NOPERM, 0);

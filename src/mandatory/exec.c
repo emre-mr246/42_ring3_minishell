@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/21 14:44:55 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/23 12:50:47 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,29 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/stat.h>
+
+char	*get_path(t_shell *shell, t_cmd *cmd)
+{
+	char	*path;
+	struct stat	statbuf;
+
+	path = NULL;
+	stat(cmd->arr[0], &statbuf);
+	if (S_ISDIR(statbuf.st_mode))
+		path = NULL;
+	else if (access(cmd->arr[0], X_OK) == 0 )
+		path = ft_strdup(cmd->arr[0]);
+	else
+		path = find_valid_path(shell, cmd->arr[0], shell->env);
+	return (path);
+}
 
 int	child_process(t_shell *shell, t_cmd *cmd)
 {
 	char	*path;
 
-	if (access(cmd->arr[0], X_OK) == 0)
-		path = ft_strdup(cmd->arr[0]);
-	else
-		path = find_valid_path(shell, cmd->arr[0], shell->env);
+	path = get_path(shell, cmd);
 	if (!path)
 		handle_cmd_errors(shell, cmd);
 	if (!cmd->arr[0][0])
