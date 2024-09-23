@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 15:11:08 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 17:49:34 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	print_error(t_shell *shell, char *str, int mode, int exits)
 	error2(shell, str, mode);
 	if (exits)
 	{
-		ft_exit(shell, *(shell->exit_status));
+		ft_exit(*(shell->exit_status));
 	}
 	else
 		return ;

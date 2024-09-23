@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 14:11:39 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 17:52:18 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_env(t_shell *shell, t_cmd *cmd)
 	}
 }
 
-void	ft_echo(t_shell *shell, t_cmd *cmd)
+void	ft_echo(t_cmd *cmd)
 {
 	int		i;
 	bool	newline;
@@ -55,23 +55,30 @@ void	ft_echo(t_shell *shell, t_cmd *cmd)
 		write(1, "\n", 1);
 }
 
+static void	write_oldpwd(t_shell *shell, char *cwd)
+{
+	t_env	*env;
+	
+	env = shell->env;
+	if (key_exists(env, "OLDPWD"))
+		update_value(shell->env, "OLDPWD", cwd);
+	else
+		env_lstadd_back(&env, new_env("OLDPWD", cwd));
+}
+
 void	ft_cd(t_shell *shell, t_cmd *cmd)
 {
 	t_env	*env;
 	char	*cwd;
 	char	*path;
 
-	*(shell->exit_status) = 0;
 	cmd->is_builtin = true;
 	env = shell->env;
 	cwd = (char *)ft_calloc(sizeof(char), PATH_SIZE);
 	if (!cwd)
 		return ;
 	getcwd(cwd, PATH_SIZE - 1);
-	if (key_exists(env, "OLDPWD"))
-		update_value(shell->env, "OLDPWD", cwd);
-	else
-		env_lstadd_back(&env, new_env("OLDPWD", cwd));
+	write_oldpwd(shell, cwd);
 	if (cmd->arr[1])
 		path = ft_strdup(cmd->arr[1]);
 	else
@@ -82,6 +89,7 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 		{
 			print_error(shell, path, ERR_NODIR, 0);
 			free(cwd);
+			free(path);
 			return ;
 		}	
 	}
@@ -96,7 +104,7 @@ void	handle_builtins(t_shell *shell, t_cmd *cmd)
 	char *val;
 	
 	if (ft_strncmp(cmd->arr[0], "echo", higher_len(cmd->arr[0], "echo")) == 0)
-		ft_echo(shell, cmd);
+		ft_echo(cmd);
 	else if (ft_strncmp(cmd->arr[0], "pwd", higher_len(cmd->arr[0],
 				"pwd")) == 0)
 	{
@@ -112,9 +120,8 @@ void	handle_builtins(t_shell *shell, t_cmd *cmd)
 		return ;
 }
 
-void	ft_exit(t_shell *shell, int exit_code)
+void	ft_exit(int exit_code)
 {
 	rl_clear_history();
-	//free_all(shell);
 	exit(exit_code);
 }

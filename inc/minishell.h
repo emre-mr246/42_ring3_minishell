@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 15:00:38 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 19:05:02 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,14 @@ typedef struct s_shell
 
 // BUILTINS
 void					ft_env(t_shell *shell, t_cmd *cmd);
-void					ft_echo(t_shell *shell, t_cmd *cmd);
+void					ft_echo(t_cmd *cmd);
 void					ft_cd(t_shell *shell, t_cmd *cmd);
 void					handle_builtins(t_shell *shell, t_cmd *cmd);
-void					ft_exit(t_shell *shell, int exit_code);
+void					ft_exit(int exit_code);
 
 // BUILTINS2
 void					ft_export(t_shell *shell, t_cmd *cmd);
-int						is_main_builtin(t_shell *shell, t_cmd *cmd);
+int						is_main_builtin(t_cmd *cmd);
 void					key_valid(t_shell *shell, char *key);
 
 // BUILTINS3
@@ -137,10 +137,9 @@ void					print_error(t_shell *shell, char *str, int mode,
 							int exits);
 
 // EXEC_UTILS
-char					*make_path(t_shell *shell, char *uncompleted_path,
+char					*make_path(char *uncompleted_path,
 							char *cmd);
-char					*find_valid_path(t_shell *shell, char *cmd,
-							t_env *envp);
+char					*find_valid_path(char *cmd, t_env *envp);
 void					close_fds(int fd[][2], int cmdlen, int cmd_i);
 void					handle_cmd_errors(t_shell *shell, t_cmd *cmd);
 
@@ -155,23 +154,22 @@ void					init_signal(int signo, void (*handler)(int),
 t_shell					*init_shell(char **env);
 
 // PARSE_CMD
-void					exchange_var(char *str, int *j, char *new, int *k,
-							t_shell *shell);
-char					*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i);
+void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell);
+char					*write_to_new(t_cmd *cmd, t_shell *shell, int *i);
 void					parse_cmd(t_shell *shell, t_cmd *cmd);
-char					*parse_file(t_shell *shell, t_cmd *cmd, char *file);
+char					*parse_file(t_shell *shell, char *file);
 void					parse_cmds(t_shell *shell);
 
 // REDIR
 void					redirect_files(t_shell *shell, t_cmd *cmd);
-void					redirect_pipes(t_cmd *cmd, int fd[][2], int cmdlen,
+void					redirect_pipes(int fd[][2], int cmdlen,
 							int i);
 void					close_all_fds(int fd[][2], int cmdlen);
 
 // REDIR2
 int						get_redirection(char *s);
 int						open_outfile(t_shell *shell, t_cmd *cmd);
-int						open_infile(t_shell *shell, t_cmd *cmd);
+int						open_infile(t_cmd *cmd);
 int						outfile_controls(t_shell *shell, t_cmd *cmd);
 int						infile_controls(t_shell *shell, t_cmd *cmd);
 
@@ -180,8 +178,11 @@ int						write_to_redir(t_shell *shell, t_cmd *cmd, int *i,
 							int mode_in_out);
 void					remove_redir(t_shell *shell, t_cmd *cmd, char **arr);
 void					remove_redirs(t_shell *shell, t_cmd *cmd);
+
+// HEREDOC
 void					heredoc(t_cmd *cmd);
-void					redir_heredoc(t_shell *shell, t_cmd *cmd);
+void					redir_heredoc();
+void					add_to_heredoc_arr(t_cmd *cmd, char *str);
 
 // SIGNAL
 void					handle_sigint(int signo);
@@ -198,11 +199,12 @@ char					*handle_comment(char *str);
 int						handle_quote(char **res, char **str, char quote);
 void					skip_whitespaces(char **str, int *i);
 void					skip_quotes(char **str, int *i);
+char					*get_special_char(char *input);
+void					check_syntax(t_shell *shell, t_tokens *token);
+int						get_indexes(char *input);
 
 // TOKENIZER
-char					*get_special_char(char *input);
 int						handle_special_char(char **res, char **input);
-void					check_syntax(t_shell *shell, t_tokens *token);
 t_tokens				*tokenizer(t_shell *shell, char *input, t_env *env);
 
 // TOKENIZER2

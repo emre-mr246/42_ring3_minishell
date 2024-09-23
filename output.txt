@@ -1,0 +1,84 @@
+[1;31mRaRe[0m:[1;34m/Users/mitasci/Desktop/mini[0m$ echo hello world
+hello world
+Process:         minishell [69775]
+Path:            /Volumes/VOLUME/*/minishell
+Load Address:    0x10a128000
+Identifier:      minishell
+Version:         ???
+Code Type:       X86-64
+Parent Process:  bash [69678]
+
+Date/Time:       2024-09-23 15:54:25.468 +0300
+Launch Time:     2024-09-23 15:54:25.047 +0300
+OS Version:      Mac OS X 10.15.7 (19H15)
+Report Version:  7
+Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
+Analysis Tool Version:  Xcode 12.3 (12C33)
+
+Physical footprint:         748K
+Physical footprint (peak):  748K
+----
+
+leaks Report Version: 4.0
+Process 69775: 376 nodes malloced for 334 KB
+Process 69775: 0 leaks for 0 total leaked bytes.
+
+
+---
+
+[1;31mRaRe[0m:[1;34m/Users/mitasci/Desktop/mini[0m$ echo "hello world"
+hello world
+Process:         minishell [69781]
+Path:            /Volumes/VOLUME/*/minishell
+Load Address:    0x1028c9000
+Identifier:      minishell
+Version:         ???
+Code Type:       X86-64
+Parent Process:  bash [69678]
+
+Date/Time:       2024-09-23 15:54:26.945 +0300
+Launch Time:     2024-09-23 15:54:26.516 +0300
+OS Version:      Mac OS X 10.15.7 (19H15)
+Report Version:  7
+Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
+Analysis Tool Version:  Xcode 12.3 (12C33)
+
+Physical footprint:         744K
+Physical footprint (peak):  744K
+----
+
+leaks Report Version: 4.0
+Process 69781: 376 nodes malloced for 334 KB
+Process 69781: 0 leaks for 0 total leaked bytes.
+
+
+---
+
+[1;31mRaRe[0m:[1;34m/Users/mitasci/Desktop/mini[0m$ echo 'hello world'
+hello world
+Process:         minishell [69787]
+Path:            /Volumes/VOLUME/*/minishell
+Load Address:    0x1062b5000
+Identifier:      minishell
+Version:         ???
+Code Type:       X86-64
+Parent Process:  bash [69678]
+
+Date/Time:       2024-09-23 15:54:28.414 +0300
+Launch Time:     2024-09-23 15:54:27.990 +0300
+OS Version:      Mac OS X 10.15.7 (19H15)
+Report Version:  7
+Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
+Analysis Tool Version:  Xcode 12.3 (12C33)
+
+Physical footprint:         732K
+Physical footprint (peak):  732K
+----
+
+leaks Report Version: 4.0
+Process 69787: 376 nodes malloced for 334 KB
+Process 69787: 0 leaks for 0 total leaked bytes.
+
+
+---
+

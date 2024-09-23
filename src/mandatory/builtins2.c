@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 18:56:13 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 17:53:18 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_export(t_shell *shell, t_cmd *cmd)
 	}
 }
 
-int	is_main_builtin(t_shell *shell, t_cmd *cmd)
+int	is_main_builtin(t_cmd *cmd)
 {
 	if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
 		return (1);

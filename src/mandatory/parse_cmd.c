@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:22:24 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/21 14:02:30 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/23 19:04:36 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	parse_cmd(t_shell *shell, t_cmd *cmd)
 		free(cmd->arr[j++]);
 }
 
-char	*parse_file(t_shell *shell, t_cmd *cmd, char *file)
+char	*parse_file(t_shell *shell, char *file)
 {
 	bool	single_quote;
 	bool	double_quote;

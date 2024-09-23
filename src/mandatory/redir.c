@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/21 13:44:30 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/23 18:39:50 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ void	redirect_files(t_shell *shell, t_cmd *cmd)
 
 	outfd = open_outfile(shell, cmd);
 	if (cmd->in_redir != HERE_DOC)
-		infd = open_infile(shell, cmd);
+		infd = open_infile(cmd);
 	else
 		infd = -1;
-	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT || cmd->out_redir == APPEND_OUTPUT))
+	if (outfd != -1 && (cmd->out_redir == REDIRECT_OUTPUT
+			|| cmd->out_redir == APPEND_OUTPUT))
 	{
 		dup2(outfd, STDOUT_FILENO);
 		close(outfd);
@@ -37,10 +38,10 @@ void	redirect_files(t_shell *shell, t_cmd *cmd)
 		close(infd);
 	}
 	if (cmd->in_redir == HERE_DOC)
-		redir_heredoc(shell, cmd);
+		redir_heredoc();
 }
 
-void	redirect_pipes(t_cmd *cmd, int fd[][2], int cmdlen, int i)
+void	redirect_pipes(int fd[][2], int cmdlen, int i)
 {
 	close_fds(fd, cmdlen, i);
 	if (i != cmdlen - 1)

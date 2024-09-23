@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 14:28:18 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 17:48:28 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "libft.h"
 #include <readline/history.h>
 #include <readline/readline.h>
-
-#include <unistd.h> // SİLİNECEK SLEEP İÇİN
 
 static char	*create_prompt(t_shell *shell)
 {
@@ -40,26 +38,13 @@ static char	*create_prompt(t_shell *shell)
 	return (prompt);
 }
 
-void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
+void	main_loop(t_shell *shell)
 {	
 	char	*prompt;
 	
 	prompt = create_prompt(shell);
-	if (!tester)
-	{
-		shell->line = readline(prompt);
-		free(prompt);
-		if (!shell->line)
-			return ;
-		if (!*shell->line)
-		{
-			free(shell->line);
-			return ;
-		}
-		add_history(shell->line);
-	}
-	else
-		shell->line = ft_strdup(arg_input[*i]);
+	shell->line = readline(prompt);
+	free(prompt);
 	if (!shell->line)
 		return ;
 	if (!*shell->line)
@@ -67,13 +52,12 @@ void	main_loop(t_shell *shell, int tester, char **arg_input, int *i)
 		free(shell->line);
 		return ;
 	}
+	add_history(shell->line);
 	shell->tokens = tokenizer(shell, shell->line, shell->env);
-	//print_token(shell->tokens);
 	free(shell->line);
 	shell->cmd = create_cmds(shell, shell->tokens);
 	free_token(shell->tokens);
 	parse_cmds(shell);
-	//print_cmd(shell);
 	execute_cmd(shell);
 	shell->cmd->is_builtin = false;
 	free_cmds(shell);
@@ -83,10 +67,16 @@ int	main(int ac, char **av, char **env)
 {
 	t_shell	*shell;
 
+	(void)ac;
+	(void)av;
 	shell = init_shell(env);
 	if (!shell)
 		return (-1);
-	// while (1)
-		main_loop(shell, 0, NULL, NULL);
-	ft_exit(shell, *shell->exit_status);
+	while (1)
+		main_loop(shell);
 }
+
+// __attribute__ ((destructor)) void f()
+// {
+// 	system("leaks minishell");
+// }

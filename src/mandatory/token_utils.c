@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:37:30 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/18 15:22:20 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 18:18:34 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	handle_quote(char **res, char **str, char quote)
 	while ((*str)[i])
 	{
 		if ((*str)[i] == quote && ((*str)[i + 1] == ' ' || (*str)[i + 1] == '\0'
-				|| (*str)[i + 1] >= 8 && (*str)[i + 1] <= 13))
+				|| ((*str)[i + 1] >= 8 && (*str)[i + 1] <= 13)))
 		{
 			ft_strlcpy(*res, *str, i + 2);
 			*res += i + 1;
@@ -48,10 +48,10 @@ void	skip_whitespaces(char **str, int *i)
 		(*i)++;
 }
 
-void skip_quotes(char **str, int *i)
+void	skip_quotes(char **str, int *i)
 {
-	char c;
-	
+	char	c;
+
 	if ((*str)[*i] == '"' || (*str)[*i] == '\'')
 	{
 		c = (*str)[*i];
@@ -61,3 +61,28 @@ void skip_quotes(char **str, int *i)
 	}
 }
 
+char	*get_special_char(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (*input == '&' && *(input + 1) == '&')
+			return (ft_strdup("&&"));
+		else if (*input == '|' && *(input + 1) == '|')
+			return (ft_strdup("||"));
+		else if (*input == '<' && *(input + 1) == '<')
+			return (ft_strdup("<<"));
+		else if (*input == '>' && *(input + 1) == '>')
+			return (ft_strdup(">>"));
+		else if (*input == '>')
+			return (ft_strdup(">"));
+		else if (*input == '<')
+			return (ft_strdup("<"));
+		else if (*input == '|')
+			return (ft_strdup("|"));
+		i++;
+	}
+	return (NULL);
+}

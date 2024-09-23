@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:00:05 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/23 13:43:37 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 17:55:26 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_unset(t_shell *shell, t_cmd *cmd)
 	}
 }
 
-static int	arg_numeric(t_shell *shell, char *arg)
+static int	arg_numeric(char *arg)
 {
 	int	i;
 
@@ -91,7 +91,7 @@ static int	arg_numeric(t_shell *shell, char *arg)
 }
 void	print_exit_error(t_shell *shell, t_cmd *cmd)
 {
-	if (!arg_numeric(shell, cmd->arr[1]))
+	if (!arg_numeric(cmd->arr[1]))
 			print_error(shell, NULL, ERR_NONNUM, 0);
 	else if (cmd->arr[2])
 		print_error(shell, "too many args", ERR_MANYARGS, 0);
@@ -106,11 +106,11 @@ void	handle_builtins_main(t_shell *shell, t_cmd *cmd)
 		if (!cmd->arr[1])
 		{
 			free_all(shell);
-			ft_exit(shell, *shell->exit_status);
+			ft_exit(*shell->exit_status);
 		}
 		print_exit_error(shell, cmd);
 		free_all(shell);
-		ft_exit(shell, *shell->exit_status);
+		ft_exit(*shell->exit_status);
 	}
 	else if (ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)
 		ft_cd(shell, cmd);

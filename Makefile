@@ -1,5 +1,5 @@
 
-FILES				= main utils cmd_init cmd_utils tokenizer token_init token_utils free signal init exec env_utils env_init builtins builtins2 builtins3 debug exec_utils redir redir2 redir3 error parse_cmd
+FILES				= main utils cmd_init cmd_utils tokenizer token_init token_utils token_utils2 free signal init exec env_utils env_init builtins builtins2 builtins3 debug exec_utils redir redir2 redir3 heredoc error parse_cmd
 
 BONUS_FILES			= 
 
@@ -7,7 +7,7 @@ NAME				= minishell
 BONUS_NAME			= minishell_bonus
 
 CC					= gcc
-CCFLAGS				= -I /usr/local/opt/readline/include -I ./lib/libft/inc/ -I ./inc/ -g #-fsanitize=address #-Wall -Wextra -Werror 
+CCFLAGS				= -I /usr/local/opt/readline/include -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror 
 MAKEFLAGS			= --no-print-directory
 RM					= rm -rf
 

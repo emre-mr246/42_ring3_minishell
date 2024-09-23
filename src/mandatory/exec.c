@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 15:07:12 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 17:57:01 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_path(t_shell *shell, t_cmd *cmd)
 	else if (access(cmd->arr[0], X_OK) == 0)
 		path = ft_strdup(cmd->arr[0]);
 	else
-		path = find_valid_path(shell, cmd->arr[0], shell->env);
+		path = find_valid_path(cmd->arr[0], shell->env);
 	free(statbuf);
 	return (path);
 }
@@ -41,9 +41,9 @@ char	*get_path(t_shell *shell, t_cmd *cmd)
 int	child_process(t_shell *shell, t_cmd *cmd, char *path)
 {
 	if (!cmd->arr[0][0])
-		ft_exit(shell, 0);
+		ft_exit(0);
 	execve(path, cmd->arr, shell->envp);
-	ft_exit(shell, 1);
+	ft_exit(1);
 	return (1);
 }
 
@@ -75,12 +75,12 @@ static void child(t_shell *shell, t_cmd *cmd, int fd[][2], int cmdlen, int *i, c
 {
 	init_signal(SIGINT, child_signal_handler, &shell->sigint);
 	init_signal(SIGQUIT, handle_sigquit, (void *)shell);
-	redirect_pipes(cmd, fd, cmdlen, *i);
+	redirect_pipes(fd, cmdlen, *i);
 	redirect_files(shell, cmd);
 	handle_builtins(shell, cmd);
 	if (!cmd->is_builtin)
 		child_process(shell, cmd, path);
-	ft_exit(shell, 0);
+	ft_exit(0);
 }
 
 void	run_cmds(t_shell *shell, int fd[][2], int cmdlen)
@@ -104,7 +104,7 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen)
 		{
 			handle_builtins_main(shell, cmd);
 		}
-		if (!is_main_builtin(shell, cmd))
+		if (!is_main_builtin(cmd))
 		{
 			path = get_path(shell, cmd);
 			if (!path)
@@ -119,6 +119,8 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen)
 				child(shell, cmd, fd, cmdlen, &i, path);
 			}
 		}
+		if (path)
+			free(path);
 		i++;
 		cmd = cmd->next;
 	}

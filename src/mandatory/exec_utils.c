@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:21:13 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 15:05:43 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 17:56:06 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-char	*make_path(t_shell *shell, char *uncompleted_path, char *cmd)
+char	*make_path(char *uncompleted_path, char *cmd)
 {
 	char	*path_part;
 	char	*valid_path;
@@ -25,12 +25,17 @@ char	*make_path(t_shell *shell, char *uncompleted_path, char *cmd)
 		return (NULL);
 	valid_path = ft_strjoin(path_part, cmd);
 	free(path_part);
-	if (access(valid_path, F_OK) < 0)
+	if (!valid_path)
 		return (NULL);
+	if (access(valid_path, F_OK) < 0)
+	{
+		free(valid_path);
+		return (NULL);
+	}
 	return (valid_path);
 }
 
-char	*find_valid_path(t_shell *shell, char *cmd, t_env *envp)
+char	*find_valid_path(char *cmd, t_env *envp)
 {
 	int		i;
 	char	**paths;
@@ -43,17 +48,17 @@ char	*find_valid_path(t_shell *shell, char *cmd, t_env *envp)
 	paths = ft_split(env_tmp->value, ':');
 	if (!paths || !*paths)
 	{
-		if (paths)
-			free(paths);
+		free_array(paths);
 		return (NULL);
 	}
 	i = 0;
 	while (paths[i])
 	{
-		valid_path = make_path(shell, paths[i++], cmd);
+		valid_path = make_path(paths[i++], cmd);
 		if (valid_path != NULL)
 			break ;
 	}
+	free_array(paths);
 	return (valid_path);
 }
 

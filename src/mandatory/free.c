@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 12:29:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 15:03:50 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 17:51:15 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void	free_cmds(t_shell *shell)
 	t_cmd		*tmp_cmd;
 	t_cmd		*next_cmd;
 
-	int i = 0;
-	
 	while (shell->cmd)
 	{
 		tmp_cmd = shell->cmd;
@@ -73,4 +71,6 @@ void	free_all(t_shell *shell)
 		free_cmds(shell);
 	if (shell->exit_status)
 		free(shell->exit_status);
+	if (shell)
+		free(shell);
 }
