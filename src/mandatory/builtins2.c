@@ -81,7 +81,6 @@ void	ft_export(t_shell *shell, t_cmd *cmd)
 	free(key);
 	if (value)
 		free(value);
-
 	}
 }
 

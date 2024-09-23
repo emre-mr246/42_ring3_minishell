@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 20:00:03 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 14:46:01 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_cmd	*new_cmd(char **arr)
 {
 	t_cmd	*cmds;
 
-	cmds = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
+	cmds = (t_cmd *)ft_calloc(1, sizeof(t_cmd) + 1);
 	if (!cmds)
 		return (NULL);
 	if (!arr)
@@ -52,6 +52,7 @@ t_cmd	*new_cmd(char **arr)
 	cmds->in_redir = NONE_REDIR;
 	cmds->outfile = NULL;
 	cmds->infile = NULL;
+	cmds->next = NULL;
 	cmds->heredoc_arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
 	if (!cmds->heredoc_arr)
 		return (NULL);

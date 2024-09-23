@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:21:13 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 12:46:47 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 15:05:43 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,26 @@ void	handle_cmd_errors(t_shell *shell, t_cmd *cmd)
 	struct stat	statbuf;
 
 	stat(cmd->arr[0], &statbuf);
-	 
 	if (access(cmd->arr[0], X_OK) == -1 && access(cmd->arr[0], F_OK) == 0
 		&& ft_strchr(cmd->arr[0], '/'))
+	{
 		print_error(shell, cmd->arr[0], ERR_NOPERM, 0);
+		*shell->exit_status = 126;
+	}
 	else if (S_ISDIR(statbuf.st_mode) && ft_strchr(cmd->arr[0], '/'))
+	{
 		print_error(shell, cmd->arr[0], ERR_ISDIR, 0);
+		*shell->exit_status = 126;
+	}
 	else if (access(cmd->arr[0], X_OK) == -1 || (access(cmd->arr[0], X_OK) == 0
 			&& S_ISDIR(statbuf.st_mode)))
 	{
 		print_error(shell, cmd->arr[0], ERR_NOCMD, 0);
-		ft_exit(shell, 127);
+		*shell->exit_status = 127;
 	}
 	else if (access(cmd->arr[0], F_OK))
 	{
 		print_error(shell, cmd->arr[0], ERR_NODIR, 0);
-		ft_exit(shell, 127);
+		*shell->exit_status = 127;
 	}
-	ft_exit(shell, 126);
 }

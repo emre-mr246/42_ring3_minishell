@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 19:18:46 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 15:07:43 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ static void	error2(t_shell *shell, char *str, int mode)
 	}
 	else if (mode == ERR_ISDIR)
 	{
+		*shell->exit_status = 126;
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": Is directory\n", 2);
+		ft_putstr_fd(": is a directory\n", 2);
 	}
 	else if (mode == ERR_QUOTES)
 		ft_putendl_fd("Odd number of quotes", 2);
@@ -77,7 +78,9 @@ void	print_error(t_shell *shell, char *str, int mode, int exits)
 	error1(shell, str, mode);
 	error2(shell, str, mode);
 	if (exits)
+	{
 		ft_exit(shell, *(shell->exit_status));
+	}
 	else
 		return ;
 }

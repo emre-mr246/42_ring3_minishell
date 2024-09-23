@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 12:29:50 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 14:28:18 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "libft.h"
 #include <readline/history.h>
 #include <readline/readline.h>
+
+#include <unistd.h> // SİLİNECEK SLEEP İÇİN
 
 static char	*create_prompt(t_shell *shell)
 {
@@ -84,7 +86,7 @@ int	main(int ac, char **av, char **env)
 	shell = init_shell(env);
 	if (!shell)
 		return (-1);
-	//while (1)
+	// while (1)
 		main_loop(shell, 0, NULL, NULL);
-	ft_exit(shell, *(shell->exit_status));
+	ft_exit(shell, *shell->exit_status);
 }

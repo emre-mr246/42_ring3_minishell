@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emgul <emgul@student.42istanbul.com.tr>    +#+  +:+       +#+        */
+/*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 12:29:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/21 12:32:28 by emgul            ###   ########.fr       */
+/*   Updated: 2024/09/23 15:03:50 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,28 @@ void	free_array(char **arr)
 void	free_cmds(t_shell *shell)
 {
 	t_cmd		*tmp_cmd;
+	t_cmd		*next_cmd;
+
+	int i = 0;
 	
 	while (shell->cmd)
 	{
 		tmp_cmd = shell->cmd;
-		free_array(tmp_cmd->arr);
-		free_array(tmp_cmd->heredoc_arr);
+
+		if (tmp_cmd->arr)
+			free_array(tmp_cmd->arr);
+		if (tmp_cmd->heredoc_arr)
+			free_array(tmp_cmd->heredoc_arr);
 		if (tmp_cmd->infile)
 			free(tmp_cmd->infile);
 		if (tmp_cmd->outfile)
 			free(tmp_cmd->outfile);
-		shell->cmd = shell->cmd->next;
+		next_cmd = shell->cmd->next;
 		free(tmp_cmd);
+		shell->cmd = next_cmd;
 	}
 }
+
 void	free_env(t_env *env)
 {
 	free(env->key);
@@ -61,8 +69,8 @@ void	free_all(t_shell *shell)
 		shell->env = shell->env->next;
 		free_env(tmp_env);
 	}
+	if (shell->cmd)
+		free_cmds(shell);
 	if (shell->exit_status)
 		free(shell->exit_status);
-	if (shell)
-		free(shell);
 }

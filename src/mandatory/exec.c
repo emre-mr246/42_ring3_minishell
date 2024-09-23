@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 12:50:47 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 15:07:12 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,29 @@
 char	*get_path(t_shell *shell, t_cmd *cmd)
 {
 	char	*path;
-	struct stat	statbuf;
+	struct stat	*statbuf;
 
 	path = NULL;
-	stat(cmd->arr[0], &statbuf);
-	if (S_ISDIR(statbuf.st_mode))
-		path = NULL;
-	else if (access(cmd->arr[0], X_OK) == 0 )
+	statbuf = ft_calloc(sizeof(struct stat), 1);
+	stat(cmd->arr[0], statbuf);
+	if (S_ISDIR(statbuf->st_mode))
+	{
+		free(statbuf);
+		return (path);
+	}
+	else if (access(cmd->arr[0], X_OK) == 0)
 		path = ft_strdup(cmd->arr[0]);
 	else
 		path = find_valid_path(shell, cmd->arr[0], shell->env);
+	free(statbuf);
 	return (path);
 }
 
-int	child_process(t_shell *shell, t_cmd *cmd)
+int	child_process(t_shell *shell, t_cmd *cmd, char *path)
 {
-	char	*path;
-
-	path = get_path(shell, cmd);
-	if (!path)
-		handle_cmd_errors(shell, cmd);
 	if (!cmd->arr[0][0])
-	{
-		free(path);
 		ft_exit(shell, 0);
-	}
 	execve(path, cmd->arr, shell->envp);
-	free(path);
 	ft_exit(shell, 1);
 	return (1);
 }
@@ -58,20 +54,32 @@ static void	wait_for_pids(t_shell *shell)
 	while (wait(&exit_status) > 0)
 		continue ;
 	if (WIFEXITED(exit_status))
+	{
 		*shell->exit_status = WEXITSTATUS(exit_status);
+		//printf("Process exited normally with status: %d\n", *shell->exit_status);
+	}
+	// else if (WIFSIGNALED(exit_status)) {
+	// 	int signal_num = WTERMSIG(exit_status);
+	// 	printf("Process was terminated by signal: %d\n", signal_num);
+	// 	if (WCOREDUMP(exit_status)) {
+	// 		printf("Core dump occurred.\n");
+	// 	}
+	// }
+	// else {
+	// 	printf("Process did not exit normally.\n");
+	// }
+	// printf("exit stat: %i, ifexited: %i, wexit: %i\n", *shell->exit_status, WIFEXITED(exit_status), WEXITSTATUS(exit_status));
 }
 
-static void child(t_shell *shell, t_cmd *cmd, int fd[][2], int cmdlen, int *i)
+static void child(t_shell *shell, t_cmd *cmd, int fd[][2], int cmdlen, int *i, char *path)
 {
 	init_signal(SIGINT, child_signal_handler, &shell->sigint);
 	init_signal(SIGQUIT, handle_sigquit, (void *)shell);
 	redirect_pipes(cmd, fd, cmdlen, *i);
 	redirect_files(shell, cmd);
-	if (is_main_builtin(shell, cmd))
-		ft_exit(shell, *shell->exit_status);
 	handle_builtins(shell, cmd);
 	if (!cmd->is_builtin)
-		child_process(shell, cmd);
+		child_process(shell, cmd, path);
 	ft_exit(shell, 0);
 }
 
@@ -80,8 +88,10 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen)
 	int		i;
 	t_cmd	*cmd;
 	int		pid;
+	char	*path;
 
 	cmd = shell->cmd;
+	path = NULL;
 	i = 0;
 	while (i < cmdlen)
 	{
@@ -94,10 +104,20 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen)
 		{
 			handle_builtins_main(shell, cmd);
 		}
-		pid = fork();
-		if (pid == 0)
+		if (!is_main_builtin(shell, cmd))
 		{
-			child(shell, cmd, fd, cmdlen, &i);
+			path = get_path(shell, cmd);
+			if (!path)
+			{
+				handle_cmd_errors(shell, cmd);
+				i++;
+				continue ;
+			}
+			pid = fork();
+			if (pid == 0)
+			{
+				child(shell, cmd, fd, cmdlen, &i, path);
+			}
 		}
 		i++;
 		cmd = cmd->next;

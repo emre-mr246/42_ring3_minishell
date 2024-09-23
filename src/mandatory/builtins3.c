@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:00:05 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/19 19:18:46 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 13:43:37 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,12 @@ void	handle_builtins_main(t_shell *shell, t_cmd *cmd)
 	if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
 	{
 		if (!cmd->arr[1])
+		{
+			free_all(shell);
 			ft_exit(shell, *shell->exit_status);
+		}
 		print_exit_error(shell, cmd);
+		free_all(shell);
 		ft_exit(shell, *shell->exit_status);
 	}
 	else if (ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)

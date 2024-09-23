@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 12:30:31 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/23 14:11:39 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,6 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 	cwd = (char *)ft_calloc(sizeof(char), PATH_SIZE);
 	if (!cwd)
 		return ;
-	// if (cmd->arr[2])
-	// {
-	// 	print_error(shell, NULL, ERR_MANYARGS, 0);
-	// 	return ;
-	// }
 	getcwd(cwd, PATH_SIZE - 1);
 	if (key_exists(env, "OLDPWD"))
 		update_value(shell->env, "OLDPWD", cwd);
@@ -120,6 +115,6 @@ void	handle_builtins(t_shell *shell, t_cmd *cmd)
 void	ft_exit(t_shell *shell, int exit_code)
 {
 	rl_clear_history();
-	free_all(shell);
+	//free_all(shell);
 	exit(exit_code);
 }
