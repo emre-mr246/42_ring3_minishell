@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 12:59:43 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:34:41 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,15 @@ static char	*create_prompt(t_shell *shell)
 	return (prompt);
 }
 
-void	main_loop(t_shell *shell)
+void	main_loop(t_shell *shell, char **av)
 {
 	char	*prompt;
 
 	prompt = create_prompt(shell);
-	shell->line = readline(prompt);
+	if (av[1] && av[2])
+		shell->line = ft_strdup(av[2]);
+	else
+		shell->line = readline(prompt);
 	free(prompt);
 	if (!shell->line)
 		return ;
@@ -72,12 +75,7 @@ int	main(int ac, char **av, char **env)
 	shell = init_shell(env);
 	if (!shell)
 		return (-1);
-	//while (1)
-		main_loop(shell);
+	while (1)
+		main_loop(shell, av);
 	ft_exit(*shell->exit_status);
 }
-
-// __attribute__ ((destructor)) void f()
-// {
-// 	system("leaks minishell");
-// }

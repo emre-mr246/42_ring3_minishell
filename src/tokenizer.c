@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 18:14:32 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:32:06 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_tokens	*tokenizer(t_shell *shell, char *input, t_env *env)
 	tokens = NULL;
 	while (input && *input && env)
 	{
-		while (*input == ' ')
+		while (*input == ' ' || (*input >= 8 && *input <= 13))
 			input++;
 		res = (char *)ft_calloc(sizeof(char), BUFFER_SIZE);
 		if (!res)
@@ -101,7 +101,7 @@ t_tokens	*tokenizer(t_shell *shell, char *input, t_env *env)
 			lstadd_back_token(&tokens, new_token(res));
 		else
 			input++;
-		while (*input == ' ')
+		while (*input == ' ' || (*input >= 8 && *input <= 13))
 			input++;
 	}
 	check_syntax(shell, tokens);

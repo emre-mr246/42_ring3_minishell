@@ -59,18 +59,11 @@ fclean: clean
 
 libre:
 	@make $(MAKEFLAGS) -C $(LIBFT_PATH) re
-	@echo "$(BLUE)-== all object files created again in libraries! ==-$(DEFAULT)"
+	@echo "$(BLUE)-== all object files recreated in libft! ==-$(DEFAULT)"
 
 re: fclean all
 
-leak: re
-	valgrind --suppressions=misra.supp --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell
-#--trace-children=yes --track-fds=yes
-
-test:
-	cd tester && ./tester
-
-.PHONY: all clean fclean libre re leak test
+.PHONY: all clean fclean libre re
 
 # ANSI COLOR CODES
 DEFAULT = \033[0m
@@ -79,7 +72,3 @@ YELLOW  = \033[1;33m
 GREEN   = \033[1;32m
 BLUE    = \033[1;36m
 ORANGE  = \033[38;5;208m
-
-#suppresssion dosyası oluşturma
-#valgrind --gen-suppressions=all --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell 2> valgrind_output.txt
-#awk '/^{/{f=1} f; /^}/{f=0}' valgrind_output.txt > misra.supp
