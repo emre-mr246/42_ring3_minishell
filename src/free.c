@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 12:29:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 17:51:15 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:58:27 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	free_cmds(t_shell *shell)
 	while (shell->cmd)
 	{
 		tmp_cmd = shell->cmd;
-
 		if (tmp_cmd->arr)
 			free_array(tmp_cmd->arr);
 		if (tmp_cmd->heredoc_arr)

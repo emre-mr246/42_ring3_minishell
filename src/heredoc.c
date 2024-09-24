@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 18:37:35 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/24 12:46:57 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:58:09 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	add_to_heredoc_arr(t_cmd *cmd, char *str)
 	cmd->heredoc_arr[i] = NULL;
 }
 
-int heredoc_loop(int *i, int tmpfd, t_cmd *cmd)
+int	heredoc_loop(int *i, int tmpfd, t_cmd *cmd)
 {
-	char *delim;
-	char *line;
-	
+	char	*delim;
+	char	*line;
+
 	delim = cmd->heredoc_arr[*i];
 	if (!delim)
 		return (1);
@@ -68,7 +68,7 @@ void	heredoc(t_cmd *cmd)
 	close(tmpfd);
 }
 
-void	redir_heredoc()
+void	redir_heredoc(void)
 {
 	int	infd;
 

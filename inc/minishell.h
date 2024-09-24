@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 12:05:46 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:43:06 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # define BUFFER_SIZE 4096
 
 # define HEREDOC_TMP_PATH ".heredoc_tmp_424242"
+
+typedef struct s_shell	t_shell;
 
 enum					e_error
 {
@@ -79,6 +81,7 @@ typedef struct t_cmd
 	char				**heredoc_arr;
 	struct t_cmd		*next;
 	bool				is_builtin;
+	t_shell				*shell;
 }						t_cmd;
 
 typedef struct s_shell
@@ -111,7 +114,7 @@ void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
 
 // CMD_INIT
 void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
-t_cmd					*new_cmd(char **cmd);
+t_cmd					*new_cmd(t_shell *shell, char **arr);
 t_cmd					*create_cmds(t_shell *shell, t_tokens token);
 
 // CMD_UTILS
@@ -154,11 +157,12 @@ void					init_signal(int signo, void (*handler)(int),
 t_shell					*init_shell(char **env);
 
 // PARSE_CMD
-void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell);
+void					exchange_var(char *key, char **new, t_shell *shell);
 char					*write_to_new(t_cmd *cmd, t_shell *shell, int *i);
 void					parse_cmd(t_shell *shell, t_cmd *cmd);
 char					*parse_file(t_shell *shell, char *file);
 void					parse_cmds(t_shell *shell);
+
 
 // REDIR
 void					redirect_files(t_shell *shell, t_cmd *cmd);
@@ -181,7 +185,7 @@ void					remove_redirs(t_shell *shell, t_cmd *cmd);
 
 // HEREDOC
 void					heredoc(t_cmd *cmd);
-void					redir_heredoc();
+void					redir_heredoc(void);
 void					add_to_heredoc_arr(t_cmd *cmd, char *str);
 
 // SIGNAL

@@ -6,38 +6,47 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:22:24 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/23 19:04:36 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:44:50 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-void	exchange_var(char *str, int *j, char *new, int *k, t_shell *shell)
+void	exchange_var(char *key, char **new, t_shell *shell)
 {
-	char	*key;
 	char	*value;
 
-	key = get_env_key(str + *j);
-	if (!key)
-		return ;
+	value = NULL;
 	if (ft_strncmp(key, "$", higher_len(key, "$")) == 0)
 		value = ft_strdup("$");
 	else if (ft_strncmp(key, "?", 1) == 0)
-		value = ft_itoa(*(shell->exit_status));
+		value = ft_itoa(*shell->exit_status);
 	else
 		value = get_env_value(shell->env, key);
-	ft_strlcpy(new + *k, value, ft_strlen(value) + 1);
-	*k += ft_strlen(value);
+	ft_strlcpy(*new, value, ft_strlen(value) + 1);
+	*new += ft_strlen(value);
 	if (value)
 		free(value);
-	if (ft_strncmp(key, "$", higher_len(key, "$")) == 0)
+}
+
+void	test(t_cmd *cmd, char **new, char *str, int *j)
+{
+	char	*key;
+	if (str[*j] != '$')
 	{
-		free(key);
-		return ;
+		**new = str[*j];
+		(*new)++;
 	}
-	*j += ft_strlen(key);
-	free(key);
+	if (str[*j] == '$')
+	{
+		key = get_env_key(str + *j);
+		if (!key)
+			return ;
+		exchange_var(key, new, cmd->shell);
+		if (ft_strncmp(key, "$", higher_len(key, "$")) != 0)
+			*j += ft_strlen(key);
+	}
 }
 
 char	*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
@@ -45,14 +54,14 @@ char	*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 	bool	single_quote;
 	bool	double_quote;
 	int		j;
-	int		k;
 	char	*new;
+	char	*new_tmp;
 
 	new = allocate_str(shell, BUFFER_SIZE);
 	if (!new)
 		return (NULL);
+	new_tmp = new;
 	j = -1;
-	k = 0;
 	single_quote = false;
 	double_quote = false;
 	while (cmd->arr[*i][++j])
@@ -62,14 +71,12 @@ char	*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 		else if (cmd->arr[*i][j] == '"' && !single_quote)
 			double_quote = !double_quote;
 		else if (single_quote && cmd->arr[*i][j] != '\'')
-			new[k++] = cmd->arr[*i][j];
-		else if ((!single_quote && !double_quote) || cmd->arr[*i][j] != '"')
 		{
-			if (cmd->arr[*i][j] != '$')
-				new[k++] = cmd->arr[*i][j];
-			if (cmd->arr[*i][j] == '$')
-				exchange_var(cmd->arr[*i], &(j), new, &(k), shell);
+			*new_tmp = cmd->arr[*i][j];
+			new_tmp++;
 		}
+		else if ((!single_quote && !double_quote) || cmd->arr[*i][j] != '"')
+			test(cmd, &new_tmp, cmd->arr[*i], &j);
 	}
 	return (new);
 }
@@ -121,7 +128,7 @@ char	*parse_file(t_shell *shell, char *file)
 		else if (file[i] == '"' && !single_quote)
 			double_quote = !double_quote;
 		else if ((single_quote && file[i] != '\'') || (double_quote && file[i] != '"')
-				|| (!single_quote && !double_quote))
+			|| (!single_quote && !double_quote))
 			new[j++] = file[i];
 		i++;
 	}

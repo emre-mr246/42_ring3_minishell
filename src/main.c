@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 12:53:10 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:59:43 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static char	*create_prompt(t_shell *shell)
 }
 
 void	main_loop(t_shell *shell)
-{	
+{
 	char	*prompt;
-	
+
 	prompt = create_prompt(shell);
 	shell->line = readline(prompt);
 	free(prompt);
@@ -74,7 +74,7 @@ int	main(int ac, char **av, char **env)
 		return (-1);
 	//while (1)
 		main_loop(shell);
-	ft_exit(*shell->exit_status); //belki sil
+	ft_exit(*shell->exit_status);
 }
 
 // __attribute__ ((destructor)) void f()

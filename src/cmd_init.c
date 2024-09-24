@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 12:05:26 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:43:56 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	lstadd_back_cmd(t_cmd **lst, t_cmd *new)
 	return ;
 }
 
-t_cmd	*new_cmd(char **arr)
+t_cmd	*new_cmd(t_shell *shell, char **arr)
 {
 	t_cmd	*cmds;
 
@@ -53,6 +53,7 @@ t_cmd	*new_cmd(char **arr)
 	cmds->outfile = NULL;
 	cmds->infile = NULL;
 	cmds->next = NULL;
+	cmds->shell = shell;
 	cmds->heredoc_arr = (char **)ft_calloc(sizeof(char *), ARG_MAX);
 	if (!cmds->heredoc_arr)
 		return (NULL);
@@ -69,7 +70,8 @@ static void	create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
 	{
 		(*cmd)->arr[*i] = NULL;
 		(*cmd)->special_char = special_char;
-		lstadd_back_cmd(cmd, new_cmd(NULL));
+
+		lstadd_back_cmd(cmd, new_cmd(shell, NULL));
 		*cmd = (*cmd)->next;
 		*i = 0;
 	}
@@ -88,7 +90,7 @@ t_cmd	*create_cmds(t_shell *shell, t_tokens token)
 	int		i;
 
 	i = 0;
-	cmd = new_cmd(NULL);
+	cmd = new_cmd(shell, NULL);
 	cmd_tmp = cmd;
 	while (1)
 	{

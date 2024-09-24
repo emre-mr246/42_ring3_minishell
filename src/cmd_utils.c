@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:17 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 18:38:35 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:56:55 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 
 void	check_odd_quotes(t_shell *shell, char *token)
 {
-	int		single_quote_num;
-	int		double_quote_num;
+	int		quote_num[2];
 	bool	single_quote;
 	bool	double_quote;
 	int		i;
 
-	single_quote_num = 0;
-	double_quote_num = 0;
+	quote_num[0] = 0;
+	quote_num[1] = 0;
 	single_quote = false;
 	double_quote = false;
 	i = -1;
@@ -31,15 +30,15 @@ void	check_odd_quotes(t_shell *shell, char *token)
 		if (token[i] == '\"' && !single_quote)
 		{
 			double_quote = !double_quote;
-			double_quote_num++;
+			quote_num[1]++;
 		}
 		if (token[i] == '\'' && !double_quote)
 		{
 			single_quote = !single_quote;
-			single_quote_num++;
+			quote_num[0]++;
 		}
 	}
-	if (double_quote_num % 2 != 0 || single_quote_num % 2 != 0)
+	if (quote_num[1] % 2 != 0 || quote_num[0] % 2 != 0)
 		print_error(shell, NULL, ERR_QUOTES, 1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:27:51 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 17:53:18 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:57:37 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ void	ft_export(t_shell *shell, t_cmd *cmd)
 		else
 			env_lstadd_back(&shell->env, new_env(key, value));
 		j++;
-	free(key);
-	if (value)
-		free(value);
+		free(key);
+		if (value)
+			free(value);
 	}
 }
 

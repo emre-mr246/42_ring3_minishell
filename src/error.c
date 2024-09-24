@@ -6,14 +6,14 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:52:47 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 17:49:34 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:04:30 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static void	error1(t_shell *shell, char *str, int mode)
+static void	error1(char *str, int mode)
 {
 	if (mode == ERR_ENVNAME)
 	{
@@ -25,21 +25,6 @@ static void	error1(t_shell *shell, char *str, int mode)
 	{
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-	}
-	else if (mode == ERR_CD_PWD)
-	{
-		ft_putstr_fd("cd: string not in pwd: ", 2);
-		ft_putendl_fd(str, 2);
-	}
-	else if (mode == ERR_NOCMD)
-	{
-		ft_putstr_fd("command not found: ", 2);
-		ft_putendl_fd(str, 2);
-	}
-	else if (mode == ERR_SYNTAX)
-	{
-		*(shell->exit_status) = 2;
-		ft_putendl_fd("syntax error", 2);
 	}
 }
 
@@ -71,12 +56,32 @@ static void	error2(t_shell *shell, char *str, int mode)
 		ft_putendl_fd("too many arguments", 2);
 }
 
+static void	error3(t_shell *shell, char *str, int mode)
+{
+	if (mode == ERR_CD_PWD)
+	{
+		ft_putstr_fd("cd: string not in pwd: ", 2);
+		ft_putendl_fd(str, 2);
+	}
+	else if (mode == ERR_NOCMD)
+	{
+		ft_putstr_fd("command not found: ", 2);
+		ft_putendl_fd(str, 2);
+	}
+	else if (mode == ERR_SYNTAX)
+	{
+		*(shell->exit_status) = 2;
+		ft_putendl_fd("syntax error", 2);
+	}
+}
+
 void	print_error(t_shell *shell, char *str, int mode, int exits)
 {
 	*(shell->exit_status) = 1;
 	ft_putstr_fd("RaRe: ", 2);
-	error1(shell, str, mode);
+	error1(str, mode);
 	error2(shell, str, mode);
+	error3(shell, str, mode);
 	if (exits)
 	{
 		ft_exit(*(shell->exit_status));
