@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 12:45:30 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:47:13 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,32 @@ void	close_all_fds(int fd[][2], int cmdlen)
 		close(fd[i][1]);
 		i++;
 	}
+}
+
+char	*parse_file(t_shell *shell, char *file)
+{
+	bool	single_quote;
+	bool	double_quote;
+	int		i;
+	int		j;
+	char	*new;
+
+	single_quote = false;
+	double_quote = false;
+	new = allocate_str(shell, BUFFER_SIZE);
+	i = 0;
+	j = 0;
+	while (file[i])
+	{
+		if (file[i] == '\'' && !double_quote)
+			single_quote = !single_quote;
+		else if (file[i] == '"' && !single_quote)
+			double_quote = !double_quote;
+		else if ((single_quote && file[i] != '\'') \
+		|| (double_quote && file[i] != '"') \
+		|| (!single_quote && !double_quote))
+			new[j++] = file[i];
+		i++;
+	}
+	return (new);
 }

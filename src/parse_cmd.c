@@ -6,14 +6,14 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:22:24 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/24 13:44:50 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:48:02 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-void	exchange_var(char *key, char **new, t_shell *shell)
+static void	exchange_var(char *key, char **new, t_shell *shell)
 {
 	char	*value;
 
@@ -30,9 +30,10 @@ void	exchange_var(char *key, char **new, t_shell *shell)
 		free(value);
 }
 
-void	test(t_cmd *cmd, char **new, char *str, int *j)
+static void	write_to_new(t_cmd *cmd, char **new, char *str, int *j)
 {
 	char	*key;
+
 	if (str[*j] != '$')
 	{
 		**new = str[*j];
@@ -49,7 +50,7 @@ void	test(t_cmd *cmd, char **new, char *str, int *j)
 	}
 }
 
-char	*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
+static char	*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 {
 	bool	single_quote;
 	bool	double_quote;
@@ -71,17 +72,14 @@ char	*parse_cmd_loop(t_cmd *cmd, t_shell *shell, int *i)
 		else if (cmd->arr[*i][j] == '"' && !single_quote)
 			double_quote = !double_quote;
 		else if (single_quote && cmd->arr[*i][j] != '\'')
-		{
-			*new_tmp = cmd->arr[*i][j];
-			new_tmp++;
-		}
+			*new_tmp++ = cmd->arr[*i][j];
 		else if ((!single_quote && !double_quote) || cmd->arr[*i][j] != '"')
-			test(cmd, &new_tmp, cmd->arr[*i], &j);
+			write_to_new(cmd, &new_tmp, cmd->arr[*i], &j);
 	}
 	return (new);
 }
 
-void	parse_cmd(t_shell *shell, t_cmd *cmd)
+static void	parse_cmd(t_shell *shell, t_cmd *cmd)
 {
 	int		i;
 	int		j;
@@ -106,33 +104,6 @@ void	parse_cmd(t_shell *shell, t_cmd *cmd)
 	cmd->arr[j++] = NULL;
 	while (cmd->arr[j])
 		free(cmd->arr[j++]);
-}
-
-char	*parse_file(t_shell *shell, char *file)
-{
-	bool	single_quote;
-	bool	double_quote;
-	int		i;
-	int		j;
-	char	*new;
-
-	single_quote = false;
-	double_quote = false;
-	new = allocate_str(shell, BUFFER_SIZE);
-	i = 0;
-	j = 0;
-	while (file[i])
-	{
-		if (file[i] == '\'' && !double_quote)
-			single_quote = !single_quote;
-		else if (file[i] == '"' && !single_quote)
-			double_quote = !double_quote;
-		else if ((single_quote && file[i] != '\'') || (double_quote && file[i] != '"')
-			|| (!single_quote && !double_quote))
-			new[j++] = file[i];
-		i++;
-	}
-	return (new);
 }
 
 void	parse_cmds(t_shell *shell)

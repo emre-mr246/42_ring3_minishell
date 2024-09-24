@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 13:43:06 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:11:47 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,20 +97,20 @@ typedef struct s_shell
 }						t_shell;
 
 // BUILTINS
-void					ft_env(t_shell *shell, t_cmd *cmd);
-void					ft_echo(t_cmd *cmd);
-void					ft_cd(t_shell *shell, t_cmd *cmd);
 void					handle_builtins(t_shell *shell, t_cmd *cmd);
-void					ft_exit(int exit_code);
+void					ft_cd(t_shell *shell, t_cmd *cmd);
 
 // BUILTINS2
 void					ft_export(t_shell *shell, t_cmd *cmd);
 int						is_main_builtin(t_cmd *cmd);
-void					key_valid(t_shell *shell, char *key);
+void	key_valid(t_shell *shell, char *key);
 
 // BUILTINS3
-void					ft_unset(t_shell *shell, t_cmd *cmd);
 void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
+void	ft_exit(int exit_code);
+
+// BUILTINS4
+void	ft_unset_key(t_shell *shell, char *key);
 
 // CMD_INIT
 void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
@@ -136,15 +136,14 @@ char					*get_env_key(char *str);
 char					*get_env_value(t_env *env, char *key);
 
 // ERROR
-void					print_error(t_shell *shell, char *str, int mode,
-							int exits);
+void					print_error(t_shell *shell, char *str, int mode, int exits);
 
 // EXEC_UTILS
-char					*make_path(char *uncompleted_path,
-							char *cmd);
+char					*make_path(char *uncompleted_path, char *cmd);
 char					*find_valid_path(char *cmd, t_env *envp);
 void					close_fds(int fd[][2], int cmdlen, int cmd_i);
 void					handle_cmd_errors(t_shell *shell, t_cmd *cmd);
+void					wait_for_pids(t_shell *shell);
 
 // EXEC
 int						child_process(t_shell *shell, t_cmd *cmd, char *path);
@@ -157,18 +156,14 @@ void					init_signal(int signo, void (*handler)(int),
 t_shell					*init_shell(char **env);
 
 // PARSE_CMD
-void					exchange_var(char *key, char **new, t_shell *shell);
-char					*write_to_new(t_cmd *cmd, t_shell *shell, int *i);
-void					parse_cmd(t_shell *shell, t_cmd *cmd);
-char					*parse_file(t_shell *shell, char *file);
 void					parse_cmds(t_shell *shell);
-
 
 // REDIR
 void					redirect_files(t_shell *shell, t_cmd *cmd);
 void					redirect_pipes(int fd[][2], int cmdlen,
 							int i);
 void					close_all_fds(int fd[][2], int cmdlen);
+char					*parse_file(t_shell *shell, char *file);
 
 // REDIR2
 int						get_redirection(char *s);

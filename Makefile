@@ -1,24 +1,26 @@
 
-FILES				= main utils cmd_init cmd_utils tokenizer token_init token_utils token_utils2 free signal init exec env_utils env_init builtins builtins2 builtins3 debug exec_utils redir redir2 redir3 heredoc error parse_cmd
-NAME				= minishell
+FILES		= main utils cmd_init cmd_utils tokenizer token_init token_utils token_utils2 free signal \
+				init exec env_utils env_init builtins builtins2 builtins3 builtins4 debug exec_utils  \
+				exec_utils2 redir redir2 redir3 heredoc error parse_cmd
+NAME		= minishell
 
-CC					= gcc
-CCFLAGS				= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror 
-MAKEFLAGS			= --no-print-directory
-RLFLAGS				= -L ./lib/readline/lib -I lib/readline/include/ -lreadline
-RM					= rm -rf
+CC			= gcc
+CCFLAGS		= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror 
+MAKEFLAGS	= --no-print-directory
+RLFLAGS		= -L ./lib/readline/lib -I lib/readline/include/ -lreadline
+RM			= rm -rf
 
-LIBFT_PATH			= lib/libft/
-LIBFT				= $(LIBFT_PATH)libft.a
+LIBFT_PATH	= lib/libft/
+LIBFT		= $(LIBFT_PATH)libft.a
 
-FILES_PATH			= src/
-OBJ_DIR				= .obj/
-RL_PATH				= ./lib/readline/
-READLINE			= $(RL_PATH)lib/libreadline.a
+FILES_PATH	= src/
+OBJ_DIR		= .obj/
+RL_PATH		= ./lib/readline/
+READLINE	= $(RL_PATH)lib/libreadline.a
 
-SRCS				= $(addprefix $(FILES_PATH), $(addsuffix .c, $(FILES)))
-OBJS				= $(addprefix $(OBJ_DIR), $(notdir $(SRCS:.c=.o)))
-DIR					= $(shell echo $(PWD))
+SRCS		= $(addprefix $(FILES_PATH), $(addsuffix .c, $(FILES)))
+OBJS		= $(addprefix $(OBJ_DIR), $(notdir $(SRCS:.c=.o)))
+DIR			= $(shell echo $(PWD))
 
 vpath %.c $(FILES_PATH)
 

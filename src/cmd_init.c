@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 13:43:56 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:49:02 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,15 @@ t_cmd	*new_cmd(t_shell *shell, char **arr)
 	return (cmds);
 }
 
-
 static void	create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
 {
 	int		special_char;
-	
+
 	special_char = get_special_char_enum(token->token);
 	if (special_char)
 	{
 		(*cmd)->arr[*i] = NULL;
 		(*cmd)->special_char = special_char;
-
 		lstadd_back_cmd(cmd, new_cmd(shell, NULL));
 		*cmd = (*cmd)->next;
 		*i = 0;

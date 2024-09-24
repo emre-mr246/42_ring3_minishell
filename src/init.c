@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:24:29 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/19 19:18:46 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 13:49:35 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_signal(int signo, void (*handler)(int), struct sigaction *sa)
 
 t_shell	*init_shell(char **env)
 {
-	t_shell *shell;
+	t_shell	*shell;
 
 	shell = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!shell)

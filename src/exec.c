@@ -6,20 +6,19 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 12:46:17 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:04:36 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 #include <fcntl.h>
-#include <sys/wait.h>
 #include <unistd.h>
 #include <sys/stat.h>
 
 char	*get_path(t_shell *shell, t_cmd *cmd)
 {
-	char	*path;
+	char		*path;
 	struct stat	*statbuf;
 
 	path = NULL;
@@ -38,89 +37,63 @@ char	*get_path(t_shell *shell, t_cmd *cmd)
 	return (path);
 }
 
-int	child_process(t_shell *shell, t_cmd *cmd, char *path)
+static void	child(t_cmd *cmd, int fd[][2], int *i, char *path)
 {
-	if (!cmd->arr[0][0])
-		ft_exit(0);
-	execve(path, cmd->arr, shell->envp);
-	ft_exit(1);
-	return (1);
-}
+	int	cmdlen;
 
-static void	wait_for_pids(t_shell *shell)
-{
-	int	exit_status;
-
-	while (wait(&exit_status) > 0)
-		continue ;
-	if (WIFEXITED(exit_status))
-	{
-		*shell->exit_status = WEXITSTATUS(exit_status);
-		//printf("Process exited normally with status: %d\n", *shell->exit_status);
-	}
-	// else if (WIFSIGNALED(exit_status)) {
-	// 	int signal_num = WTERMSIG(exit_status);
-	// 	printf("Process was terminated by signal: %d\n", signal_num);
-	// 	if (WCOREDUMP(exit_status)) {
-	// 		printf("Core dump occurred.\n");
-	// 	}
-	// }
-	// else {
-	// 	printf("Process did not exit normally.\n");
-	// }
-	// printf("exit stat: %i, ifexited: %i, wexit: %i\n", *shell->exit_status, WIFEXITED(exit_status), WEXITSTATUS(exit_status));
-}
-
-static void child(t_shell *shell, t_cmd *cmd, int fd[][2], int cmdlen, int *i, char *path)
-{
-	init_signal(SIGINT, child_signal_handler, &shell->sigint);
-	init_signal(SIGQUIT, handle_sigquit, (void *)shell);
+	cmdlen = cmd_len(cmd->shell->cmd);
+	init_signal(SIGINT, child_signal_handler, &cmd->shell->sigint);
+	init_signal(SIGQUIT, handle_sigquit, &cmd->shell->sigquit);
 	redirect_pipes(fd, cmdlen, *i);
-	redirect_files(shell, cmd);
-	handle_builtins(shell, cmd);
+	redirect_files(cmd->shell, cmd);
+	handle_builtins(cmd->shell, cmd);
 	if (!cmd->is_builtin)
-		child_process(shell, cmd, path);
+	{
+		if (!cmd->arr[0][0])
+			ft_exit(0);
+		execve(path, cmd->arr, cmd->shell->envp);
+		ft_exit(1);
+	}
 	ft_exit(0);
+}
+
+int	fork_child(t_cmd *cmd, int fd[][2], int *i)
+{
+	int		pid;
+	char	*path;
+
+	path = get_path(cmd->shell, cmd);
+	if (!path)
+	{
+		handle_cmd_errors(cmd->shell, cmd);
+		(*i)++;
+		return (1);
+	}
+	pid = fork();
+	if (pid == 0)
+		child(cmd, fd, i, path);
+	return (0);
 }
 
 void	run_cmds(t_shell *shell, int fd[][2], int cmdlen)
 {
 	int		i;
 	t_cmd	*cmd;
-	int		pid;
-	char	*path;
 
 	cmd = shell->cmd;
-	path = NULL;
 	i = 0;
 	while (i < cmdlen)
 	{
 		if (!cmd->arr[0])
-		{
 			return ;
-		}
 		init_signal(SIGINT, NULL, &shell->sigint);
 		if (cmdlen == 1)
-		{
 			handle_builtins_main(shell, cmd);
-		}
 		if (!is_main_builtin(cmd))
 		{
-			path = get_path(shell, cmd);
-			if (!path)
-			{
-				handle_cmd_errors(shell, cmd);
-				i++;
+			if (fork_child(cmd, fd, &i))
 				continue ;
-			}
-			pid = fork();
-			if (pid == 0)
-			{
-				child(shell, cmd, fd, cmdlen, &i, path);
-			}
 		}
-		if (path)
-			free(path);
 		i++;
 		cmd = cmd->next;
 	}
