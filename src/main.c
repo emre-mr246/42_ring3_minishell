@@ -6,14 +6,14 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 17:48:28 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:53:10 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
-#include <readline/history.h>
-#include <readline/readline.h>
+#include "readline/readline.h"
+#include "readline/history.h"
 
 static char	*create_prompt(t_shell *shell)
 {
@@ -55,7 +55,7 @@ void	main_loop(t_shell *shell)
 	add_history(shell->line);
 	shell->tokens = tokenizer(shell, shell->line, shell->env);
 	free(shell->line);
-	shell->cmd = create_cmds(shell, shell->tokens);
+	shell->cmd = create_cmds(shell, *shell->tokens);
 	free_token(shell->tokens);
 	parse_cmds(shell);
 	execute_cmd(shell);
@@ -72,8 +72,9 @@ int	main(int ac, char **av, char **env)
 	shell = init_shell(env);
 	if (!shell)
 		return (-1);
-	while (1)
+	//while (1)
 		main_loop(shell);
+	ft_exit(*shell->exit_status); //belki sil
 }
 
 // __attribute__ ((destructor)) void f()

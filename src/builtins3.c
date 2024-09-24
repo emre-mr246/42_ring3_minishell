@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:00:05 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/23 17:55:26 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:52:44 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 static t_env	*get_prev_node(t_env *env, char *key)
 {
 	t_env	*tmp;
-	int		i;
 
-	i = 0;
 	tmp = env;
 	while (tmp->next)
 	{
@@ -26,7 +24,6 @@ static t_env	*get_prev_node(t_env *env, char *key)
 					key)) == 0)
 			break ;
 		tmp = tmp->next;
-		i++;
 	}
 	return (tmp);
 }
@@ -101,16 +98,20 @@ void	print_exit_error(t_shell *shell, t_cmd *cmd)
 
 void	handle_builtins_main(t_shell *shell, t_cmd *cmd)
 {
+	int	exstat;
+	
 	if (ft_strncmp(cmd->arr[0], "exit", higher_len(cmd->arr[0], "exit")) == 0)
 	{
+		exstat = *shell->exit_status;
 		if (!cmd->arr[1])
 		{
 			free_all(shell);
-			ft_exit(*shell->exit_status);
+			ft_exit(exstat);
 		}
 		print_exit_error(shell, cmd);
+		exstat = *shell->exit_status;
 		free_all(shell);
-		ft_exit(*shell->exit_status);
+		ft_exit(exstat);
 	}
 	else if (ft_strncmp(cmd->arr[0], "cd", higher_len(cmd->arr[0], "cd")) == 0)
 		ft_cd(shell, cmd);

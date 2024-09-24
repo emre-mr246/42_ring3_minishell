@@ -1,82 +1,74 @@
 
 FILES				= main utils cmd_init cmd_utils tokenizer token_init token_utils token_utils2 free signal init exec env_utils env_init builtins builtins2 builtins3 debug exec_utils redir redir2 redir3 heredoc error parse_cmd
-
-BONUS_FILES			= 
-
 NAME				= minishell
-BONUS_NAME			= minishell_bonus
 
 CC					= gcc
-CCFLAGS				= -I /usr/local/opt/readline/include -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror 
+CCFLAGS				= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror 
 MAKEFLAGS			= --no-print-directory
+RLFLAGS				= -L ./lib/readline/lib -I lib/readline/include/ -lreadline
 RM					= rm -rf
 
 LIBFT_PATH			= lib/libft/
 LIBFT				= $(LIBFT_PATH)libft.a
 
-FILES_PATH			= src/mandatory/
-BONUS_FILES_PATH	= src/bonus/
+FILES_PATH			= src/
 OBJ_DIR				= .obj/
+RL_PATH				= ./lib/readline/
+READLINE			= $(RL_PATH)lib/libreadline.a
 
 SRCS				= $(addprefix $(FILES_PATH), $(addsuffix .c, $(FILES)))
-BONUS_SRCS			= $(addprefix $(BONUS_FILES_PATH), $(addsuffix _bonus.c, $(BONUS_FILES)))
-
 OBJS				= $(addprefix $(OBJ_DIR), $(notdir $(SRCS:.c=.o)))
-BONUS_OBJS			= $(addprefix $(OBJ_DIR), $(notdir $(BONUS_SRCS:.c=.o)))
+DIR					= $(shell echo $(PWD))
 
-vpath %.c $(FILES_PATH) $(BONUS_FILES_PATH)
+vpath %.c $(FILES_PATH)
 
-all: $(NAME)
+all: $(READLINE) $(NAME)
 
-bonus: $(BONUS_NAME)
+$(READLINE):
+	@curl -O https://ftp.gnu.org/gnu/readline/readline-8.2-rc1.tar.gz
+	@tar -xvf readline-8.2-rc1.tar.gz
+	@$(RM) readline-8.2-rc1.tar.gz
+	@cd readline-8.2-rc1 && ./configure --prefix=$(DIR)/lib/readline && make && make install && cd ..
+	@$(RM) readline-8.2-rc1
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS)
-	@$(CC) $(OBJS) $(LIBFT) -L /usr/local/opt/readline/lib -lreadline $(CCFLAGS) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBFT) $(RLFLAGS) $(CCFLAGS) -o $(NAME)
 	@echo "$(GREEN)-== $(NAME) created! ==-$(DEFAULT)"
 
-$(BONUS_NAME): $(LIBFT) $(OBJ_DIR) $(BONUS_OBJS)
-	@$(CC) $(BONUS_OBJS) $(LIBFT) $(CCFLAGS) -o $(BONUS_NAME)
-	@echo "$(GREEN)-== $(BONUS_NAME) created! ==-$(DEFAULT)"
-
 $(OBJ_DIR)%.o: %.c
-	@$(CC) $(CCFLAGS) -c -o $@ $<
+	@$(CC) $(CCFLAGS) -I lib/readline/include/ -c -o $@ $< 
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR) 
 
 $(LIBFT):
 	@make $(MAKEFLAGS) -C $(LIBFT_PATH)
-
-check-norm: all
-	@norminette src/ lib/libft inc/ | grep -B 1 "Error\|Warning" || echo "$(GREEN)Norme check passed!$(DEFAULT)"
 	
 clean:
 	@$(RM) $(OBJS)
-	@$(RM) $(BONUS_OBJS)
 	@echo "$(YELLOW)-== all object files deleted! ==-$(DEFAULT)"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(RM) $(BONUS_NAME)
 	@$(RM) $(OBJ_DIR)
+	@$(RM) $(RL_PATH)
+	@$(RM) $(LIBFT)
 	@echo "$(RED)-== all files deleted! ==-$(DEFAULT)"
 
 libre:
 	@make $(MAKEFLAGS) -C $(LIBFT_PATH) re
-	@echo "$(BLUE)-== all object files deleted in libraries! ==-$(DEFAULT)"
+	@echo "$(BLUE)-== all object files created again in libraries! ==-$(DEFAULT)"
 
 re: fclean all
-
-re-bonus: fclean bonus
 
 leak: re
 	valgrind --suppressions=misra.supp --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell
 #--trace-children=yes --track-fds=yes
 
-test:re
+test:
 	cd tester && ./tester
 
-.PHONY: all bonus clean fclean libclean re re-bonus check-norm leak test
+.PHONY: all clean fclean libre re leak test
 
 # ANSI COLOR CODES
 DEFAULT = \033[0m

@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 18:37:35 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/23 18:38:59 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:46:57 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,11 @@ int heredoc_loop(int *i, int tmpfd, t_cmd *cmd)
 
 void	heredoc(t_cmd *cmd)
 {
-	char	*line;
 	int		tmpfd;
 	int		i;
 
 	tmpfd = open(HEREDOC_TMP_PATH, O_CREAT | O_RDWR, 0644);
 	i = 0;
-	line = NULL;
 	while (1)
 	{
 		if (heredoc_loop(&i, tmpfd, cmd) == 0)

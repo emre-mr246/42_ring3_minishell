@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 15:15:23 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:05:26 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,20 @@ static void	create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
 	}
 }
 
-t_cmd	*create_cmds(t_shell *shell, t_tokens *token)
+t_cmd	*create_cmds(t_shell *shell, t_tokens token)
 {
 	t_cmd	*cmd;
 	t_cmd	*cmd_tmp;
-	t_tokens	*token_tmp;
 	int		i;
 
 	i = 0;
 	cmd = new_cmd(NULL);
 	cmd_tmp = cmd;
-	token_tmp = token;
 	while (1)
 	{
-		create_cmd(shell, &cmd, token, &i);
-		if (token->next)
-			token = token->next;
+		create_cmd(shell, &cmd, &token, &i);
+		if (token.next)
+			token = *token.next;
 		else
 			break ;
 	}

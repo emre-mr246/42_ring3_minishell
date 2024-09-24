@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 19:05:02 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:05:46 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
 // CMD_INIT
 void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 t_cmd					*new_cmd(char **cmd);
-t_cmd					*create_cmds(t_shell *shell, t_tokens *token);
+t_cmd					*create_cmds(t_shell *shell, t_tokens token);
 
 // CMD_UTILS
 void					check_odd_quotes(t_shell *shell, char *token);

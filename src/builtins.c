@@ -6,15 +6,15 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 17:52:18 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:46:29 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 #include <unistd.h>
-#include <readline/history.h>
-#include <readline/readline.h>
+#include "readline/readline.h"
+#include "readline/history.h"
 
 void	ft_env(t_shell *shell, t_cmd *cmd)
 {
@@ -68,12 +68,10 @@ static void	write_oldpwd(t_shell *shell, char *cwd)
 
 void	ft_cd(t_shell *shell, t_cmd *cmd)
 {
-	t_env	*env;
 	char	*cwd;
 	char	*path;
 
 	cmd->is_builtin = true;
-	env = shell->env;
 	cwd = (char *)ft_calloc(sizeof(char), PATH_SIZE);
 	if (!cwd)
 		return ;

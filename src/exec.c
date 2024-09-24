@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/23 17:57:01 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 12:46:17 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,8 @@ void	execute_cmd(t_shell *shell)
 	int		fd[100][2];
 	int		cmdlen;
 	int		i;
-	t_cmd	*cmd;
 
 	cmdlen = cmd_len(shell->cmd);
-	cmd = shell->cmd;
 	i = 0;
 	while (i < cmdlen - 1)
 	{
