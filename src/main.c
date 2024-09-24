@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 14:34:41 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:53:46 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ void	main_loop(t_shell *shell, char **av)
 		shell->line = readline(prompt);
 	free(prompt);
 	if (!shell->line)
-		return ;
+	{
+		free_all(shell);
+		ft_exit(0);
+	}
 	if (!*shell->line)
 	{
 		free(shell->line);

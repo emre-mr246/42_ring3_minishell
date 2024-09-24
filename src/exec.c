@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 14:04:36 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/24 14:41:15 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen)
 		if (!cmd->arr[0])
 			return ;
 		init_signal(SIGINT, NULL, &shell->sigint);
+		
 		if (cmdlen == 1)
 			handle_builtins_main(shell, cmd);
 		if (!is_main_builtin(cmd))
