@@ -62,6 +62,7 @@
     "wait.h": "c",
     "fcntl.h": "c",
     "unistd.h": "c",
-    "history.h": "c"
+    "history.h": "c",
+    "stdio.h": "c"
   }
 }

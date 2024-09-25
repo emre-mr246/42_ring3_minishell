@@ -1,4 +1,2 @@
 .obj
-*.supp
 .vscode
-valgrind_output.txt
