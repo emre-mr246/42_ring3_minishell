@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:17 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 15:19:24 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:09:47 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	count_quotes(char c, char quote, bool *single_quote,
 	int	quote_num;
 
 	quote_num = 0;
-	if (c == quote && !*double_quote)
+	if (c == quote && !(*double_quote))
 	{
 		*single_quote = !*single_quote;
 		quote_num++;
@@ -27,7 +27,7 @@ static int	count_quotes(char c, char quote, bool *single_quote,
 	return (quote_num);
 }
 
-int	check_odd_quotes(t_shell *shell, char *token)
+int	check_odd_quotes(t_shell *shell, char *str)
 {
 	int		quote_num[2];
 	bool	single_quote;
@@ -39,11 +39,11 @@ int	check_odd_quotes(t_shell *shell, char *token)
 	single_quote = false;
 	double_quote = false;
 	i = -1;
-	while (token[++i])
+	while (str[++i])
 	{
-		quote_num[0] += count_quotes(token[i], '\'', &single_quote,
+		quote_num[0] += count_quotes(str[i], '\'', &single_quote,
 				&double_quote);
-		quote_num[1] += count_quotes(token[i], '\"', &double_quote,
+		quote_num[1] += count_quotes(str[i], '\"', &double_quote,
 				&single_quote);
 	}
 	if (quote_num[1] % 2 != 0 || quote_num[0] % 2 != 0)

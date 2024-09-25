@@ -6,12 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 12:46:29 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:10:06 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 #include <limits.h>
 
 static int	is_sp(char c)
@@ -21,15 +21,15 @@ static int	is_sp(char c)
 
 void	handle_space(char **res, char **str)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	skip_whitespaces(str, &i);
-	while ((*str)[i])
+	while ((*str) && (*str)[i])
 	{
 		skip_quotes(str, &i);
-		if ((*str)[i] == ' ' || ((*str)[i] >= 8 && (*str)[i] <= 13)
-			|| (*str)[i] == '\\' || is_sp((*str)[i]))
+		if ((*str)[i] && ((*str)[i] == ' ' || ((*str)[i] >= 8
+			&& (*str)[i] <= 13) || (*str)[i] == '\\' || is_sp((*str)[i])))
 		{
 			ft_strlcpy(*res, *str, i + 1);
 			*res += i;

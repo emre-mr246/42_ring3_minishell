@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 12:29:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 15:14:05 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:58:36 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	free_cmds(t_shell *shell)
 	while (shell->cmd)
 	{
 		tmp_cmd = shell->cmd;
-		free_cmd(tmp_cmd);
 		next_cmd = shell->cmd->next;
+		free_cmd(tmp_cmd);
 		shell->cmd = next_cmd;
 	}
 }

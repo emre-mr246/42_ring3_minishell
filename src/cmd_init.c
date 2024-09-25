@@ -6,12 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 15:18:28 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:02:57 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 
 void	lstadd_back_cmd(t_cmd **lst, t_cmd *new)
 {
@@ -60,9 +60,9 @@ t_cmd	*new_cmd(t_shell *shell, char **arr)
 	return (cmds);
 }
 
-static int	create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
+static void	create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
 {
-	int		special_char;
+	int	special_char;
 
 	special_char = get_special_char_enum(token->token);
 	if (special_char)
@@ -75,12 +75,10 @@ static int	create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
 	}
 	else
 	{
-		if (check_odd_quotes(shell, token->token))
-			return (1);
 		(*cmd)->arr[*i] = ft_strdup(token->token);
 		(*i)++;
 	}
-	return (0);
+	return ;
 }
 
 t_cmd	*create_cmds(t_shell *shell, t_tokens token)
@@ -94,11 +92,7 @@ t_cmd	*create_cmds(t_shell *shell, t_tokens token)
 	cmd_tmp = cmd;
 	while (1)
 	{
-		if (create_cmd(shell, &cmd, &token, &i))
-		{
-			free_cmd(cmd);
-			return (NULL);
-		}
+		create_cmd(shell, &cmd, &token, &i);
 		if (token.next)
 			token = *token.next;
 		else

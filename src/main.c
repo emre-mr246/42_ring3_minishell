@@ -6,15 +6,15 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 15:21:28 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:09:30 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 #include <stdio.h>
-#include "readline/readline.h"
 #include "readline/history.h"
+#include "readline/readline.h"
 
 static char	*create_prompt(t_shell *shell)
 {
@@ -39,7 +39,7 @@ static char	*create_prompt(t_shell *shell)
 	return (prompt);
 }
 
-void	main_loop(t_shell *shell)
+static int	main_loop(t_shell *shell)
 {
 	char	*prompt;
 
@@ -52,12 +52,19 @@ void	main_loop(t_shell *shell)
 		ft_exit(0);
 	}
 	if (shell->line && !*shell->line)
-		return (free(shell->line));
+		return (free(shell->line), 1);
 	add_history(shell->line);
+	if (check_odd_quotes(shell, shell->line))
+		return (free(shell->line), 1);
 	shell->tokens = tokenizer(shell, shell->line, shell->env);
 	free(shell->line);
 	if (!shell->tokens)
-		return ;
+		return (1);
+	return (0);
+}
+
+static void	main_loop2(t_shell *shell)
+{
 	shell->cmd = create_cmds(shell, *shell->tokens);
 	free_token(shell->tokens);
 	if (!shell->cmd)
@@ -78,7 +85,11 @@ int	main(int ac, char **av, char **env)
 	if (!shell)
 		return (-1);
 	while (1)
-		main_loop(shell);
+	{
+		if (main_loop(shell))
+			continue ;
+		main_loop2(shell);
+	}
 	free_all(shell);
 	ft_exit(*shell->exit_status);
 }

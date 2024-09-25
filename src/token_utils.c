@@ -6,12 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:37:30 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/25 12:46:06 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 16:02:43 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "minishell.h"
 
 char	*handle_comment(char *str)
 {
@@ -22,7 +22,7 @@ char	*handle_comment(char *str)
 
 int	handle_quote(char **res, char **str, char quote)
 {
-	int		i;
+	int	i;
 
 	i = 1;
 	while ((*str)[i])
@@ -42,8 +42,8 @@ int	handle_quote(char **res, char **str, char quote)
 
 void	skip_whitespaces(char **str, int *i)
 {
-	while ((*str)[*i] == ' ' || ((*str)[*i] >= 8 && (*str)[*i] <= 13)
-		|| ((*str)[*i] == '\\'))
+	while ((*str) && (*str)[*i] && ((*str)[*i] == ' ' || ((*str)[*i] >= 8
+				&& (*str)[*i] <= 13)))
 		(*i)++;
 }
 
@@ -51,11 +51,11 @@ void	skip_quotes(char **str, int *i)
 {
 	char	c;
 
-	if ((*str)[*i] == '"' || (*str)[*i] == '\'')
+	if ((*str)[*i] == '\"' || (*str)[*i] == '\'')
 	{
 		c = (*str)[*i];
 		(*i)++;
-		while ((*str)[*i] != c)
+		while ((*str)[*i] && (*str)[*i] != c)
 			(*i)++;
 	}
 }
