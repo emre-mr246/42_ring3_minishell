@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 14:14:30 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:18:41 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	main_loop(t_shell *shell)
 		return ;
 	shell->cmd = create_cmds(shell, *shell->tokens);
 	free_token(shell->tokens);
+	if (!shell->cmd)
+		return ;
 	parse_cmds(shell);
 	execute_cmd(shell);
 	shell->cmd->is_builtin = false;

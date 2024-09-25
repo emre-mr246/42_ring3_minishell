@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:18 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 13:49:02 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:18:28 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_cmd	*new_cmd(t_shell *shell, char **arr)
 	return (cmds);
 }
 
-static void	create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
+static int	create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
 {
 	int		special_char;
 
@@ -75,10 +75,12 @@ static void	create_cmd(t_shell *shell, t_cmd **cmd, t_tokens *token, int *i)
 	}
 	else
 	{
-		check_odd_quotes(shell, token->token);
+		if (check_odd_quotes(shell, token->token))
+			return (1);
 		(*cmd)->arr[*i] = ft_strdup(token->token);
 		(*i)++;
 	}
+	return (0);
 }
 
 t_cmd	*create_cmds(t_shell *shell, t_tokens token)
@@ -92,7 +94,11 @@ t_cmd	*create_cmds(t_shell *shell, t_tokens token)
 	cmd_tmp = cmd;
 	while (1)
 	{
-		create_cmd(shell, &cmd, &token, &i);
+		if (create_cmd(shell, &cmd, &token, &i))
+		{
+			free_cmd(cmd);
+			return (NULL);
+		}
 		if (token.next)
 			token = *token.next;
 		else

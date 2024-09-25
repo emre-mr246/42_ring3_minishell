@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 13:43:25 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:14:20 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ t_cmd					*new_cmd(t_shell *shell, char **arr);
 t_cmd					*create_cmds(t_shell *shell, t_tokens token);
 
 // CMD_UTILS
-void					check_odd_quotes(t_shell *shell, char *token);
+int						check_odd_quotes(t_shell *shell, char *token);
 int						get_special_char_enum(char *input);
 int						cmd_len(t_cmd *cmd);
 
@@ -215,6 +215,7 @@ int						str_in_array(char **arr, char *str);
 
 // FREE
 void					free_array(char **arr);
+void					free_cmd(t_cmd *cmd);
 void					free_cmds(t_shell *shell);
 void					free_all(t_shell *shell);
 void					free_env(t_env *env);

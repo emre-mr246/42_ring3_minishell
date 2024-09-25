@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 12:29:50 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 12:41:41 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:14:05 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,20 @@ void	free_array(char **arr)
 		free(arr);
 }
 
+void	free_cmd(t_cmd *cmd)
+{
+	if (cmd->arr)
+		free_array(cmd->arr);
+	if (cmd->heredoc_arr)
+		free_array(cmd->heredoc_arr);
+	if (cmd->infile)
+		free(cmd->infile);
+	if (cmd->outfile)
+		free(cmd->outfile);
+	if (cmd)
+		free(cmd);
+}
+
 void	free_cmds(t_shell *shell)
 {
 	t_cmd		*tmp_cmd;
@@ -35,16 +49,8 @@ void	free_cmds(t_shell *shell)
 	while (shell->cmd)
 	{
 		tmp_cmd = shell->cmd;
-		if (tmp_cmd->arr)
-			free_array(tmp_cmd->arr);
-		if (tmp_cmd->heredoc_arr)
-			free_array(tmp_cmd->heredoc_arr);
-		if (tmp_cmd->infile)
-			free(tmp_cmd->infile);
-		if (tmp_cmd->outfile)
-			free(tmp_cmd->outfile);
+		free_cmd(tmp_cmd);
 		next_cmd = shell->cmd->next;
-		free(tmp_cmd);
 		shell->cmd = next_cmd;
 	}
 }

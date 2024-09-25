@@ -6,14 +6,28 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:32:17 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 12:39:48 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 15:19:24 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
 
-void	check_odd_quotes(t_shell *shell, char *token)
+static int	count_quotes(char c, char quote, bool *single_quote,
+		bool *double_quote)
+{
+	int	quote_num;
+
+	quote_num = 0;
+	if (c == quote && !*double_quote)
+	{
+		*single_quote = !*single_quote;
+		quote_num++;
+	}
+	return (quote_num);
+}
+
+int	check_odd_quotes(t_shell *shell, char *token)
 {
 	int		quote_num[2];
 	bool	single_quote;
@@ -27,19 +41,14 @@ void	check_odd_quotes(t_shell *shell, char *token)
 	i = -1;
 	while (token[++i])
 	{
-		if (token[i] == '\"' && !single_quote)
-		{
-			double_quote = !double_quote;
-			quote_num[1]++;
-		}
-		if (token[i] == '\'' && !double_quote)
-		{
-			single_quote = !single_quote;
-			quote_num[0]++;
-		}
+		quote_num[0] += count_quotes(token[i], '\'', &single_quote,
+				&double_quote);
+		quote_num[1] += count_quotes(token[i], '\"', &double_quote,
+				&single_quote);
 	}
 	if (quote_num[1] % 2 != 0 || quote_num[0] % 2 != 0)
-		print_error(shell, NULL, ERR_QUOTES, 1);
+		return (print_error(shell, NULL, ERR_QUOTES, 0), 1);
+	return (0);
 }
 
 int	get_special_char_enum(char *input)
