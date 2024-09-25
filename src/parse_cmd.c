@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:22:24 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/24 13:48:02 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 10:32:50 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	write_to_new(t_cmd *cmd, char **new, char *str, int *j)
 		exchange_var(key, new, cmd->shell);
 		if (ft_strncmp(key, "$", higher_len(key, "$")) != 0)
 			*j += ft_strlen(key);
+		free(key);
 	}
 }
 

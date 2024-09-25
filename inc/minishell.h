@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 14:11:47 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 11:08:07 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # include <stdbool.h>
 # include <stdio.h>
 
-# define PATH_SIZE 4096
+# define PATH_SIZE 200
 
 # define ARG_MAX 128
-# define BUFFER_SIZE 4096
+# define BUFFER_SIZE 200
 
 # define HEREDOC_TMP_PATH ".heredoc_tmp_424242"
 
@@ -199,7 +199,7 @@ int						handle_quote(char **res, char **str, char quote);
 void					skip_whitespaces(char **str, int *i);
 void					skip_quotes(char **str, int *i);
 char					*get_special_char(char *input);
-void					check_syntax(t_shell *shell, t_tokens *token);
+int						check_syntax(t_shell *shell, t_tokens *token);
 int						get_indexes(char *input);
 
 // TOKENIZER

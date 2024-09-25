@@ -1,11 +1,11 @@
 
 FILES		= main utils cmd_init cmd_utils tokenizer token_init token_utils token_utils2 free signal \
-				init exec env_utils env_init builtins builtins2 builtins3 builtins4 debug exec_utils  \
+				init exec env_utils env_init builtins builtins2 builtins3 builtins4 exec_utils  \
 				exec_utils2 redir redir2 redir3 heredoc error parse_cmd
 NAME		= minishell
 
 CC			= gcc
-CCFLAGS		= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror 
+CCFLAGS		= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror -g
 MAKEFLAGS	= --no-print-directory
 RLFLAGS		= -L ./lib/readline/lib -I lib/readline/include/ -lreadline
 RM			= rm -rf
@@ -27,11 +27,13 @@ vpath %.c $(FILES_PATH)
 all: $(READLINE) $(NAME)
 
 $(READLINE):
-	@curl -O https://ftp.gnu.org/gnu/readline/readline-8.2-rc1.tar.gz
-	@tar -xvf readline-8.2-rc1.tar.gz
+	@echo "$(GREEN)-== readline compiling... ==-$(DEFAULT)"
+	@curl -O https://ftp.gnu.org/gnu/readline/readline-8.2-rc1.tar.gz > /dev/null 2>&1
+	@tar -xvf readline-8.2-rc1.tar.gz > /dev/null 2>&1
 	@$(RM) readline-8.2-rc1.tar.gz
-	@cd readline-8.2-rc1 && ./configure --prefix=$(DIR)/lib/readline && make && make install && cd ..
-	@$(RM) readline-8.2-rc1
+	@cd readline-8.2-rc1 && ./configure --prefix=$(DIR)/lib/readline > /dev/null 2>&1 && make -s > /dev/null 2>&1 && make -s install > /dev/null 2>&1 && cd ..
+	@$(RM) readline-8.2-rc1 > /dev/null 2>&1
+	@echo "$(GREEN)-== readline created! ==-$(DEFAULT)"
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS)
 	@$(CC) $(OBJS) $(LIBFT) $(RLFLAGS) $(CCFLAGS) -o $(NAME)

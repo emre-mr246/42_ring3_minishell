@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 14:53:46 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 10:57:52 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,19 @@ static char	*create_prompt(t_shell *shell)
 	return (prompt);
 }
 
-void	main_loop(t_shell *shell, char **av)
+void	main_loop(t_shell *shell)
 {
 	char	*prompt;
 
 	prompt = create_prompt(shell);
-	if (av[1] && av[2])
-		shell->line = ft_strdup(av[2]);
-	else
-		shell->line = readline(prompt);
+	shell->line = readline(prompt);
 	free(prompt);
 	if (!shell->line)
 	{
 		free_all(shell);
 		ft_exit(0);
 	}
-	if (!*shell->line)
+	if (shell->line && !*shell->line)
 	{
 		free(shell->line);
 		return ;
@@ -61,6 +58,8 @@ void	main_loop(t_shell *shell, char **av)
 	add_history(shell->line);
 	shell->tokens = tokenizer(shell, shell->line, shell->env);
 	free(shell->line);
+	if (!shell->tokens)
+		return ;
 	shell->cmd = create_cmds(shell, *shell->tokens);
 	free_token(shell->tokens);
 	parse_cmds(shell);
@@ -79,6 +78,6 @@ int	main(int ac, char **av, char **env)
 	if (!shell)
 		return (-1);
 	while (1)
-		main_loop(shell, av);
+		main_loop(shell);
 	ft_exit(*shell->exit_status);
 }

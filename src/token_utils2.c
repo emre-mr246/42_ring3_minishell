@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 18:17:44 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/23 18:18:25 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 10:56:16 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,48 @@
 #include "libft.h"
 #include <limits.h>
 
-void	check_syntax(t_shell *shell, t_tokens *token)
+int	check_syntax(t_shell *shell, t_tokens *token)
 {
 	t_tokens	*tmp;
 
 	tmp = token;
 	if (ft_strncmp(tmp->token, "|", 1) == 0)
-		print_error(shell, NULL, ERR_SYNTAX, 1);
+	{
+		print_error(shell, NULL, ERR_SYNTAX, 0);
+		return (1);
+	}
 	while (tmp && tmp->next)
 	{
 		if (ft_strncmp(tmp->token, "<", 1) == 0
 			&& ft_strncmp(tmp->next->token, "|", 1) == 0)
-			print_error(shell, NULL, ERR_SYNTAX, 1);
+			{
+				print_error(shell, NULL, ERR_SYNTAX, 0);
+				return (1);
+			}
 		if (ft_strncmp(tmp->token, ">", 1) == 0
 			&& ft_strncmp(tmp->next->token, "|", 1) == 0)
-			print_error(shell, NULL, ERR_SYNTAX, 1);
+			{
+				print_error(shell, NULL, ERR_SYNTAX, 0);
+				return (1);
+			}
 		tmp = tmp->next;
 	}
 	if (ft_strncmp(tmp->token, "|", 1) == 0)
-		print_error(shell, NULL, ERR_SYNTAX, 1);
+		{
+				print_error(shell, NULL, ERR_SYNTAX, 0);
+				return (1);
+			}
 	if (ft_strncmp(tmp->token, "<", 1) == 0)
-		print_error(shell, NULL, ERR_SYNTAX, 1);
+		{
+				print_error(shell, NULL, ERR_SYNTAX, 0);
+				return (1);
+			}
 	if (ft_strncmp(tmp->token, ">", 1) == 0)
-		print_error(shell, NULL, ERR_SYNTAX, 1);
+		{
+		print_error(shell, NULL, ERR_SYNTAX, 0);
+		return (1);
+		}
+	return (0);
 }
 
 int	get_indexes(char *input)

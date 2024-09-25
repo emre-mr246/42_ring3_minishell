@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:24:29 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 13:49:35 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 10:10:27 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include <stdio.h>
 #include <unistd.h>
+#include <termios.h>
 
 void	init_signal(int signo, void (*handler)(int), struct sigaction *sa)
 {
@@ -28,10 +29,20 @@ void	init_signal(int signo, void (*handler)(int), struct sigaction *sa)
 		perror("sigaction");
 }
 
+static void	disable_ctrlc_echo(void)
+{
+	struct termios	termios_p;
+
+	tcgetattr(STDIN_FILENO, &termios_p);
+	termios_p.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
+}
+
 t_shell	*init_shell(char **env)
 {
 	t_shell	*shell;
 
+	disable_ctrlc_echo();
 	shell = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!shell)
 		return (NULL);
