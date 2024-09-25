@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 20:34:57 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 12:27:38 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:43:25 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,15 @@ void					ft_cd(t_shell *shell, t_cmd *cmd);
 // BUILTINS2
 void					ft_export(t_shell *shell, t_cmd *cmd);
 int						is_main_builtin(t_cmd *cmd);
-void	key_valid(t_shell *shell, char *key);
+void					key_valid(t_shell *shell, char *key);
 
 // BUILTINS3
 void					handle_builtins_main(t_shell *shell, t_cmd *cmd);
-void	ft_exit(int exit_code);
+void					ft_exit(int exit_code);
 
 // BUILTINS4
-void	ft_unset_key(t_shell *shell, char *key);
+void					ft_unset_key(t_shell *shell, char *key);
+int						is_builtin(t_cmd *cmd);
 
 // CMD_INIT
 void					lstadd_back_cmd(t_cmd **lst, t_cmd *new);

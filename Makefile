@@ -5,8 +5,8 @@ FILES		= main utils cmd_init cmd_utils tokenizer token_init token_utils token_ut
 NAME		= minishell
 
 CC			= gcc
-CCFLAGS		= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror -g
-MAKEFLAGS	= --no-print-directory -s
+CCFLAGS		= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror
+MAKEFLAGS	= --no-print-directory
 RLFLAGS		= -L ./lib/readline/lib -I lib/readline/include/ -lreadline
 RM			= rm -rf
 
@@ -37,7 +37,7 @@ $(READLINE):
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS)
 	@$(CC) $(OBJS) $(LIBFT) $(RLFLAGS) $(CCFLAGS) -o $(NAME)
-	@echo "$(DARKBLUE)-== $(NAME) created! ==-$(DEFAULT)"
+	@echo "$(DARKBLUE)-== $(NAME) created! ツ ==-$(DEFAULT)"
 
 $(OBJ_DIR)%.o: %.c
 	@$(CC) $(CCFLAGS) -I lib/readline/include/ -c -o $@ $< 

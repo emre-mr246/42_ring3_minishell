@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:06:04 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/25 12:24:42 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:45:36 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,18 @@ void	ft_unset_key(t_shell *shell, char *key)
 	next_node = node->next;
 	free_env(node);
 	prev_node->next = next_node;
+}
+
+int	is_builtin(t_cmd *cmd)
+{
+	if (ft_strncmp(cmd->arr[0], "env", higher_len(cmd->arr[0], "env")) == 0)
+		return (1);
+	else if (ft_strncmp(cmd->arr[0], "echo",
+			higher_len(cmd->arr[0], "echo")) == 0)
+		return (1);
+	else if (ft_strncmp(cmd->arr[0], "pwd",
+			higher_len(cmd->arr[0], "pwd")) == 0)
+		return (1);
+	else
+		return (0);
 }

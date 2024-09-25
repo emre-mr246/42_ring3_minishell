@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 12:41:01 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 13:43:54 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	fork_child(t_cmd *cmd, int fd[][2], int *i)
 	char	*path;
 
 	path = get_path(cmd->shell, cmd);
-	if (!path)
+	if (!path && !is_builtin(cmd))
 	{
 		handle_cmd_errors(cmd->shell, cmd);
 		(*i)++;
