@@ -6,14 +6,14 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:00:05 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/24 14:11:58 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:39:11 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
+#include <stdio.h>
 #include "readline/readline.h"
-#include "readline/history.h"
 
 static void	ft_unset(t_shell *shell, t_cmd *cmd)
 {

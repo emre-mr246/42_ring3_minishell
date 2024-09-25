@@ -6,13 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:37:30 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/23 18:18:34 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:46:06 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
-#include <limits.h>
 
 char	*handle_comment(char *str)
 {

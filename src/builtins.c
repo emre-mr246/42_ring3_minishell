@@ -6,15 +6,13 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 21:41:54 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 14:11:34 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:38:55 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 #include <unistd.h>
-#include "readline/readline.h"
-#include "readline/history.h"
 
 static void	ft_env(t_shell *shell, t_cmd *cmd)
 {
@@ -72,10 +70,10 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 	char	*path;
 
 	cmd->is_builtin = true;
-	cwd = (char *)ft_calloc(sizeof(char), PATH_SIZE);
+	cwd = (char *)ft_calloc(sizeof(char), BUFFER_SIZE);
 	if (!cwd)
 		return ;
-	getcwd(cwd, PATH_SIZE - 1);
+	getcwd(cwd, BUFFER_SIZE - 1);
 	write_oldpwd(shell, cwd);
 	if (cmd->arr[1])
 		path = ft_strdup(cmd->arr[1]);
@@ -88,7 +86,7 @@ void	ft_cd(t_shell *shell, t_cmd *cmd)
 		free(path);
 		return ;
 	}
-	getcwd(cwd, PATH_SIZE - 1);
+	getcwd(cwd, BUFFER_SIZE - 1);
 	update_value(shell->env, "PWD", cwd);
 	free(path);
 	free(cwd);

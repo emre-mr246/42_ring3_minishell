@@ -6,13 +6,14 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 23:08:48 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 15:02:21 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:45:56 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 #include <unistd.h>
+#include <stdio.h>
 #include "readline/readline.h"
 
 void	handle_sigint(int signo)

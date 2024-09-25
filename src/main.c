@@ -6,12 +6,13 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 00:48:40 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 10:57:52 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:48:00 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
+#include <stdio.h>
 #include "readline/readline.h"
 #include "readline/history.h"
 
@@ -51,10 +52,7 @@ void	main_loop(t_shell *shell)
 		ft_exit(0);
 	}
 	if (shell->line && !*shell->line)
-	{
-		free(shell->line);
-		return ;
-	}
+		return (free(shell->line));
 	add_history(shell->line);
 	shell->tokens = tokenizer(shell, shell->line, shell->env);
 	free(shell->line);

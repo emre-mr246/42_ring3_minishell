@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:21:13 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 10:45:04 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:40:31 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,14 @@ char	*find_valid_path(char *cmd, t_env *envp)
 	t_env	*env_tmp;
 
 	env_tmp = envp;
-	while (env_tmp && (ft_strnstr(env_tmp->key, "PATH", higher_len(env_tmp->key, "PATH")) == 0))
+	while (env_tmp && (ft_strnstr(env_tmp->key, "PATH", \
+	higher_len(env_tmp->key, "PATH")) == 0))
 		env_tmp = env_tmp->next;
 	if (!env_tmp)
-	{
 		return (NULL);
-	}
 	paths = ft_split(env_tmp->value, ':');
 	if (!paths || !*paths)
-	{
-		free_array(paths);
-		return (NULL);
-	}
+		return (free_array(paths), NULL);
 	i = 0;
 	while (paths[i])
 	{

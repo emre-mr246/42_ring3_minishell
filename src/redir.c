@@ -6,15 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:40:32 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/24 13:47:13 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:44:38 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft.h"
-#include <fcntl.h>
 #include <unistd.h>
-#include "readline/readline.h"
 
 void	redirect_files(t_shell *shell, t_cmd *cmd)
 {

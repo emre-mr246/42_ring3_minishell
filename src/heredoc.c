@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 18:37:35 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/24 12:58:09 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:42:28 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
 #include "readline/readline.h"
 
 void	add_to_heredoc_arr(t_cmd *cmd, char *str)

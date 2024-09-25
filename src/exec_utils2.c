@@ -6,13 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:01:26 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/24 14:08:16 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:40:38 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
-#include <unistd.h>
 
 void	wait_for_pids(t_shell *shell)
 {

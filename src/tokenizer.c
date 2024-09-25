@@ -6,7 +6,7 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:25:28 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 10:58:22 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:46:29 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,6 @@ t_tokens	*tokenizer(t_shell *shell, char *input, t_env *env)
 			input++;
 	}
 	if (check_syntax(shell, tokens))
-	{
-		free_token(tokens);
-		return (NULL);
-	}
+		return (free_token(tokens), NULL);
 	return (tokens);
 }

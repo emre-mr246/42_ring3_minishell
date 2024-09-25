@@ -6,15 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 14:06:04 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/25 10:31:02 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:24:42 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
-#include <unistd.h>
-#include "readline/readline.h"
-#include "readline/history.h"
 
 static t_env	*get_prev_node(t_env *env, char *key)
 {

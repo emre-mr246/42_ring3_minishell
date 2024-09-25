@@ -6,13 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:04:04 by emgul             #+#    #+#             */
-/*   Updated: 2024/09/25 10:36:54 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:41:01 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
-#include <fcntl.h>
 #include <unistd.h>
 #include <sys/stat.h>
 
@@ -104,7 +103,7 @@ void	run_cmds(t_shell *shell, int fd[][2], int cmdlen)
 
 void	execute_cmd(t_shell *shell)
 {
-	int		fd[100][2];
+	int		fd[ARG_MAX][2];
 	int		cmdlen;
 	int		i;
 

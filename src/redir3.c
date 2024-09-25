@@ -6,15 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:14 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/24 12:45:46 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:45:23 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include "readline/readline.h"
 
 static void	write_to_outfile(t_cmd *cmd, char *parsed, int *i)
 {

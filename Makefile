@@ -6,7 +6,7 @@ NAME		= minishell
 
 CC			= gcc
 CCFLAGS		= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror -g
-MAKEFLAGS	= --no-print-directory
+MAKEFLAGS	= --no-print-directory -s
 RLFLAGS		= -L ./lib/readline/lib -I lib/readline/include/ -lreadline
 RM			= rm -rf
 
@@ -27,17 +27,17 @@ vpath %.c $(FILES_PATH)
 all: $(READLINE) $(NAME)
 
 $(READLINE):
-	@echo "$(GREEN)-== readline compiling... ==-$(DEFAULT)"
+	@echo "$(BLUE)-== readline compiling... ==-$(DEFAULT)"
 	@curl -O https://ftp.gnu.org/gnu/readline/readline-8.2-rc1.tar.gz > /dev/null 2>&1
 	@tar -xvf readline-8.2-rc1.tar.gz > /dev/null 2>&1
 	@$(RM) readline-8.2-rc1.tar.gz
-	@cd readline-8.2-rc1 && ./configure --prefix=$(DIR)/lib/readline > /dev/null 2>&1 && make -s > /dev/null 2>&1 && make -s install > /dev/null 2>&1 && cd ..
+	@cd readline-8.2-rc1 && ./configure --prefix=$(DIR)/lib/readline > /dev/null 2>&1 && make $(MAKEFLAGS) > /dev/null 2>&1 && make -s install > /dev/null 2>&1 && cd ..
 	@$(RM) readline-8.2-rc1 > /dev/null 2>&1
 	@echo "$(GREEN)-== readline created! ==-$(DEFAULT)"
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS)
 	@$(CC) $(OBJS) $(LIBFT) $(RLFLAGS) $(CCFLAGS) -o $(NAME)
-	@echo "$(GREEN)-== $(NAME) created! ==-$(DEFAULT)"
+	@echo "$(DARKBLUE)-== $(NAME) created! ==-$(DEFAULT)"
 
 $(OBJ_DIR)%.o: %.c
 	@$(CC) $(CCFLAGS) -I lib/readline/include/ -c -o $@ $< 
@@ -46,7 +46,8 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR) 
 
 $(LIBFT):
-	@make $(MAKEFLAGS) -C $(LIBFT_PATH)
+	@make $(MAKEFLAGS) -C $(LIBFT_PATH) > /dev/null 2>&1
+	@echo "$(GREEN)-== libft created! ==-$(DEFAULT)"
 	
 clean:
 	@$(RM) $(OBJS)
@@ -57,6 +58,7 @@ fclean: clean
 	@$(RM) $(OBJ_DIR)
 	@$(RM) $(RL_PATH)
 	@$(RM) $(LIBFT)
+	@$(RM) $(LIBFT_PATH)$(OBJ_DIR)
 	@echo "$(RED)-== all files deleted! ==-$(DEFAULT)"
 
 libre:
@@ -73,4 +75,5 @@ RED     = \033[1;31m
 YELLOW  = \033[1;33m
 GREEN   = \033[1;32m
 BLUE    = \033[1;36m
+DARKBLUE = \033[1;34m
 ORANGE  = \033[38;5;208m

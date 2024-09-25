@@ -6,13 +6,12 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:25:08 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/24 12:45:40 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 12:44:49 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-#include "readline/readline.h"
 #include <fcntl.h>
 #include <unistd.h>
 
