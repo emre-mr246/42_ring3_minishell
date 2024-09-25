@@ -6,12 +6,13 @@
 /*   By: mitasci <mitasci@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 15:22:24 by mitasci           #+#    #+#             */
-/*   Updated: 2024/09/25 10:32:50 by mitasci          ###   ########.fr       */
+/*   Updated: 2024/09/25 14:14:08 by mitasci          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
+#include <stdio.h>
 
 static void	exchange_var(char *key, char **new, t_shell *shell)
 {
@@ -120,4 +121,5 @@ void	parse_cmds(t_shell *shell)
 			heredoc(cmd);
 		cmd = cmd->next;
 	}
+	printf("");
 }

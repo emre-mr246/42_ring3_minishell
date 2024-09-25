@@ -63,6 +63,7 @@
     "fcntl.h": "c",
     "unistd.h": "c",
     "history.h": "c",
-    "stdio.h": "c"
+    "stdio.h": "c",
+    "cstdio": "c"
   }
 }
