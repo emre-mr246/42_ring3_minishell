@@ -69,7 +69,7 @@ re: fclean all
 
 .PHONY: all clean fclean libre re
 
-# ANSI COLOR CODES
+# ANSI COLORS
 DEFAULT = \033[0m
 RED     = \033[1;31m
 YELLOW  = \033[1;33m
