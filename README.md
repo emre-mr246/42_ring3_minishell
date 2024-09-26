@@ -36,8 +36,8 @@ Our project is named RaRe Shell, derived from the last two letters of the names 
 ## Usage 🔍
 
 1. In the project's main directory, compile the library using the `make` command.
-   `$ make bonus` 
+   `$ make` 
 
 2. You can run the minishell with the following command:
-   `$ ./minishellf` 
+   `$ ./minishell` 
     
