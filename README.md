@@ -46,7 +46,7 @@ Instead of writing our parts separately and then merging the code, we chose to w
 
 ![](img/rareshell.gif)
 
-## Usage 🔍
+## Usage ⚙️
 
 1. In the project's main directory, compile the library using the `make` command.
    `$ make` 
