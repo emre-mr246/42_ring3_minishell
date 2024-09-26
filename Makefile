@@ -2,12 +2,13 @@
 FILES		= main utils cmd_init cmd_utils tokenizer token_init token_utils token_utils2 free signal \
 				init exec env_utils env_init builtins builtins2 builtins3 builtins4 exec_utils  \
 				exec_utils2 redir redir2 redir3 heredoc error parse_cmd
+
 NAME		= minishell
 
 CC			= gcc
-CCFLAGS		= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror 
+CCFLAGS		= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror -O2 -fstack-protector-strong -fstack-clash-protection 
 MAKEFLAGS	= --no-print-directory
-RLFLAGS		= -L ./lib/readline/lib -I lib/readline/include/ -lreadline -lncurses -fstack-protector-strong -fstack-clash-protection -D_FORTIFY_SOURCE=2 -O2
+RLFLAGS		= -L ./lib/readline/lib -I lib/readline/include/ -lreadline -lncurses
 RM			= rm -rf
 
 LIBFT_PATH	= lib/libft/
