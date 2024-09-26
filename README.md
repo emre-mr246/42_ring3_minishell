@@ -1,6 +1,6 @@
 <div align="center">
   <img src="img/minishell.png" alt="Logo" width="150" height="150">
-  <h2>42 MINISHELL PROJECT</h2>
+  <h2>42 RaRe Shell Project</h2>
     <a href= https://github.com/emre-mr246/42-evaluation><img src="https://img.shields.io/badge/score-125%20%2F%20100-success?style=for-the-badge"/></a>
     <a href= https://github.com/emre-mr246/42-evaluation><img src="https://img.shields.io/badge/circle-3-magenta?style=for-the-badge"/></a>
     <a href= https://github.com/emre-mr246/42-evaluation><img src="https://img.shields.io/badge/42-Evaluation-red?style=for-the-badge"/></a>
@@ -22,6 +22,12 @@
 The 42 Minishell project is an exploration into creating a basic Unix shell, a fundamental component of operating systems that allows users to interact with the system through command-line interfaces. This project challenges us to delve deep into system-level programming techniques and understand core Unix functionalities.
 
 A Unix shell interprets user commands and executes them. It manages processes, handles input and output redirection, supports command chaining through pipes (|), manages environment variables, and more. The goal of the Minishell project is to implement these functionalities using C programming language and various system calls provided by Unix-like operating systems.
+
+## Minishell Is a Group Project
+
+In the 42 curriculum, there are various group projects that must be completed with the specified number of participants. This requirement helps us develop our ability to collaborate with others in project settings, allowing us to adapt to the workplace more quickly.
+
+Our project is named RaRe Shell, derived from the last two letters of the names of the project creators, MısRa and EmRe. Instead of writing our parts separately and then merging the code, we chose to write all the code together. We share equal ownership of the entire codebase.
 
 ## Image 📸
 
