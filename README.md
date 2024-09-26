@@ -31,6 +31,17 @@ Our project is named RaRe Shell, derived from the last two letters of the names 
 Instead of writing our parts separately and then merging the code, we chose to write all the code together. We have equal mastery over the entire code.
 
 
+## Features 🔍
+- Command execution with built-in support.
+- Pipe support for chaining commands.
+- Input and output redirection.
+- Here document (heredoc) support.
+- Environment variable management.
+- Command history functionality.
+- Dynamic display of the current working directory.
+- Signal handling (e.g., Ctrl+C to interrupt).
+
+
 ## Image 📸
 
 ![](img/rareshell.gif)
