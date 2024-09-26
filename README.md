@@ -23,7 +23,7 @@ The 42 Minishell project is an exploration into creating a basic Unix shell, a f
 
 A Unix shell interprets user commands and executes them. It manages processes, handles input and output redirection, supports command chaining through pipes (|), manages environment variables, and more. The goal of the Minishell project is to implement these functionalities using C programming language and various system calls provided by Unix-like operating systems.
 
-## RaRe Shell Is a Group Project 🙅🏽‍♀️🙅🏽
+## RaRe Shell is a Group Project 🙅🏽‍♀️🙅🏽
 
 In the 42 curriculum, there are various group projects that must be completed with a specified number of participants. This requirement helps us develop our collaboration skills in project settings, preparing us to adapt more effectively to future jobs.
 
