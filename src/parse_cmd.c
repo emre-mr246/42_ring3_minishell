@@ -121,5 +121,4 @@ void	parse_cmds(t_shell *shell)
 			heredoc(cmd);
 		cmd = cmd->next;
 	}
-	printf("");
 }

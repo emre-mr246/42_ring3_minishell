@@ -5,9 +5,9 @@ FILES		= main utils cmd_init cmd_utils tokenizer token_init token_utils token_ut
 NAME		= minishell
 
 CC			= gcc
-CCFLAGS		= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror
+CCFLAGS		= -I ./lib/libft/inc/ -I ./inc/ -Wall -Wextra -Werror 
 MAKEFLAGS	= --no-print-directory
-RLFLAGS		= -L ./lib/readline/lib -I lib/readline/include/ -lreadline
+RLFLAGS		= -L ./lib/readline/lib -I lib/readline/include/ -lreadline -lncurses -fstack-protector-strong -fstack-clash-protection -D_FORTIFY_SOURCE=2 -O2
 RM			= rm -rf
 
 LIBFT_PATH	= lib/libft/
