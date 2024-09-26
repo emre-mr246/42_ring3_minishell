@@ -27,7 +27,7 @@ A Unix shell interprets user commands and executes them. It manages processes, h
 
 In the 42 curriculum, there are various group projects that must be completed with a specified number of participants. This requirement helps us develop our collaboration skills in project settings, preparing us to adapt more effectively to future jobs.
 
-Our project is named RaRe Shell, derived from the last two letters of the names of the project creators, MısRa and EmRe. Instead of writing our parts separately and then merging the code, we chose to write all the code together. We share equal ownership of the entire codebase.
+Our project is named RaRe Shell, derived from the last two letters of the names of the project creators, MısRa and EmRe. Instead of writing our parts separately and then merging the code, we chose to write all the code together. We have equal mastery over the entire code.
 
 ## Image 📸
 
